@@ -13,6 +13,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class GuiMainMenuMixin extends GuiScreen implements GuiYesNoCallback {
     @Inject(method = "drawScreen", at = @At("TAIL"))
     public void drawScreen(int p_drawScreen_1_, int p_drawScreen_2_, float p_drawScreen_3_, CallbackInfo ci) {
+        // We need to know when the main menu is loaded to ensure loading of other processes is safe.
+        ConstellarMain.MainMenuLoaded = true;
+
         drawString(fontRendererObj, ConstellarMain.ClientNameReadable + " v" + ConstellarMain.ClientVersion, 2, height - 20, -1);
     }
 }
