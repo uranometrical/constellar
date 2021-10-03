@@ -6,10 +6,8 @@ import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,6 +15,9 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 // This class injects these fields and methods into the base GuiScreen class to use later.
 @Mixin(GuiScreen.class)
@@ -30,6 +31,12 @@ public abstract class PanoramaGuiScreenMixin extends Gui implements GuiYesNoCall
     @Shadow
     public int height;
 
+    @Shadow protected abstract void drawHoveringText(List<String> p_drawHoveringText_1_, int p_drawHoveringText_2_, int p_drawHoveringText_3_);
+
+    public boolean readyToDraw = false;
+
+    public List<HoverTextCache> hoverTexts = new ArrayList<>();
+
     @Inject(method = "updateScreen", at = @At("TAIL"))
     public void updatePanorama(CallbackInfo ci) {
         if (canShowPanorama())
@@ -40,6 +47,24 @@ public abstract class PanoramaGuiScreenMixin extends Gui implements GuiYesNoCall
     public void drawSkyboxRender(int p_drawScreen_1_, int p_drawScreen_2_, float p_drawScreen_3_, CallbackInfo ci) {
         if (canShowPanorama())
             renderSkybox(p_drawScreen_3_);
+    }
+
+    @Inject(method = "drawScreen", at = @At("TAIL"))
+    public void drawTextCache(int p_drawScreen_1_, int p_drawScreen_2_, float p_drawScreen_3_, CallbackInfo ci) {
+        readyToDraw = true;
+
+        for (HoverTextCache hoverText : hoverTexts)
+            drawHoveringText(hoverText.hoveringText, hoverText.hoveringText2, hoverText.hoveringText3);
+
+        readyToDraw = false;
+    }
+
+    @Inject(method = "drawHoveringText", at = @At("HEAD"), cancellable = true)
+    public void interceptHoverText(List<String> p_drawHoveringText_1_, int p_drawHoveringText_2_, int p_drawHoveringText_3_, CallbackInfo ci) {
+        if (!readyToDraw) {
+            hoverTexts.add(new HoverTextCache(p_drawHoveringText_1_, p_drawHoveringText_2_, p_drawHoveringText_3_));
+            ci.cancel();
+        }
     }
 
     //region Dreaded Minecraft De-comp Code
@@ -98,7 +123,6 @@ public abstract class PanoramaGuiScreenMixin extends Gui implements GuiYesNoCall
                 mc.getTextureManager().bindTexture(ConstellarMain.titlePanoramaPaths[lvt_11_1_]);
                 lvt_5_1_.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
                 int lvt_12_1_ = 255 / (lvt_7_1_ + 1);
-                float lvt_13_1_ = 0.0F;
                 lvt_5_1_.pos(-1.0D, -1.0D, 1.0D).tex(0.0D, 0.0D).color(255, 255, 255, lvt_12_1_).endVertex();
                 lvt_5_1_.pos(1.0D, -1.0D, 1.0D).tex(1.0D, 0.0D).color(255, 255, 255, lvt_12_1_).endVertex();
                 lvt_5_1_.pos(1.0D, 1.0D, 1.0D).tex(1.0D, 1.0D).color(255, 255, 255, lvt_12_1_).endVertex();
