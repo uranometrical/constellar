@@ -13,6 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class GuiMainMenuMixin extends GuiScreen implements GuiYesNoCallback {
     @Inject(method = "drawScreen", at = @At("TAIL"))
     public void drawScreen(int p_drawScreen_1_, int p_drawScreen_2_, float p_drawScreen_3_, CallbackInfo ci) {
-        drawString(fontRendererObj, ConstellarMain.ClientNameLowercase + " v" + ConstellarMain.ClientVersion, 2, height - 20, -1);
+        drawString(fontRendererObj, ConstellarMain.ClientNameReadable + " v" + ConstellarMain.ClientVersion, 2, height - 20, -1);
     }
 }
