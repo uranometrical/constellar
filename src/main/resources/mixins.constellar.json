@@ -7,6 +7,7 @@
   "mixins": [
     "gui.GuiMainMenuMixin",
     "gui.panorama.PanoramaGuiScreenMixin",
-    "gui.panorama.PanoramaInvoker"
+    "gui.panorama.PanoramaInvoker",
+    "gui.panorama.GuiMainMenuTest"
   ]
 }

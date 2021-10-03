@@ -9,7 +9,6 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,8 +16,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.List;
 
 // This class injects these fields and methods into the base GuiScreen class to use later.
 @Mixin(GuiScreen.class)
@@ -32,36 +29,17 @@ public abstract class PanoramaGuiScreenMixin extends Gui implements GuiYesNoCall
     @Shadow
     public int height;
 
-    @Shadow
-    protected List<GuiButton> buttonList;
-
-    @Shadow
-    protected List<GuiLabel> labelList;
-
-    private static final ResourceLocation[] titlePanoramaPaths = new ResourceLocation[]
-            {
-                    new ResourceLocation("textures/gui/title/background/panorama_0.png"),
-                    new ResourceLocation("textures/gui/title/background/panorama_1.png"),
-                    new ResourceLocation("textures/gui/title/background/panorama_2.png"),
-                    new ResourceLocation("textures/gui/title/background/panorama_3.png"),
-                    new ResourceLocation("textures/gui/title/background/panorama_4.png"),
-                    new ResourceLocation("textures/gui/title/background/panorama_5.png")
-            };
-
-    private int ourPanoramaTimer;
-    private ResourceLocation ourBackgroundTexture;
-
     @Inject(method = "updateScreen", at = @At("TAIL"))
     public void updatePanorama(CallbackInfo ci) {
         if (canShowPanorama())
-            ourPanoramaTimer++;
+            PanoramaContainer.ourPanoramaTimer++;
     }
 
     @Inject(method = "initGui", at = @At("TAIL"))
     public void initBackground(CallbackInfo ci) {
         if (canShowPanorama()) {
             DynamicTexture viewport = new DynamicTexture(256, 256);
-            ourBackgroundTexture = mc.getTextureManager().getDynamicTextureLocation("background", viewport);
+            PanoramaContainer.ourBackgroundTexture = mc.getTextureManager().getDynamicTextureLocation("background", viewport);
         }
     }
 
@@ -93,8 +71,8 @@ public abstract class PanoramaGuiScreenMixin extends Gui implements GuiYesNoCall
             float lvt_9_1_ = ((float) (lvt_7_1_ / lvt_6_1_) / (float) lvt_6_1_ - 0.5F) / 64.0F;
             float lvt_10_1_ = 0.0F;
             GlStateManager.translate(lvt_8_1_, lvt_9_1_, lvt_10_1_);
-            GlStateManager.rotate(MathHelper.sin(((float) ourPanoramaTimer + p_drawPanorama_3_) / 400.0F) * 25.0F + 20.0F, 1.0F, 0.0F, 0.0F);
-            GlStateManager.rotate(-((float) ourPanoramaTimer + p_drawPanorama_3_) * 0.1F, 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotate(MathHelper.sin(((float) PanoramaContainer.ourPanoramaTimer + p_drawPanorama_3_) / 400.0F) * 25.0F + 20.0F, 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotate(-((float) PanoramaContainer.ourPanoramaTimer + p_drawPanorama_3_) * 0.1F, 0.0F, 1.0F, 0.0F);
 
             for (int lvt_11_1_ = 0; lvt_11_1_ < 6; ++lvt_11_1_) {
                 GlStateManager.pushMatrix();
@@ -118,7 +96,7 @@ public abstract class PanoramaGuiScreenMixin extends Gui implements GuiYesNoCall
                     GlStateManager.rotate(-90.0F, 1.0F, 0.0F, 0.0F);
                 }
 
-                mc.getTextureManager().bindTexture(titlePanoramaPaths[lvt_11_1_]);
+                mc.getTextureManager().bindTexture(PanoramaContainer.titlePanoramaPaths[lvt_11_1_]);
                 lvt_5_1_.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
                 int lvt_12_1_ = 255 / (lvt_7_1_ + 1);
                 float lvt_13_1_ = 0.0F;
@@ -146,7 +124,7 @@ public abstract class PanoramaGuiScreenMixin extends Gui implements GuiYesNoCall
     }
 
     private void rotateAndBlurSkybox() {
-        mc.getTextureManager().bindTexture(ourBackgroundTexture);
+        mc.getTextureManager().bindTexture(PanoramaContainer.ourBackgroundTexture);
         GL11.glTexParameteri(3553, 10241, 9729);
         GL11.glTexParameteri(3553, 10240, 9729);
         GL11.glCopyTexSubImage2D(3553, 0, 0, 0, 0, 0, 256, 256);
@@ -206,6 +184,6 @@ public abstract class PanoramaGuiScreenMixin extends Gui implements GuiYesNoCall
     //endregion
 
     public boolean canShowPanorama() {
-        return ourBackgroundTexture != null && ConstellarMain.MainMenuLoaded;
+        return PanoramaContainer.ourBackgroundTexture != null && ConstellarMain.MainMenuLoaded;
     }
 }
