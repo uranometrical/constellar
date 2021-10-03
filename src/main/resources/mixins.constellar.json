@@ -5,6 +5,6 @@
   "refmap": "mixins.constellar.json",
   "verbose": true,
   "mixins": [
-    "GuiMainMenuMixin"
+    "gui.GuiMainMenuMixin"
   ]
 }
