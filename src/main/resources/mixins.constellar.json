@@ -1,0 +1,10 @@
+{
+  "required": true,
+  "compatibilityLevel": "JAVA_8",
+  "package": "io.github.steviegt6.constellar.mixins",
+  "refmap": "mixins.constellar.json",
+  "verbose": true,
+  "mixins": [
+    "GuiMainMenuMixin"
+  ]
+}
