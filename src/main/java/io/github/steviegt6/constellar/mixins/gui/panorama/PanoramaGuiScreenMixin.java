@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,18 +30,18 @@ public abstract class PanoramaGuiScreenMixin extends Gui implements GuiYesNoCall
     @Shadow
     public int height;
 
+    public int ourPanoramaTimer;
+
     @Inject(method = "updateScreen", at = @At("TAIL"))
     public void updatePanorama(CallbackInfo ci) {
         if (canShowPanorama())
-            PanoramaContainer.ourPanoramaTimer++;
+            ourPanoramaTimer++;
     }
 
-    @Inject(method = "initGui", at = @At("TAIL"))
-    public void initBackground(CallbackInfo ci) {
-        if (canShowPanorama()) {
-            DynamicTexture viewport = new DynamicTexture(256, 256);
-            PanoramaContainer.ourBackgroundTexture = mc.getTextureManager().getDynamicTextureLocation("background", viewport);
-        }
+    @Inject(method = "drawScreen", at = @At("HEAD"))
+    public void drawSkyboxRender(int p_drawScreen_1_, int p_drawScreen_2_, float p_drawScreen_3_, CallbackInfo ci) {
+        if (canShowPanorama())
+            renderSkybox(p_drawScreen_3_);
     }
 
     //region Dreaded Minecraft De-comp Code
@@ -71,8 +72,8 @@ public abstract class PanoramaGuiScreenMixin extends Gui implements GuiYesNoCall
             float lvt_9_1_ = ((float) (lvt_7_1_ / lvt_6_1_) / (float) lvt_6_1_ - 0.5F) / 64.0F;
             float lvt_10_1_ = 0.0F;
             GlStateManager.translate(lvt_8_1_, lvt_9_1_, lvt_10_1_);
-            GlStateManager.rotate(MathHelper.sin(((float) PanoramaContainer.ourPanoramaTimer + p_drawPanorama_3_) / 400.0F) * 25.0F + 20.0F, 1.0F, 0.0F, 0.0F);
-            GlStateManager.rotate(-((float) PanoramaContainer.ourPanoramaTimer + p_drawPanorama_3_) * 0.1F, 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotate(MathHelper.sin(((float) ourPanoramaTimer + p_drawPanorama_3_) / 400.0F) * 25.0F + 20.0F, 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotate(-((float) ourPanoramaTimer + p_drawPanorama_3_) * 0.1F, 0.0F, 1.0F, 0.0F);
 
             for (int lvt_11_1_ = 0; lvt_11_1_ < 6; ++lvt_11_1_) {
                 GlStateManager.pushMatrix();
@@ -96,7 +97,7 @@ public abstract class PanoramaGuiScreenMixin extends Gui implements GuiYesNoCall
                     GlStateManager.rotate(-90.0F, 1.0F, 0.0F, 0.0F);
                 }
 
-                mc.getTextureManager().bindTexture(PanoramaContainer.titlePanoramaPaths[lvt_11_1_]);
+                mc.getTextureManager().bindTexture(ConstellarMain.titlePanoramaPaths[lvt_11_1_]);
                 lvt_5_1_.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
                 int lvt_12_1_ = 255 / (lvt_7_1_ + 1);
                 float lvt_13_1_ = 0.0F;
@@ -124,7 +125,7 @@ public abstract class PanoramaGuiScreenMixin extends Gui implements GuiYesNoCall
     }
 
     private void rotateAndBlurSkybox() {
-        mc.getTextureManager().bindTexture(PanoramaContainer.ourBackgroundTexture);
+        mc.getTextureManager().bindTexture(ConstellarMain.backgroundTexture);
         GL11.glTexParameteri(3553, 10241, 9729);
         GL11.glTexParameteri(3553, 10240, 9729);
         GL11.glCopyTexSubImage2D(3553, 0, 0, 0, 0, 0, 256, 256);
@@ -184,6 +185,6 @@ public abstract class PanoramaGuiScreenMixin extends Gui implements GuiYesNoCall
     //endregion
 
     public boolean canShowPanorama() {
-        return PanoramaContainer.ourBackgroundTexture != null && ConstellarMain.MainMenuLoaded;
+        return ConstellarMain.backgroundTexture != null && ConstellarMain.MainMenuLoaded && !(Minecraft.getMinecraft().currentScreen instanceof GuiMainMenu);
     }
 }

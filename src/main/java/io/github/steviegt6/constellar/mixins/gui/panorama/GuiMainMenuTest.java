@@ -17,26 +17,37 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GuiMainMenu.class)
 public abstract class GuiMainMenuTest extends GuiScreen {
-    @Shadow private String splashText;
-    @Shadow private String openGLWarning1;
-    @Shadow private String openGLWarning2;
+    @Shadow
+    private String splashText;
+    @Shadow
+    private String openGLWarning1;
+    @Shadow
+    private String openGLWarning2;
 
-    @Shadow protected abstract boolean func_183501_a();
+    @Shadow
+    protected abstract boolean func_183501_a();
 
-    @Shadow private GuiScreen field_183503_M;
-    @Shadow private int field_92022_t;
-    @Shadow private int field_92021_u;
-    @Shadow private int field_92024_r;
-    @Shadow private int field_92020_v;
-    @Shadow private int field_92019_w;
-    @Shadow private float updateCounter;
+    @Shadow
+    private GuiScreen field_183503_M;
+    @Shadow
+    private int field_92022_t;
+    @Shadow
+    private int field_92021_u;
+    @Shadow
+    private int field_92024_r;
+    @Shadow
+    private int field_92020_v;
+    @Shadow
+    private int field_92019_w;
+    @Shadow
+    private float updateCounter;
     private static final ResourceLocation minecraftTitleTextures = new ResourceLocation("textures/gui/title/minecraft.png");
 
-    @Inject(method = "drawScreen", at = @At("HEAD"), cancellable = true)
-    public void drawPanoramaScreen(int p_drawScreen_1_, int p_drawScreen_2_, float p_drawScreen_3_, CallbackInfo ci) {
-        if (((PanoramaInvoker) this).canShowPanorama()) {
+    //@Inject(method = "drawScreen", at = @At("HEAD"), cancellable = true)
+    /*public void drawPanoramaScreen(int p_drawScreen_1_, int p_drawScreen_2_, float p_drawScreen_3_, CallbackInfo ci) {
+        if (PanoramaContainer.canShowPanorama(this)) {
             GlStateManager.disableAlpha();
-            ((PanoramaInvoker) this).renderSkybox(p_drawScreen_3_);
+            PanoramaContainer.renderSkybox(this, p_drawScreen_3_);
             GlStateManager.enableAlpha();
             Tessellator lvt_4_1_ = Tessellator.getInstance();
             WorldRenderer lvt_5_1_ = lvt_4_1_.getWorldRenderer();
@@ -87,5 +98,5 @@ public abstract class GuiMainMenuTest extends GuiScreen {
 
             ci.cancel();
         }
-    }
+    }*/
 }
