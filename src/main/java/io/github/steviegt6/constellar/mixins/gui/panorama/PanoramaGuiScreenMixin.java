@@ -175,7 +175,7 @@ public abstract class PanoramaGuiScreenMixin extends Gui implements GuiYesNoCall
         GlStateManager.colorMask(true, true, true, true);
     }
 
-    private void renderSkybox(int p_renderSkybox_1_, int p_renderSkybox_2_, float p_renderSkybox_3_) {
+    public void renderSkybox(float p_renderSkybox_3_) {
         mc.getFramebuffer().unbindFramebuffer();
         GlStateManager.viewport(0, 0, 256, 256);
         drawPanorama(p_renderSkybox_3_);
