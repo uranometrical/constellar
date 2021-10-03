@@ -9,4 +9,5 @@ Just PR lol.
 2. Open with a competent IDE (IntelliJ). Ensure anything less than Gradle 5 is being used (provided in `gradle` folder).
 3. Run `gradle setupDecompWorkspace`
 4. Run `gradle genIntellijRuns` if you're on IntelliJ as it allows for building.
-5. You should be good to go.
+5. Make sure generated build module for client is `Constellar.main`.
+6. You should be good to go.
