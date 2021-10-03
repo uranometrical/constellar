@@ -8,6 +8,7 @@ public class ConstellarMain {
     public static final String ClientVersion = "0.1.0-alpha";
     public static boolean MainMenuLoaded = false;
     public static ResourceLocation backgroundTexture;
+    public static int panoramaTimer;
     public static final ResourceLocation[] titlePanoramaPaths = new ResourceLocation[]
             {
                     new ResourceLocation("textures/gui/title/background/panorama_0.png"),

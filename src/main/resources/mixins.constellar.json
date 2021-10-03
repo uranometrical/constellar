@@ -6,7 +6,6 @@
   "verbose": true,
   "mixins": [
     "gui.GuiMainMenuMixin",
-    "gui.panorama.GuiMainMenuTest",
     "gui.panorama.PanoramaGuiScreenMixin"
   ]
 }

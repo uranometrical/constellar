@@ -30,12 +30,10 @@ public abstract class PanoramaGuiScreenMixin extends Gui implements GuiYesNoCall
     @Shadow
     public int height;
 
-    public int ourPanoramaTimer;
-
     @Inject(method = "updateScreen", at = @At("TAIL"))
     public void updatePanorama(CallbackInfo ci) {
         if (canShowPanorama())
-            ourPanoramaTimer++;
+            ConstellarMain.panoramaTimer++;
     }
 
     @Inject(method = "drawScreen", at = @At("HEAD"))
@@ -72,8 +70,8 @@ public abstract class PanoramaGuiScreenMixin extends Gui implements GuiYesNoCall
             float lvt_9_1_ = ((float) (lvt_7_1_ / lvt_6_1_) / (float) lvt_6_1_ - 0.5F) / 64.0F;
             float lvt_10_1_ = 0.0F;
             GlStateManager.translate(lvt_8_1_, lvt_9_1_, lvt_10_1_);
-            GlStateManager.rotate(MathHelper.sin(((float) ourPanoramaTimer + p_drawPanorama_3_) / 400.0F) * 25.0F + 20.0F, 1.0F, 0.0F, 0.0F);
-            GlStateManager.rotate(-((float) ourPanoramaTimer + p_drawPanorama_3_) * 0.1F, 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotate(MathHelper.sin(((float) ConstellarMain.panoramaTimer + p_drawPanorama_3_) / 400.0F) * 25.0F + 20.0F, 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotate(-((float) ConstellarMain.panoramaTimer + p_drawPanorama_3_) * 0.1F, 0.0F, 1.0F, 0.0F);
 
             for (int lvt_11_1_ = 0; lvt_11_1_ < 6; ++lvt_11_1_) {
                 GlStateManager.pushMatrix();
@@ -185,6 +183,6 @@ public abstract class PanoramaGuiScreenMixin extends Gui implements GuiYesNoCall
     //endregion
 
     public boolean canShowPanorama() {
-        return ConstellarMain.backgroundTexture != null && ConstellarMain.MainMenuLoaded && !(Minecraft.getMinecraft().currentScreen instanceof GuiMainMenu);
+        return ConstellarMain.backgroundTexture != null && ConstellarMain.MainMenuLoaded;
     }
 }
