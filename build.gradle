@@ -38,7 +38,7 @@ archivesBaseName = "ConstellarMain"
 
 minecraft {
     version = "1.8.9"
-    tweakClass = "io.github.steviegt6.launch.ConstellerTweaker"
+    tweakClass = "io.github.steviegt6.constellar.launch.ConstellarTweaker"
     mappings = "stable_22"
     runDir = 'run'
     clientJvmArgs = ["-XX:-DisableExplicitGC"] // fast world loading
