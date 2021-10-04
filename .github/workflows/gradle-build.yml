@@ -21,7 +21,7 @@ jobs:
         persist-credentials: false
 
     - name: Build with Gradle
-      run: gradlew.bat build # No decomp/dev workspace setup needed.
+      run: .\gradlew.bat build # No decomp/dev workspace setup needed.
       
     - name: Upload Release Build Artifact
       uses: actions/upload-artifact@v2
