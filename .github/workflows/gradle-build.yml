@@ -9,7 +9,6 @@ jobs:
   build:
 
     runs-on: windows-latest
-    
     # Skip job if a commit contains "[skip build]"
     if: "!contains(github.event.head_commit.message, '[skip build]')"
 
@@ -24,7 +23,6 @@ jobs:
 
     - name: Build with Gradle
       run: .\gradlew.bat build # No decomp/dev workspace setup needed.
-      
     - name: Upload Release Build Artifact
       uses: actions/upload-artifact@v2
       with:
