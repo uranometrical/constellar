@@ -1,11 +1,13 @@
 {
   "required": true,
-  "compatibilityLevel": "JAVA_8", 
+  "compatibilityLevel": "JAVA_8",
   "package": "io.github.steviegt6.constellar.mixins",
   "refmap": "mixins.constellar.json",
   "verbose": true,
   "mixins": [
     "gui.GuiMainMenuMixin",
-    "main.WindowTitleMixin"
+    "gui.GuiOptionsButtonsAdditionsMixin",
+    "main.WindowTitleMixin",
+    "resources.AddConstellarResourcesMixin"
   ]
 }
