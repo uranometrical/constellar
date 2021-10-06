@@ -5,6 +5,7 @@
   "refmap": "mixins.constellar.json",
   "verbose": true,
   "mixins": [
+    "gui.AddConstellarResourcePackMixin",
     "gui.GuiMainMenuMixin",
     "gui.GuiOptionsButtonsAdditionsMixin",
     "main.WindowTitleMixin",
