@@ -2,6 +2,8 @@ package io.github.steviegt6.constellar.mixins.main;
 
 import io.github.steviegt6.constellar.ConstellarMain;
 import net.minecraft.client.Minecraft;
+import net.minecraft.profiler.IPlayerUsage;
+import net.minecraft.util.IThreadListener;
 import org.lwjgl.opengl.Display;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -10,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Minecraft.class)
-public class WindowTitleMixin {
+public abstract class WindowTitleMixin implements IThreadListener, IPlayerUsage {
     @Shadow
     private static Minecraft theMinecraft;
 
