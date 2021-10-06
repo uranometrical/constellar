@@ -33,6 +33,9 @@ public class ConstellarTweaker implements ITweaker {
 
     @Override
     public void injectIntoClassLoader(LaunchClassLoader classLoader) {
+        //LOGGER.info("Pre-Loading ConstellarMain...");
+        //LOGGER.debug(new ConstellarMain().toString());
+
         LOGGER.info("Initializing Bootstraps...");
         MixinBootstrap.init();
         LOGGER.info("Adding mixin configuration...");

@@ -8,6 +8,8 @@
     "gui.GuiMainMenuMixin",
     "gui.GuiOptionsButtonsAdditionsMixin",
     "main.WindowTitleMixin",
-    "resources.AddConstellarResourcesMixin"
+    "resources.AddConstellarResourcesMixin",
+    "resources.AddOurDefaultPackMixin",
+    "resources.LocaleLanguageOverrideMixin"
   ]
 }
