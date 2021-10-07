@@ -1,6 +1,6 @@
 package io.github.steviegt6.constellar.mixins.gui;
 
-import io.github.steviegt6.constellar.gui.modules.GuiModuleList;
+import io.github.steviegt6.constellar.gui.modules.GuiModulesScreen;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptions;
 import net.minecraft.client.gui.GuiScreen;
@@ -33,7 +33,7 @@ public abstract class GuiOptionsButtonsAdditionsMixin extends GuiScreen implemen
     protected void actionPerformed(GuiButton p_actionPerformed_1_, CallbackInfo ci) {
         if (p_actionPerformed_1_.enabled && p_actionPerformed_1_.id == 1000) {
             mc.gameSettings.saveOptions();
-            mc.displayGuiScreen(new GuiModuleList());
+            mc.displayGuiScreen(new GuiModulesScreen());
         }
     }
 }
