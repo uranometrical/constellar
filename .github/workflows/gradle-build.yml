@@ -26,7 +26,13 @@ jobs:
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
 
     - name: Build with Gradle
-      run: .\gradlew.bat build # No decomp/dev workspace setup needed.
+      run:   |
+          if [ "$RUNNER_OS" == "Linux" ] || [ "$RUNNER_OS" == "macOS" ]; then
+              ./gradlew build
+          elif [ "$RUNNER_OS" == "Windows" ]; then
+              .\gradlew.bat build
+          fi
+      shell: bash
     - name: Upload Release Build Artifact
       uses: actions/upload-artifact@v2
       with:
