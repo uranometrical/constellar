@@ -16,6 +16,7 @@ jobs:
         
     - uses: gradle/gradle-build-action@v2
       with:
+        build-root-directory: Constellar
         arguments: build
         
     - uses: actions/upload-artifact@v2
