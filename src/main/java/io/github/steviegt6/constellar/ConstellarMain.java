@@ -9,10 +9,7 @@ public class ConstellarMain {
     public static final String ClientVersion = "0.1.0-alpha";
     public static IModuleRepository Modules = new StandardModuleRepository();
 
-    //static {
-    //}
-
-    //public ConstellarMain() {
-    //    System.out.println("Instantiated ConstellarMain. Was this a mistake?");
-    //}
+    // public ConstellarMain() {
+    //     System.out.println("Instantiated ConstellarMain. Was this a mistake?");
+    // }
 }
