@@ -7,8 +7,12 @@ on: push
 
 jobs:
   build:
+    runs-on: ${{ matrix.os }}
 
-    runs-on: ubuntu-latest, macos-latest, windows-latest
+    strategy:
+        matrix:
+            os: [ubuntu-latest, windows-latest, macOS-latest]
+
     # Skip job if a commit contains "[skip build]"
     if: "!contains(github.event.head_commit.message, '[skip build]')"
 
@@ -26,6 +30,6 @@ jobs:
     - name: Upload Release Build Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: Constellar-GitHub-Build
+        name: Constellar-Build-Artifact
         path: |
           build/libs/
