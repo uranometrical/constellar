@@ -13,11 +13,12 @@ jobs:
     - uses: actions/setup-java@v1
       with:
         java-version: 8
+    
+    - if: false == runner.os == 'Windows'
+      run: chmod +x ./gradlew
         
     - uses: gradle/gradle-build-action@v1
       with:
-        if: false == runner.os == 'Windows'
-        run: chmod +x ./gradlew
         arguments: build
         
     - uses: actions/upload-artifact@v2
