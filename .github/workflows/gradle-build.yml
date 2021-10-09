@@ -34,9 +34,27 @@ jobs:
               ./gradlew.bat build
           fi
       shell: bash
+      
+    - if: runner.os == 'Linux'
     - name: Upload Release Build Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: Constellar-Build-Artifact
-        path: |
-          build/libs/
+          name: Constellar-Ubuntu-Build
+          path: |
+            build/libs/
+            
+    - if: runner.os == 'Windows'
+    - name: Upload Release Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+          name: Constellar-Windows-Build
+          path: |
+            build/libs/
+            
+    - if: runner.os == 'macOS'
+    - name: Upload Release Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+          name: Constellar-MacOS-Build
+          path: |
+            build/libs/
