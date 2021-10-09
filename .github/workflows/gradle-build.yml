@@ -16,7 +16,7 @@ jobs:
         
     - uses: gradle/gradle-build-action@v1
       with:
-        if: ! runner.os == 'Windows'
+        if: false == runner.os == 'Windows'
         run: chmod +x ./gradlew
         arguments: build
         
