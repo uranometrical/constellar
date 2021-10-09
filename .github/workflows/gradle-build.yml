@@ -14,9 +14,10 @@ jobs:
       with:
         java-version: 8
         
-    - uses: gradle/gradle-build-action@v2
+    - uses: gradle/gradle-build-action@v1
       with:
-        build-root-directory: Constellar
+        if: ! runner.os == 'Windows'
+        run: chmod +x ./gradlew
         arguments: build
         
     - uses: actions/upload-artifact@v2
