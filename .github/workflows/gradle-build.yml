@@ -28,6 +28,7 @@ jobs:
     - name: Build with Gradle
       run:   |
           if [ "$RUNNER_OS" == "Linux" ] || [ "$RUNNER_OS" == "macOS" ]; then
+              chmod +x ./gradlew
               ./gradlew build
           elif [ "$RUNNER_OS" == "Windows" ]; then
               .\gradlew.bat build
