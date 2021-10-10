@@ -12,9 +12,9 @@ Experimental MC 1.8.9 PvP client that isn't necessarily focused only on Hypixel 
 Just PR lol (TO-DO).
 
 # Building
-1. Clone
-2. Open with a competent IDE (IntelliJ). Ensure anything less than Gradle 5 is being used (provided in `gradle` folder).
+1. Clone the repo (`git clone https://github.com/Uranometrical/Constellar && cd Constellar`)
+2. Open the project with an IDE (I recommend IntelliJ). Ensure Gradle 4 is being used (provided in `gradle` folder).
 3. Run `gradle setupDecompWorkspace`
-4. Run `gradle genIntellijRuns` if you're on IntelliJ as it allows for building.
-5. Make sure generated build module for client is `Constellar.main`.
+4. Run `gradle genIntellijRuns` if you're on IntelliJ.
+5. Make sure the generated build module for client is `Constellar.main`.
 6. You should be good to go.
