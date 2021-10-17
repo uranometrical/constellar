@@ -17,7 +17,7 @@ public abstract class AddConstellarResourcesMixin {
     private void getResourceStream(ResourceLocation location, CallbackInfoReturnable<InputStream> cir) {
         InputStream ourStream = ConstellarMain.class.getResourceAsStream("/assets/" + location.getResourceDomain() + "/" + location.getResourcePath());
 
-        System.out.println(location.getResourceDomain());
+        // System.out.println(location.getResourceDomain());
 
         if (ourStream != null)
         {
