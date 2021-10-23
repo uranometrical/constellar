@@ -16,8 +16,6 @@ import java.util.List;
 public class ConstellarTweaker implements ITweaker {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public static boolean UseOptiFineLol = true;
-
     private final ArrayList<String> Arguments = new ArrayList<>();
 
     @Override
@@ -36,9 +34,6 @@ public class ConstellarTweaker implements ITweaker {
 
     @Override
     public void injectIntoClassLoader(LaunchClassLoader classLoader) {
-        //if (UseOptiFineLol) {
-        //}
-
         classLoader.registerTransformer("io.github.steviegt6.constellar.launch.ConstellarTransformer");
 
         LOGGER.info("Initializing Bootstraps...");

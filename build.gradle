@@ -28,10 +28,6 @@ buildscript {
     }
 }
 
-dependencies {
-    files('src/main/resources/libs/OptiFine.jar')
-}
-
 apply plugin: 'net.minecraftforge.gradle.tweaker-client'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'java'
@@ -130,7 +126,4 @@ repositories {
     }
     mavenCentral()
     jcenter()
-    flatDir {
-        dirs 'lib'
-    }
 }
