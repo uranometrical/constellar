@@ -34,7 +34,7 @@ public class ConstellarTweaker implements ITweaker {
 
     @Override
     public void injectIntoClassLoader(LaunchClassLoader classLoader) {
-        classLoader.registerTransformer("io.github.steviegt6.constellar.launch.ConstellarTransformer");
+        // classLoader.registerTransformer("io.github.steviegt6.constellar.launch.ConstellarTransformer");
 
         LOGGER.info("Initializing Bootstraps...");
         MixinBootstrap.init();
