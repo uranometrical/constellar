@@ -28,6 +28,11 @@ buildscript {
     }
 }
 
+configurations {
+    embed
+    compile.extendsFrom(embed)
+}
+
 apply plugin: 'net.minecraftforge.gradle.tweaker-client'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'java'
@@ -39,6 +44,11 @@ compileJava.options.encoding = 'UTF-8'
 version = "0.1.0-alpha"
 group = "io.github.steviegt6.constellar"
 archivesBaseName = "ConstellarMain"
+
+dependencies {
+    compile project(":LegacyLauncher")
+    embed fileTree(dir: "libs", include: "*.jar")
+}
 
 minecraft {
     version = "1.8.9"
@@ -112,8 +122,6 @@ dependencies {
         exclude module: 'gson'
         exclude module: 'commons-io'
     }
-
-    compile fileTree(include: ['*.jar'], dir: 'lib')
 
     configurations.implementation.extendsFrom(configurations.addLib)
 }

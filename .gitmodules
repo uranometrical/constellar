@@ -1,0 +1,3 @@
+[submodule "LegacyLauncher"]
+	path = LegacyLauncher
+	url = https://github.com/Uranometrical/LegacyLauncher.git
