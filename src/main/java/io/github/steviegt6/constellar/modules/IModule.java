@@ -1,6 +1,11 @@
 package io.github.steviegt6.constellar.modules;
 
+import net.minecraft.util.ResourceLocation;
+
 public interface IModule {
+    // Replace with Identifiers in modern versions
+    ResourceLocation getIdentifier();
+
     String getKey();
 
     String getDescription();

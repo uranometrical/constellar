@@ -3,6 +3,7 @@ package io.github.steviegt6.constellar.modules.impl;
 import io.github.steviegt6.constellar.modules.IModule;
 import io.github.steviegt6.constellar.modules.IModuleRepository;
 import io.github.steviegt6.constellar.modules.ModuleNotFoundException;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +19,13 @@ public class StandardModuleRepository implements IModuleRepository {
     }
 
     @Override
-    public IModule getModule(String key) throws ModuleNotFoundException {
-        Optional<IModule> module = Modules.stream().filter(x -> Objects.equals(x.getKey(), key)).findFirst();
+    public IModule getModule(ResourceLocation identifier) throws ModuleNotFoundException {
+        Optional<IModule> module = Modules.stream().filter(x -> Objects.equals(x.getIdentifier(), identifier)).findFirst();
 
         if (module.isPresent())
             return module.get();
 
-        throw new ModuleNotFoundException(key);
+        throw new ModuleNotFoundException(identifier.toString());
     }
 
     @Override
