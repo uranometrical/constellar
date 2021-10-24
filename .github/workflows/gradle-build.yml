@@ -23,6 +23,9 @@ jobs:
         distribution: 'adopt'
         server-id: github
 
+    - name: Restore Submodules
+      run: git submodule update --init --recursive
+
     - name: Build with Gradle
       run:   |
           if [ "$RUNNER_OS" == "Linux" ] || [ "$RUNNER_OS" == "macOS" ]; then
