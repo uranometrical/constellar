@@ -1,12 +1,10 @@
 package io.github.steviegt6.constellar.mixins.gui;
 
 import io.github.steviegt6.constellar.ConstellarMain;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNoCallback;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -29,7 +27,7 @@ public abstract class GuiMainMenuMixin extends GuiScreen implements GuiYesNoCall
 
     private String splashTextCache;
 
-    @Inject(method = "drawScreen", at = @At("TAIL"))
+    @Inject(method = "drawScreen", at = @At("HEAD"))
     public void cacheSplashText(int unknown1, int unknown2, float unknown3, CallbackInfo ci) {
         // Stops splash text from drawing the first time.
         splashTextCache = splashText;
@@ -53,12 +51,12 @@ public abstract class GuiMainMenuMixin extends GuiScreen implements GuiYesNoCall
         }
 
         GlStateManager.pushMatrix();
-        GlStateManager.translate((float)(width / 2 + 90), 70.0F, 0.0F);
-        GlStateManager.rotate(-20.0F, 0.0F, 0.0F, 1.0F);
-        float splashScale = 1.8F - MathHelper.abs(MathHelper.sin((float)(Minecraft.getSystemTime() % 1000L) / 1000.0F * 3.1415927F * 2.0F) * 0.1F);
-        splashScale = splashScale * 100.0F / (float)(fontRendererObj.getStringWidth(splashText) + 32);
-        GlStateManager.scale(splashScale, splashScale, splashScale);
-        drawCenteredString(fontRendererObj, splashText, 0, -8, -256);
+        GlStateManager.translate(width / 2F, probablyHeight, 0.0F);
+        GlStateManager.rotate(0F, 0.0F, 0.0F, 1.0F);
+        //float splashScale = 1.8F - MathHelper.abs(MathHelper.sin((float)(Minecraft.getSystemTime() % 1000L) / 1000.0F * 3.1415927F * 2.0F) * 0.1F);
+        //splashScale = splashScale * 100.0F / (float)(fontRendererObj.getStringWidth(splashText) + 32);
+        //GlStateManager.scale(splashScale, splashScale, 0F);
+        drawCenteredString(fontRendererObj, splashText, 0, 32, -256);
         GlStateManager.popMatrix();
 
         drawString(fontRendererObj, ConstellarMain.ClientNameReadable + " v" + ConstellarMain.ClientVersion, 2, height - 20, -1);
