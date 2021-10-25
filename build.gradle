@@ -45,7 +45,7 @@ minecraft {
     // stable_#            stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not allways work.
     // simply re-run your setup task after changing the mappings to update your workspace.
-    mappings = "stable_22"
+    mappings = "stable_20"
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
@@ -57,7 +57,11 @@ dependencies {
         }
     }
 
-    compile('org.spongepowered:mixin:0.6.10-SNAPSHOT')
+    compile('org.spongepowered:mixin:0.8.3-SNAPSHOT') {
+        exclude module: 'guava'
+        exclude module: 'commons-io'
+        exclude module: 'gson'
+    }
 
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
@@ -102,9 +106,12 @@ processResources {
 }
 
 jar {
-    manifest.attributes(
-            'TweakClass': 'dev.tomat.constellar.launch.ConstellarTweaker',
-            'MixinConfigs': 'mixins.constellar.json',
-            'FMLCorePluginContainsFMLMod': 'true'
-    )
+    manifest {
+        attributes "FMLCorePlugin": "dev.tomat.constellar.core.ConstellarCore"
+        attributes "FMLCorePluginContainsFMLMod": "false"
+        attributes "ForceLoadAsMod": "true"
+        attributes "TweakClass": "org.spongepowered.asm.launch.MixinTweaker"
+        attributes "TweakOrder": "0"
+        attributes "MixinConfigs": "mixins.constellar.json"
+    }
 }

@@ -1,11 +1,7 @@
 {
   "package": "dev.tomat.constellar.mixin",
-  "refmap": "mixins.constellar.refmap.json",
-  "target": "@env(DEFAULT)",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-  ],
-  "client": [
-    "misc.WindowTitleMixin"
+
   ]
 }
