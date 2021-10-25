@@ -7,12 +7,21 @@ buildscript {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
+
+        maven {
+            name = 'sponge'
+            url = 'https://repo.spongepowered.org/maven'
+        }
     }
     dependencies {
+        classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+        classpath 'org.spongepowered:mixingradle:0.4-SNAPSHOT'
     }
 }
+
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'org.spongepowered.mixin'
 
 /*
 // for people who want stable - not yet functional for MC 1.8.8 - we require the forgegradle 2.1 snapshot
@@ -23,6 +32,10 @@ plugins {
 version = "0.1.0-ALPHA-1"
 group = "dev.tomat.constellar" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "constellar"
+
+mixin {
+    add sourceSets.main, "mixin.constellar.refmap.json"
+}
 
 minecraft {
     version = "1.8.9-11.15.1.2318-1.8.9"
@@ -38,6 +51,7 @@ minecraft {
 }
 
 dependencies {
+
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"
@@ -79,4 +93,12 @@ processResources
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+}
+
+jar {
+    manifest.attributes(
+            'TweakClass': 'dev.tomat.constellar.launch.ConstellarTweaker',
+            'MixinConfigs': 'mixins.constellar.json',
+            'FMLCorePluginContainsFMLMod': 'true'
+    )
 }
