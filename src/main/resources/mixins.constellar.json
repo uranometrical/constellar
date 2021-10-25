@@ -1,7 +1,6 @@
 {
   "package": "dev.tomat.constellar.mixin",
   "compatibilityLevel": "JAVA_8",
-  "mixins": [
-
+  "client": [
   ]
 }

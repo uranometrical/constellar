@@ -1,4 +1,4 @@
-package dev.tomat.constellar.mixin.misc;
+/*package dev.tomat.constellar.mixin.misc;
 
 import dev.tomat.constellar.ConstellarConstants;
 import net.minecraft.client.Minecraft;
@@ -19,6 +19,6 @@ public abstract class WindowTitleMixin implements IThreadListener, IPlayerUsage 
 
     @Inject(method = "createDisplay", at = @At("TAIL"))
     private void injectWindowTitle(CallbackInfo ci) {
-        //Display.setTitle(ConstellarConstants.NAME + " v" + ConstellarConstants.Version + " - " + theMinecraft.getVersion());
+        Display.setTitle(ConstellarConstants.NAME + " v" + ConstellarConstants.Version + " - " + theMinecraft.getVersion());
     }
-}
+}*/
