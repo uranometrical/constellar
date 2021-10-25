@@ -1,137 +1,82 @@
+
+// For those who want the bleeding edge
 buildscript {
     repositories {
-        mavenCentral()
         jcenter()
-
         maven {
             name = "forge"
-            url = "https://files.minecraftforge.net/maven"
-        }
-
-        maven {
-            name = 'sponge'
-            url = 'https://repo.spongepowered.org/maven'
-        }
-
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-
-        maven {
-            url 'https://jitpack.io'
+            url = "http://files.minecraftforge.net/maven"
         }
     }
-
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
-        classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
     }
 }
+apply plugin: 'net.minecraftforge.gradle.forge'
 
-configurations {
-    embed
-    compile.extendsFrom(embed)
+/*
+// for people who want stable - not yet functional for MC 1.8.8 - we require the forgegradle 2.1 snapshot
+plugins {
+    id "net.minecraftforge.gradle.forge" version "2.0.2"
 }
-
-apply plugin: 'net.minecraftforge.gradle.tweaker-client'
-apply plugin: 'org.spongepowered.mixin'
-apply plugin: 'java'
-apply plugin: "idea"
-
-sourceCompatibility = targetCompatibility = 1.8
-compileJava.options.encoding = 'UTF-8'
-
-version = "0.1.0-alpha"
-group = "io.github.steviegt6.constellar"
-archivesBaseName = "ConstellarMain"
-
-dependencies {
-    compile project(":LegacyLauncher")
-    embed fileTree(dir: "libs", include: "*.jar")
-}
+*/
+version = "1.0"
+group= "com.yourname.modid" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "modid"
 
 minecraft {
-    version = "1.8.9"
-    tweakClass = "io.github.steviegt6.constellar.launch.ConstellarTweaker"
-    mappings = "stable_22"
-    runDir = 'run'
-    clientJvmArgs = ["-XX:-DisableExplicitGC"] // fast world loading
-    makeObfSourceJar = false
-}
-
-mixin {
-    // Specify "notch" or "searge" here
-    defaultObfuscationEnv notch
-    add sourceSets.main, "mixin.constellar.refmap.json"
-}
-
-processResources {
-    inputs.files "src/main/resources"
-    outputs.dir "build/classes/main"
-    copy {
-        from("src/main/resources")
-        into("build/classes/main")
-    }
-}
-
-jar {
-    dependsOn configurations.compile
-    from {
-        configurations.embed.collect {
-            it.isDirectory() ? it : zipTree(it)
-        }
-    }
-    exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+    version = "1.8.9-11.15.1.2318-1.8.9"
+    runDir = "run"
     
-     manifest.attributes(
-            "MixinConfigs": 'mixins.constellar.json',
-            "TweakClass": 'io.github.steviegt6.constellar.launch.ConstellarTweaker',
-            "TweakOrder": 0,
-            "Manifest-Version": 1.0
-    )
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.10.3'
-}
-
-configurations {
-    mods
-    addLib
-    embed
-    compile.extendsFrom(embed)
-}
-
-idea {
-    module {
-        inheritOutputDirs = true
-    }
+    // the mappings can be changed at any time, and must be in the following format.
+    // snapshot_YYYYMMDD   snapshot are built nightly.
+    // stable_#            stables are built at the discretion of the MCP team.
+    // Use non-default mappings at your own risk. they may not allways work.
+    // simply re-run your setup task after changing the mappings to update your workspace.
+    mappings = "stable_20"
+    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
 dependencies {
-    /**
-     * Example of adding a dependency, remove this comment if tou want to add slick2d to your client.
-     * addLib group: 'slick', name: 'slick', version: '20121001-264'
-     */
+    // you may put jars on which you depend on in ./libs
+    // or you may define them like so..
+    //compile "some.group:artifact:version:classifier"
+    //compile "some.group:artifact:version"
+      
+    // real examples
+    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
+    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
 
-    //addLib group: 'slick', name: 'slick', version: '20121001-264'
+    // the 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
+    //provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
 
-    compile('org.spongepowered:mixin:0.6.10-SNAPSHOT') {
-        exclude module: 'launchwrapper'
-        exclude module: 'guava'
-        exclude module: 'gson'
-        exclude module: 'commons-io'
-    }
+    // the deobf configurations:  'deobfCompile' and 'deobfProvided' are the same as the normal compile and provided,
+    // except that these dependencies get remapped to your current MCP mappings
+    //deobfCompile 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+    //deobfProvided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
 
-    configurations.implementation.extendsFrom(configurations.addLib)
+    // for more info...
+    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
+    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+
 }
 
-repositories {
-    maven { url "https://jitpack.io" }
-    maven {
-        name = 'sponge'
-        url = 'https://repo.spongepowered.org/maven/'
+processResources
+{
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+                
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-    mavenCentral()
-    jcenter()
+        
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
 }

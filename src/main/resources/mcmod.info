@@ -1,0 +1,16 @@
+[
+{
+  "modid": "constellar",
+  "name": "Constellar",
+  "description": "1.8.9 all server pvp client.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Tomat", "Metacinnabar"],
+  "credits": "Uranometrical and contributors.",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
