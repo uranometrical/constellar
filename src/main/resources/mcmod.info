@@ -1,11 +1,11 @@
 [
   {
-    "modid": "constellar",
-    "name": "Constellar",
+    "modid": "${modname}",
+    "name": "${modid}",
     "description": "PvP-focused, feature-rich MC mod.",
     "version": "${version}",
     "mcversion": "${mcversion}",
-    "url": "",
+    "url": "https://tomat.dev/projects/constellar",
     "updateUrl": "",
     "authorList": ["Tomat", "Metacinnabar"],
     "credits": "The Uranometrical Team and contributors.",
