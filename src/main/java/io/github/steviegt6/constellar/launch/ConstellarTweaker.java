@@ -3,7 +3,6 @@ package io.github.steviegt6.constellar.launch;
 import net.minecraft.launchwrapper.IArgumentTweaker;
 import net.minecraft.launchwrapper.ITweaker;
 import net.minecraft.launchwrapper.LaunchClassLoader;
-import optifine.OptiFineClassTransformer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.launch.MixinBootstrap;
@@ -36,10 +35,9 @@ public class ConstellarTweaker implements ITweaker, IArgumentTweaker {
 
     @Override
     public void injectIntoClassLoader(LaunchClassLoader classLoader) {
-        // new OptiFineTweaker().injectIntoClassLoader(classLoader);
-        // classLoader.registerTransformer("io.github.steviegt6.constellar.launch.ConstellarTransformer");
-        // classLoader.registerTransformer("optifine.OptiFineClassTransformer");
-        classLoader.registerTransformer(new OptiFineClassTransformer());
+        // classLoader.registerTransformer(new OptiFineClassTransformer());
+
+        classLoader.registerTransformer(new ConstellarTransformer());
 
         LOGGER.info("Initializing Bootstraps...");
         MixinBootstrap.init();
