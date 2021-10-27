@@ -1,16 +1,14 @@
-[
-  {
-    "modid": "${modid}",
-    "name": "${modname}",
-    "description": "PvP-focused, feature-rich MC mod.",
-    "version": "${version}",
-    "mcversion": "${mcversion}",
-    "url": "https://tomat.dev/projects/constellar",
-    "updateUrl": "",
-    "authorList": ["Tomat", "Metacinnabar"],
-    "credits": "The Uranometrical Team and contributors.",
-    "logoFile": "",
-    "screenshots": [],
-    "dependencies": []
-  }
-]
+[{
+  "modid": "${modid}",
+  "name": "${modname}",
+  "description": "PvP-focused, feature-rich MC mod.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://tomat.dev/projects/constellar",
+  "updateUrl": "",
+  "authorList": ["Tomat", "Metacinnabar"],
+  "credits": "The Uranometrical Team and contributors.",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}]
