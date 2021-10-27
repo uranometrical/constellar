@@ -1,7 +1,7 @@
 [
   {
-    "modid": "${modname}",
-    "name": "${modid}",
+    "modid": "${modid}",
+    "name": "${modname}",
     "description": "PvP-focused, feature-rich MC mod.",
     "version": "${version}",
     "mcversion": "${mcversion}",
