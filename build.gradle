@@ -33,12 +33,6 @@ minecraft {
     version = "${project.minecraftVersion}-${project.forgeVersion}"
     runDir = "run"
     mappings = "stable_22"
-
-    replace("@MOD_ID@": project.modId,
-            "@MOD_NAME@": project.modName,
-            "@VERSION@": project.version,
-            "@MOD_ACCEPTED@": project.acceptedMinecraftVersions)
-    replaceIn("${project.modName}.java")
 }
 
 dependencies {
@@ -72,8 +66,6 @@ processResources {
 }
 
 jar {
-    archivesBaseName = "${project.modName}-v${project.version}"
-
     manifest {
         attributes "FMLCorePlugin": "dev.tomat.constellar.core.ConstellarCore"
         attributes "FMLCorePluginContainsFMLMod": "false"
