@@ -2,7 +2,7 @@
   "required": true,
   "compatibilityLevel": "JAVA_8",
   "package": "io.github.steviegt6.constellar.mixins",
-  "refmap": "mixins.constellar.json",
+  "refmap": "mixin.constellar.refmap.json",
   "verbose": true,
   "mixins": [
     "gui.AddConstellarResourcePackMixin",

@@ -1,6 +1,7 @@
 package io.github.steviegt6.constellar.mixins.gui;
 
 import io.github.steviegt6.constellar.ConstellarMain;
+import io.github.steviegt6.constellar.IHateReflection;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNoCallback;
@@ -64,7 +65,7 @@ public abstract class GuiMainMenuMixin extends GuiScreen implements GuiYesNoCall
 
     static {
         try {
-            Field titleField = GuiMainMenu.class.getDeclaredField("minecraftTitleTextures");
+            Field titleField = GuiMainMenu.class.getDeclaredField(IHateReflection.GuiMainMenuMinecraftTitleTextures);
             titleField.setAccessible(true);
 
             Field modifiersField = Field.class.getDeclaredField("modifiers");

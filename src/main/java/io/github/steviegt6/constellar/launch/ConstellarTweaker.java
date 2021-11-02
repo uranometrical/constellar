@@ -1,6 +1,7 @@
 package io.github.steviegt6.constellar.launch;
 
 import net.minecraft.launchwrapper.ITweaker;
+import net.minecraft.launchwrapper.Launch;
 import net.minecraft.launchwrapper.LaunchClassLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,9 +36,14 @@ public class ConstellarTweaker implements ITweaker {
     public void injectIntoClassLoader(LaunchClassLoader classLoader) {
         LOGGER.info("Initializing Bootstraps...");
         MixinBootstrap.init();
+
         LOGGER.info("Adding mixin configuration...");
         MixinEnvironment environment = MixinEnvironment.getDefaultEnvironment();
         Mixins.addConfiguration("mixins.constellar.json");
+
+        if (Launch.classLoader.getTransformers().stream().anyMatch(x -> x.getClass().getName().contains("optifine"))) {
+            environment.setObfuscationContext("notch");
+        }
 
         if (environment.getObfuscationContext() == null) {
             environment.setObfuscationContext("notch"); // Switch's to notch mappings
