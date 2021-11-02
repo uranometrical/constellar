@@ -42,12 +42,12 @@ sourceCompatibility = targetCompatibility = 1.8
 compileJava.options.encoding = 'UTF-8'
 
 version = "0.1.0-alpha"
-group = "io.github.steviegt6.constellar"
-archivesBaseName = "ConstellarMain"
+group = "dev.tomat.constellar"
+archivesBaseName = "Constellar"
 
 minecraft {
     version = "1.8.9"
-    tweakClass = "io.github.steviegt6.constellar.launch.ConstellarTweaker"
+    tweakClass = "dev.tomat.constellar.launch.ConstellarTweaker"
     mappings = "stable_22"
     runDir = 'run'
     clientJvmArgs = ["-XX:-DisableExplicitGC"] // fast world loading
@@ -80,7 +80,7 @@ jar {
     
      manifest.attributes(
             "MixinConfigs": 'mixins.constellar.json',
-            "TweakClass": 'io.github.steviegt6.constellar.launch.ConstellarTweaker',
+            "TweakClass": 'dev.tomat.constellar.launch.ConstellarTweaker',
             "TweakOrder": 0,
             "Manifest-Version": 1.0
     )
