@@ -45,11 +45,6 @@ version = "0.1.0-alpha"
 group = "io.github.steviegt6.constellar"
 archivesBaseName = "ConstellarMain"
 
-dependencies {
-    compile project(":LegacyLauncher")
-    embed fileTree(dir: "libs", include: "*.jar")
-}
-
 minecraft {
     version = "1.8.9"
     tweakClass = "io.github.steviegt6.constellar.launch.ConstellarTweaker"
@@ -109,12 +104,7 @@ idea {
 }
 
 dependencies {
-    /**
-     * Example of adding a dependency, remove this comment if tou want to add slick2d to your client.
-     * addLib group: 'slick', name: 'slick', version: '20121001-264'
-     */
-
-    //addLib group: 'slick', name: 'slick', version: '20121001-264'
+    embed fileTree(dir: "libs", include: "*.jar")
 
     compile('org.spongepowered:mixin:0.6.10-SNAPSHOT') {
         exclude module: 'launchwrapper'

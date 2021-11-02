@@ -1,6 +1,5 @@
 package io.github.steviegt6.constellar.launch;
 
-import net.minecraft.launchwrapper.IArgumentTweaker;
 import net.minecraft.launchwrapper.ITweaker;
 import net.minecraft.launchwrapper.LaunchClassLoader;
 import org.apache.logging.log4j.LogManager;
@@ -13,8 +12,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: Configurable OptiFine
-public class ConstellarTweaker implements ITweaker, IArgumentTweaker {
+public class ConstellarTweaker implements ITweaker {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private final ArrayList<String> Arguments = new ArrayList<>();
@@ -35,10 +33,6 @@ public class ConstellarTweaker implements ITweaker, IArgumentTweaker {
 
     @Override
     public void injectIntoClassLoader(LaunchClassLoader classLoader) {
-        // classLoader.registerTransformer(new OptiFineClassTransformer());
-
-        classLoader.registerTransformer(new ConstellarTransformer());
-
         LOGGER.info("Initializing Bootstraps...");
         MixinBootstrap.init();
         LOGGER.info("Adding mixin configuration...");
@@ -55,13 +49,6 @@ public class ConstellarTweaker implements ITweaker, IArgumentTweaker {
     @Override
     public String[] getLaunchArguments() {
         return Arguments.toArray(new String[]{});
-    }
-
-    @Override
-    public void modifyArguments(List<String> arguments) {
-        // MC is unforgiving of duplicate arguments.
-        clearDuplicate(arguments, "--version");
-        clearDuplicate(arguments, "--assetsDir");
     }
 
     private void clearDuplicate(List<String> arguments, String dup) {
