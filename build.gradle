@@ -28,15 +28,15 @@ buildscript {
     }
 }
 
-configurations {
-    embed
-    compile.extendsFrom(embed)
-}
-
 apply plugin: 'net.minecraftforge.gradle.tweaker-client'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'java'
 apply plugin: "idea"
+
+configurations {
+    embed
+    compile.extendsFrom(embed)
+}
 
 sourceCompatibility = targetCompatibility = 1.8
 compileJava.options.encoding = 'UTF-8'
