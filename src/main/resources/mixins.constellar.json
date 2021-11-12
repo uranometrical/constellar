@@ -10,6 +10,8 @@
     "gui.GuiOptionsButtonsAdditionsMixin",
     "gui.InitializePanoramaMixin",
     "gui.RenderPanoramaBackgroundMixin",
+    "gui.buttons.ClassyButtonMixin",
+    "gui.buttons.ClassyOptionSlider",
     "main.WindowTitleMixin",
     "resources.AddConstellarResourcesMixin",
     "resources.AddOurDefaultPackMixin",
