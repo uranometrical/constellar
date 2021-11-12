@@ -1,11 +1,11 @@
 package dev.tomat.constellar.mixins.gui.buttons;
 
 import dev.tomat.constellar.utilities.ColorUtils;
+import dev.tomat.constellar.utilities.MathUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -15,7 +15,6 @@ public abstract class ClassyButtonMixin extends Gui {
     public final ResourceLocation Buttons = new ResourceLocation("textures/gui/buttons.png");
 
     @Shadow public boolean visible;
-    @Shadow @Final protected static ResourceLocation buttonTextures;
     @Shadow protected boolean hovered;
     @Shadow public int xPosition;
     @Shadow public int yPosition;
@@ -54,8 +53,21 @@ public abstract class ClassyButtonMixin extends Gui {
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.blendFunc(770, 771);
 
-        drawTexturedModalRect(xPosition, yPosition, 0, 46 + i * 20, width / 2, height);
-        drawTexturedModalRect(xPosition + width / 2, yPosition, 200 - width / 2, 46 + i * 20, width / 2, height);
+        if (hovered) {
+            ScaleX = MathUtils.lerp(ScaleX, 1.1f, 0.25f);
+            // ScaleY = MathUtils.lerp(ScaleY, 1.2f, 0.1f);
+        }
+        else {
+            ScaleX = MathUtils.lerp(ScaleX, 1f, 0.25f);
+            // ScaleY = MathUtils.lerp(ScaleY, 1f, 0.1f);
+        }
+
+        int scaledWidth = (int) (width * ScaleX);
+        int scaledHeight = (int) (height * ScaleY);
+        float scaledX = xPosition + ((width - scaledWidth) / 2f);
+        float scaledY = yPosition - ((height - scaledHeight) / 2f);
+
+        drawTexturedModalRect(scaledX, scaledY, 0, 46 + i * 20, scaledWidth, scaledHeight);
         mouseDragged(mc, mouseX, mouseY);
 
         int color = 14737632;

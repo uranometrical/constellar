@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 
 @Mixin(GuiButtonLanguage.class)
 public abstract class ClassLanguageMixin extends GuiButton {
-    public final ResourceLocation Buttons = new ResourceLocation("textures/gui/buttons.png");
+    public final ResourceLocation Buttons = new ResourceLocation("textures/gui/extra_buttons.png");
 
     public ClassLanguageMixin(int buttonId, int x, int y, String buttonText) {
         super(buttonId, x, y, buttonText);

@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(GuiLockIconButton.class)
 public abstract class ClassLockMixin extends GuiButton {
-    public final ResourceLocation Buttons = new ResourceLocation("textures/gui/buttons.png");
+    public final ResourceLocation Buttons = new ResourceLocation("textures/gui/extra_buttons.png");
 
     @Shadow private boolean field_175231_o;
 
