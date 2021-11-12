@@ -21,16 +21,16 @@ import java.util.List;
 // todo: info text down bottom explaining hover for desc click to enable/disable
 public class GuiModulesScreen extends GuiScreen {
     private GuiModulesList list;
+    private GuiTextField SearchBar;
     private final List<IModule> modules = Lists.newArrayList();
 
     public void initGui() {
         this.list = new GuiModulesList();
-        modules.add(new KeystrokesModule("keystrokes1", "displays button presses"));
-        modules.add(new KeystrokesModule("keystrokes2", "displays button presses"));
+        modules.add(new KeystrokesModule());
 
 
         // todo: remove magic numbers
-        buttonList.add(new GuiButton(200, width / 2 - 100, this.height - 38, I18n.format("gui.done")));
+        buttonList.add(new GuiButton(Button.BackButton.Id, width / 2 - 100, this.height - 40, I18n.format("gui.done")));
         this.list.registerScrollButtons(7, 8);
     }
 
@@ -56,6 +56,7 @@ public class GuiModulesScreen extends GuiScreen {
     }
 
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        drawDefaultBackground();
         this.list.drawScreen(mouseX, mouseY, partialTicks);
         this.drawCenteredString(this.fontRendererObj, I18n.format("modules.title"), this.width / 2, 16, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
@@ -114,9 +115,19 @@ public class GuiModulesScreen extends GuiScreen {
         protected void drawSlot(int entryID, int p_180791_2_, int p_180791_3_, int p_180791_4_, int mouseXIn, int mouseYIn) {
             // todo: remove magic numbers + localization
             GuiModulesScreen.this.drawCenteredString(GuiModulesScreen.this.fontRendererObj,
-                    GuiModulesScreen.this.modules.get(entryID).getKey() + " (" + GuiModulesScreen.this.modules.get(entryID).getModuleStatus() + ")",
+                    I18n.format(GuiModulesScreen.this.modules.get(entryID).getKey()) + " (" + GuiModulesScreen.this.modules.get(entryID).getModuleStatus() + ")",
                     this.width / 2, p_180791_3_ + 1, 16777215
             );
+        }
+    }
+
+    public enum Button {
+        BackButton(200);
+
+        public int Id;
+
+        Button(int id) {
+            Id = id;
         }
     }
 }

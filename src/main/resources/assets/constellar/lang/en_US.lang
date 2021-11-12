@@ -1,2 +1,5 @@
 modules.title=Modules
 modules.open=Module Settings
+
+modules.keystrokes.name=Keystrokes
+modules.keystrokes.description=Displays pressed keys in a nifty little GUI.
