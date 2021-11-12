@@ -1,9 +1,8 @@
 package dev.tomat.constellar.mixins.gui.buttons;
 
+import dev.tomat.constellar.utilities.ColorUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import org.spongepowered.asm.mixin.Final;
@@ -58,13 +57,13 @@ public abstract class ClassyButtonMixin extends Gui {
         drawTexturedModalRect(xPosition, yPosition, 0, 46 + i * 20, width / 2, height);
         drawTexturedModalRect(xPosition + width / 2, yPosition, 200 - width / 2, 46 + i * 20, width / 2, height);
         mouseDragged(mc, mouseX, mouseY);
-        
+
         int color = 14737632;
 
         if (!enabled)
             color = 10526880;
         else if (hovered)
-            color = 16777120;
+            color = ColorUtils.colorToInt(223, 173, 255, 255);
 
         drawCenteredString(fontrenderer, displayString, xPosition + width / 2, yPosition + (height - 8) / 2, color);
     }
