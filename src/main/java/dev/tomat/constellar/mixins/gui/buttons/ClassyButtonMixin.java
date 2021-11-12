@@ -10,6 +10,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
+import java.util.Objects;
+
 @Mixin(GuiButton.class)
 public abstract class ClassyButtonMixin extends Gui {
     public final ResourceLocation Buttons = new ResourceLocation("textures/gui/buttons.png");
@@ -53,13 +55,16 @@ public abstract class ClassyButtonMixin extends Gui {
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.blendFunc(770, 771);
 
-        if (hovered) {
-            ScaleX = MathUtils.lerp(ScaleX, 1.1f, 0.25f);
-            // ScaleY = MathUtils.lerp(ScaleY, 1.2f, 0.1f);
-        }
-        else {
-            ScaleX = MathUtils.lerp(ScaleX, 1f, 0.25f);
-            // ScaleY = MathUtils.lerp(ScaleY, 1f, 0.1f);
+        //noinspection EqualsBetweenInconvertibleTypes
+        if (!Objects.equals(getClass(), GuiOptionSlider.class)) {
+            if (hovered) {
+                ScaleX = MathUtils.lerp(ScaleX, 1.05f, 0.25f);
+                // ScaleY = MathUtils.lerp(ScaleY, 1.2f, 0.1f);
+            }
+            else {
+                ScaleX = MathUtils.lerp(ScaleX, 1f, 0.25f);
+                // ScaleY = MathUtils.lerp(ScaleY, 1f, 0.1f);
+            }
         }
 
         int scaledWidth = (int) (width * ScaleX);
