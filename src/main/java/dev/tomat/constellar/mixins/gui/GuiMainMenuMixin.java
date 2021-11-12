@@ -2,6 +2,7 @@ package dev.tomat.constellar.mixins.gui;
 
 import dev.tomat.constellar.ConstellarMain;
 import dev.tomat.constellar.IHateReflection;
+import dev.tomat.constellar.gui.BackgroundPanorama;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNoCallback;
@@ -18,8 +19,6 @@ import java.lang.reflect.Modifier;
 
 @Mixin(GuiMainMenu.class)
 public abstract class GuiMainMenuMixin extends GuiScreen implements GuiYesNoCallback {
-    @Shadow protected abstract void renderSkybox(int p_renderSkybox_1_, int p_renderSkybox_2_, float p_renderSkybox_3_);
-
     @Shadow private float updateCounter;
 
     @Shadow private String splashText;
@@ -27,6 +26,14 @@ public abstract class GuiMainMenuMixin extends GuiScreen implements GuiYesNoCall
     private static final ResourceLocation titleTexture = new ResourceLocation("constellar", "textures/gui/title/constellar.png");
 
     private String splashTextCache;
+
+    @Inject(method = "renderSkybox", at = @At("HEAD"), cancellable = true)
+    public void renderSkybox(int p_73971_1_, int p_73971_2_, float p_73971_3_, CallbackInfo ci) {
+        ci.cancel();
+
+        if (BackgroundPanorama.Instance != null)
+            BackgroundPanorama.Instance.render(p_73971_3_);
+    }
 
     @Inject(method = "drawScreen", at = @At("HEAD"))
     public void cacheSplashText(int unknown1, int unknown2, float unknown3, CallbackInfo ci) {

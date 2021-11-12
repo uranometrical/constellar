@@ -8,6 +8,8 @@
     "gui.AddConstellarResourcePackMixin",
     "gui.GuiMainMenuMixin",
     "gui.GuiOptionsButtonsAdditionsMixin",
+    "gui.InitializePanoramaMixin",
+    "gui.RenderPanoramaBackgroundMixin",
     "main.WindowTitleMixin",
     "resources.AddConstellarResourcesMixin",
     "resources.AddOurDefaultPackMixin",
