@@ -65,7 +65,14 @@ public abstract class GuiMainMenuMixin extends GuiScreen implements GuiYesNoCall
 
     static {
         try {
-            Field titleField = GuiMainMenu.class.getDeclaredField(IHateReflection.GuiMainMenuMinecraftTitleTextures);
+            Field titleField;
+
+            try {
+                titleField = GuiMainMenu.class.getDeclaredField("minecraftTitleTextures");
+            } catch (NoSuchFieldException e) {
+                titleField = GuiMainMenu.class.getDeclaredField(IHateReflection.GuiMainMenuMinecraftTitleTextures);
+            }
+
             titleField.setAccessible(true);
 
             Field modifiersField = Field.class.getDeclaredField("modifiers");
