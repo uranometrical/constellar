@@ -25,7 +25,7 @@ public class BackgroundPanorama {
 
     public DynamicTexture Viewport = new DynamicTexture(256, 256);
     public ResourceLocation Background = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("background", Viewport);
-    public int Width, Height = 100;
+    public int Width = 100, Height = 100;
     public int Timer = 0;
     public float Z = 0f;
 

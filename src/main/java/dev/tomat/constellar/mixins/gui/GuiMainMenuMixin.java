@@ -42,6 +42,15 @@ public abstract class GuiMainMenuMixin extends GuiScreen implements GuiYesNoCall
         splashText = "";
     }
 
+    @Inject(method = "updateScreen", at = @At("HEAD"))
+    public void updateScreen(CallbackInfo ci) {
+        if (BackgroundPanorama.Instance != null) {
+            BackgroundPanorama.Instance.Height = height;
+            BackgroundPanorama.Instance.Width = width;
+            BackgroundPanorama.Instance.Timer++;
+        }
+    }
+
     @Inject(method = "drawScreen", at = @At("TAIL"))
     public void drawScreen(int unknown1, int unknown2, float unknown3, CallbackInfo ci) {
         splashText = splashTextCache;
