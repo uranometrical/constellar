@@ -74,7 +74,7 @@ public abstract class GuiMainMenuMixin extends GuiScreen implements GuiYesNoCall
         //float splashScale = 1.8F - MathHelper.abs(MathHelper.sin((float)(Minecraft.getSystemTime() % 1000L) / 1000.0F * 3.1415927F * 2.0F) * 0.1F);
         //splashScale = splashScale * 100.0F / (float)(fontRendererObj.getStringWidth(splashText) + 32);
         //GlStateManager.scale(splashScale, splashScale, 0F);
-        drawCenteredString(fontRendererObj, splashText, 0, 34, ColorUtils.colorToInt(223, 173, 255, 255));
+        drawCenteredString(fontRendererObj, splashText, 0, 46, ColorUtils.colorToInt(223, 173, 255, 255));
         GlStateManager.popMatrix();
 
         drawString(fontRendererObj, ConstellarMain.ClientNameReadable + " v" + ConstellarMain.ClientVersion, 2, height - 20, -1);
