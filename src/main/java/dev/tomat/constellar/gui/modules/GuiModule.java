@@ -106,6 +106,11 @@ public class GuiModule extends GuiButton {
             else if (countX > half) {
                 mult -= half * 2;
                 mult = Math.abs(mult) - 1;
+
+                // TODO: Figure out what's wrong with my math (remove this)
+                if (maxX < 5)
+                    mult++;
+
                 return width + (PADDING * (mult)) + (WIDTH * (mult));
             }
             else {
