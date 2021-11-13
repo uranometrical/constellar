@@ -58,8 +58,6 @@ public class GuiModuleContainer {
         return "(" + (Page + 1) + "/" + (Pages.size()) + ")";
     }
 
-    /*** BAD HARD-CODED STUFF!! ***/
-
     public static int getMaxX(int width) {
         int max = (width - GuiModule.PADDING_X) / (GuiModule.WIDTH + GuiModule.PADDING);
 
