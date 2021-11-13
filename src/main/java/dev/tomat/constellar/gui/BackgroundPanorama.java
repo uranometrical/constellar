@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
 
 public class BackgroundPanorama {
-    public static BackgroundPanorama Instance;
+    public static BackgroundPanorama Instance = new BackgroundPanorama();
 
     public static final ResourceLocation[] TitlePanoramaPaths = new ResourceLocation[] {
             new ResourceLocation("textures/gui/title/background/panorama_0.png"),

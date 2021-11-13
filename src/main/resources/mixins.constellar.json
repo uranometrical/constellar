@@ -1,14 +1,11 @@
 {
-  "required": true,
   "compatibilityLevel": "JAVA_8",
   "package": "dev.tomat.constellar.mixins",
   "refmap": "mixins.constellar.refmap.json",
-  "verbose": true,
   "mixins": [
     "gui.AddConstellarResourcePackMixin",
     "gui.GuiMainMenuMixin",
     "gui.GuiOptionsButtonsAdditionsMixin",
-    "gui.InitializePanoramaMixin",
     "gui.RenderPanoramaBackgroundMixin",
     "gui.buttons.ClassLanguageMixin",
     "gui.buttons.ClassLockMixin",

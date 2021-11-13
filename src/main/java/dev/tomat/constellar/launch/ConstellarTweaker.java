@@ -6,34 +6,61 @@ import net.minecraft.launchwrapper.LaunchClassLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.launch.MixinBootstrap;
+import org.spongepowered.asm.launch.MixinTweaker;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 import org.spongepowered.asm.mixin.Mixins;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ConstellarTweaker implements ITweaker {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private final ArrayList<String> Arguments = new ArrayList<>();
 
+    public MixinTweaker Mixin;
+
+    public ConstellarTweaker() {
+        Mixin = new MixinTweaker();
+    }
+
     @Override
     public void acceptOptions(List<String> args, File gameDir, final File assetsDir, String profile) {
+        LoadContext loadContext = LoadContext.getLoadContext();
+
+        if (loadContext == LoadContext.Forge || loadContext == LoadContext.ForgeOptiFine)
+        {
+            Mixin.acceptOptions(args, gameDir, assetsDir, profile);
+            return;
+        }
+
         Arguments.addAll(args);
 
         addArgument("gameDir", gameDir);
         addArgument("assetsDir", assetsDir);
         addArgument("version", profile);
+
+        Mixin.acceptOptions(Arguments, gameDir, assetsDir, profile);
     }
 
     @Override
     public String getLaunchTarget() {
-        return "net.minecraft.client.main.Main";
+        return Mixin.getLaunchTarget();
     }
 
     @Override
     public void injectIntoClassLoader(LaunchClassLoader classLoader) {
+        LoadContext context = LoadContext.getLoadContext();
+
+        LOGGER.info("Load context: " + context);
+
+        if (!LoadContext.standalone(context)) {
+            Mixin.injectIntoClassLoader(classLoader);
+            return;
+        }
+
         LOGGER.info("Initializing Bootstraps...");
         MixinBootstrap.init();
 
@@ -41,12 +68,12 @@ public class ConstellarTweaker implements ITweaker {
         MixinEnvironment environment = MixinEnvironment.getDefaultEnvironment();
         Mixins.addConfiguration("mixins.constellar.json");
 
-        if (Launch.classLoader.getTransformers().stream().anyMatch(x -> x.getClass().getName().contains("optifine"))) {
+        if (context == LoadContext.StandaloneOptiFine) {
             environment.setObfuscationContext("notch");
         }
 
         if (environment.getObfuscationContext() == null) {
-            environment.setObfuscationContext("notch"); // Switch's to notch mappings
+            environment.setObfuscationContext("notch");
         }
 
         environment.setSide(MixinEnvironment.Side.CLIENT);
@@ -54,21 +81,51 @@ public class ConstellarTweaker implements ITweaker {
 
     @Override
     public String[] getLaunchArguments() {
-        return Arguments.toArray(new String[]{});
-    }
-
-    private void clearDuplicate(List<String> arguments, String dup) {
-        int dupIndex = arguments.lastIndexOf(dup);
-
-        if (arguments.stream().filter(x -> x.equals(dup)).count() == 2)
-        {
-            arguments.remove(dupIndex + 1);
-            arguments.remove(dupIndex);
+        if (!LoadContext.standalone()) {
+            return Mixin.getLaunchArguments();
         }
+
+        return Arguments.toArray(new String[0]);
     }
 
     private void addArgument(String label, Object value) {
         Arguments.add("--" + label);
         Arguments.add(value instanceof String ? (String) value : value instanceof File ? ((File) value).getAbsolutePath() : ".");
+    }
+
+    public enum LoadContext {
+        Standalone,
+        StandaloneOptiFine,
+        Forge,
+        ForgeOptiFine;
+
+        public static LoadContext getLoadContext() {
+            boolean optiFine = Launch.classLoader.getTransformers().stream().anyMatch(
+                    x -> x.getClass().getName().toLowerCase(Locale.ENGLISH).contains("optifine")
+            );
+
+            boolean forge = Launch.classLoader.getTransformers().stream().anyMatch(
+                    x -> x.getClass().getName().toLowerCase(Locale.ENGLISH).contains("forge")
+            );
+
+            if (optiFine && !forge)
+                return StandaloneOptiFine;
+
+            if (!optiFine && !forge)
+                return Standalone;
+
+            if (!optiFine)
+                return Forge;
+
+            return ForgeOptiFine;
+        }
+
+        public static boolean standalone(LoadContext context) {
+            return context == Standalone || context == StandaloneOptiFine;
+        }
+
+        public static boolean standalone() {
+            return standalone(getLoadContext());
+        }
     }
 }

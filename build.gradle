@@ -24,11 +24,13 @@ buildscript {
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
         classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
     }
 }
 
 apply plugin: 'net.minecraftforge.gradle.tweaker-client'
 apply plugin: 'org.spongepowered.mixin'
+apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'java'
 apply plugin: "idea"
 
@@ -40,9 +42,15 @@ configurations {
 sourceCompatibility = targetCompatibility = 1.8
 compileJava.options.encoding = 'UTF-8'
 
-version = "0.1.0-alpha"
+String buildTarget = properties.constellar_build_target;
+
+version = "0.1.0-alpha-" + buildTarget
 group = "dev.tomat.constellar"
 archivesBaseName = "Constellar"
+
+if (properties.constellar_build_target != "forge" && properties.constellar_build_target != "standalone") {
+    throw new Exception("Unexpected build target!");
+}
 
 minecraft {
     version = "1.8.9"
@@ -50,12 +58,16 @@ minecraft {
     mappings = "stable_22"
     runDir = 'run'
     clientJvmArgs = ["-XX:-DisableExplicitGC"] // fast world loading
-    makeObfSourceJar = false
 }
 
 mixin {
-    // Specify "notch" or "searge" here
-    defaultObfuscationEnv notch
+    if (buildTarget == "forge") {
+        defaultObfuscationEnv searge
+    }
+    else {
+        defaultObfuscationEnv notch
+    }
+
     add sourceSets.main, "mixins.constellar.refmap.json"
 }
 
@@ -105,7 +117,7 @@ idea {
 dependencies {
     embed fileTree(dir: "libs", include: "*.jar")
 
-    compile('org.spongepowered:mixin:0.6.10-SNAPSHOT') {
+    embed('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
         exclude module: 'launchwrapper'
         exclude module: 'guava'
         exclude module: 'gson'
@@ -123,3 +135,20 @@ repositories {
     }
     mavenCentral()
 }
+
+reobf {
+    shadowJar {
+        if (buildTarget == "forge") {
+            mappingType = "SEARGE"
+        }
+        else {
+            mappingType = "NOTCH"
+        }
+    }
+}
+
+shadowJar {
+    classifier = "dep"
+}
+
+build.dependsOn(shadowJar)
