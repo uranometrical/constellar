@@ -13,6 +13,7 @@ public class GuiModule extends GuiButton {
     public static final ResourceLocation Buttons = new ResourceLocation("textures/gui/extra_buttons.png");
     public static final int PADDING = 5;
     public static final int PADDING_Y = 90;
+    public static final int PADDING_X = 160; // for max X, not used in rendering
     public static final int WIDTH = 100;
     public static final int HEIGHT = 120;
 
@@ -23,6 +24,7 @@ public class GuiModule extends GuiButton {
 
     public GuiModule(int buttonId, int windowWidth, int countX, int countY, IModule module) {
         super(buttonId, getX(windowWidth, countX), getY(countY), "");
+        System.out.println("Got X: " + xPosition);
         Module = module;
         CountX = countX;
         CountY = countY;
@@ -55,7 +57,7 @@ public class GuiModule extends GuiButton {
 
         drawCenteredString(
                 mc.fontRendererObj,
-                Module.getModuleStatus().toString(),
+                Integer.toString(id),
                 buttonXPos + buttonWidth / 2,
                 buttonYPos + (height - 8) / 2,
                 Module.getModuleStatus().getColor()
@@ -86,26 +88,30 @@ public class GuiModule extends GuiButton {
     }
 
     public static int getX(int windowWidth, int countX) {
+        int maxX = GuiModuleContainer.getMaxX(windowWidth);
         int width = windowWidth / 2;
 
-        switch (countX) {
-            case 0:
-                return width - (PADDING * 2) - (WIDTH * 2);
-
-            case 1:
-                return width - PADDING - WIDTH;
-
-            case 2:
-                return width;
-
-            case 3:
-                return width + PADDING + WIDTH;
-
-            case 4:
-                return width + (PADDING * 2) + (WIDTH * 2);
+        if (maxX % 2 == 0) {
+            // TODO: Allow even numbers. I CBA to figure out the math RN.
+            return 0;
         }
+        else {
+            int half = maxX / 2;
+            int mult = maxX - countX;
 
-        return 0;
+            if (countX < half) {
+                mult -= half + 1;
+                return width - (PADDING * (mult)) - (WIDTH * (mult));
+            }
+            else if (countX > half) {
+                mult -= half * 2;
+                mult = Math.abs(mult) - 1;
+                return width + (PADDING * (mult)) + (WIDTH * (mult));
+            }
+            else {
+                return width;
+            }
+        }
     }
 
     public static int getY(int countY) {

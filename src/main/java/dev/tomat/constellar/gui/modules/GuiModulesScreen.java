@@ -31,16 +31,23 @@ public class GuiModulesScreen extends GuiScreen {
         addModule(new KeystrokesModule());
         addModule(new KeystrokesModule());
         addModule(new KeystrokesModule());
+        addModule(new KeystrokesModule());
+
+        ModulesList.updatePage(this, 0);
 
         buttonList.add(new GuiButton(200, width / 2 - 100, height - 40, I18n.format("gui.done")));
     }
 
     public void addModule(IModule module) {
-        ModulesList.add(this, module, width);
+        ModulesList.add(module, width, height);
     }
 
     public void addButton(GuiButton button) {
         buttonList.add(button);
+    }
+
+    public void removeButton(GuiButton button) {
+        buttonList.remove(button);
     }
 
     @Override
@@ -59,7 +66,7 @@ public class GuiModulesScreen extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         drawDefaultBackground();
 
-        drawCenteredString(fontRendererObj, I18n.format("modules.title"), width / 2, 16, 16777215);
+        drawCenteredString(fontRendererObj, I18n.format("modules.title") + " " + ModulesList.getPageDisplay(), width / 2, 16, 16777215);
 
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
