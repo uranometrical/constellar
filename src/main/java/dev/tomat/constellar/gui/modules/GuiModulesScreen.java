@@ -23,6 +23,10 @@ public class GuiModulesScreen extends GuiScreen {
     public void initGui() {
         super.initGui();
 
+        xModules = 0;
+        yModules = 0;
+        idModules = 0;
+
         addModule(new KeystrokesModule());
         addModule(new KeystrokesModule());
         addModule(new KeystrokesModule());
@@ -41,7 +45,8 @@ public class GuiModulesScreen extends GuiScreen {
     }
 
     public void addModule(IModule module) {
-        GuiButton button = new GuiModule(idModules++, width, xModules, yModules, module).Button;
+        // TODO: Paged button lists.
+        GuiModule button = new GuiModule(idModules++, width, xModules, yModules, module);
 
         ModulesList.add(new GuiModule(idModules++, width, xModules, yModules, module));
 
@@ -72,19 +77,8 @@ public class GuiModulesScreen extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         drawDefaultBackground();
 
-        for (GuiModule module : ModulesList)
-            module.draw();
-
         drawCenteredString(fontRendererObj, I18n.format("modules.title"), width / 2, 16, 16777215);
 
         super.drawScreen(mouseX, mouseY, partialTicks);
-    }
-
-    @Override
-    public void setWorldAndResolution(Minecraft mc, int width, int height) {
-        super.setWorldAndResolution(mc, width, height);
-
-        for (GuiModule module : ModulesList)
-            module.updatePositions(width);
     }
 }
