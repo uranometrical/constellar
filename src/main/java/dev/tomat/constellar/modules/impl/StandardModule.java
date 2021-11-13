@@ -4,7 +4,7 @@ import dev.tomat.constellar.modules.IModule;
 import dev.tomat.constellar.modules.ModuleStatus;
 import net.minecraft.util.ResourceLocation;
 
-public class StandardModule implements IModule {
+public abstract class StandardModule implements IModule {
     private final String Key;
     private final String Description;
     private ModuleStatus Status = ModuleStatus.DISABLED;

@@ -2,6 +2,7 @@ package dev.tomat.constellar;
 
 import dev.tomat.constellar.modules.IModuleRepository;
 import dev.tomat.constellar.modules.impl.StandardModuleRepository;
+import dev.tomat.constellar.modules.impl.ui.KeystrokesModule;
 
 public class ConstellarMain {
     public static final String ClientNameReadable = "Constellar";
@@ -9,7 +10,7 @@ public class ConstellarMain {
     public static final String ClientVersion = "0.1.0-alpha";
     public static IModuleRepository Modules = new StandardModuleRepository();
 
-    // public ConstellarMain() {
-    //     System.out.println("Instantiated ConstellarMain. Was this a mistake?");
-    // }
+    static {
+        Modules.addModule(new KeystrokesModule());
+    }
 }

@@ -57,7 +57,7 @@ public class GuiModule extends GuiButton {
 
         drawCenteredString(
                 mc.fontRendererObj,
-                Integer.toString(id),
+                Module.getModuleStatus().toString(),
                 buttonXPos + buttonWidth / 2,
                 buttonYPos + (height - 8) / 2,
                 Module.getModuleStatus().getColor()

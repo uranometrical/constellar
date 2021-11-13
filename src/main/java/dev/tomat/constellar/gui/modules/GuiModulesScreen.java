@@ -1,7 +1,7 @@
 package dev.tomat.constellar.gui.modules;
 
+import dev.tomat.constellar.ConstellarMain;
 import dev.tomat.constellar.modules.IModule;
-import dev.tomat.constellar.modules.impl.KeystrokesModule;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptions;
 import net.minecraft.client.gui.GuiScreen;
@@ -20,46 +20,8 @@ public class GuiModulesScreen extends GuiScreen {
 
         ModulesList.init();
 
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
-        addModule(new KeystrokesModule());
+        for (IModule module : ConstellarMain.Modules.getModules())
+            addModule(module);
 
         ModulesList.updatePage(this, 0);
 

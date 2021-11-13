@@ -14,7 +14,7 @@ public class StandardModuleRepository implements IModuleRepository {
     private final List<IModule> Modules = new ArrayList<>();
 
     @Override
-    public void AddModule(IModule module) {
+    public void addModule(IModule module) {
         Modules.add(module);
     }
 

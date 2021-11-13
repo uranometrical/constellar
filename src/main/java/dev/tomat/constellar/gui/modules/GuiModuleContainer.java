@@ -27,10 +27,6 @@ public class GuiModuleContainer {
         int maxX = getMaxX(width);
         int maxY = getMaxY(height);
 
-        Pages.get(PageToAddTo).add(new GuiModule(idModules++, width, xModules, yModules, module));
-
-        xModules++;
-
         if (xModules >= maxX)
         {
             xModules = 0;
@@ -42,6 +38,10 @@ public class GuiModuleContainer {
                 Pages.add(new ArrayList<>());
             }
         }
+
+        Pages.get(PageToAddTo).add(new GuiModule(idModules++, width, xModules, yModules, module));
+
+        xModules++;
     }
 
     public void updatePage(GuiModulesScreen screen, int pageToGoTo) {
