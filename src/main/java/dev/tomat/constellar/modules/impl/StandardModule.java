@@ -46,4 +46,15 @@ public class StandardModule implements IModule {
         // true for disabled and force-disabled
         return Status != ModuleStatus.ENABLED;
     }
+
+    @Override
+    public void toggle() {
+        if (Status == ModuleStatus.FORCE_DISABLED)
+            return;
+
+        if (Status == ModuleStatus.DISABLED)
+            Status = ModuleStatus.ENABLED;
+        else
+            Status = ModuleStatus.DISABLED;
+    }
 }

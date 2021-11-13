@@ -1,22 +1,20 @@
 package dev.tomat.constellar.mixins.gui;
 
 import dev.tomat.constellar.ConstellarMain;
-import dev.tomat.constellar.IHateReflection;
 import dev.tomat.constellar.gui.BackgroundPanorama;
 import dev.tomat.constellar.utilities.ColorUtils;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNoCallback;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 
 @Mixin(GuiMainMenu.class)
 public abstract class GuiMainMenuMixin extends GuiScreen implements GuiYesNoCallback {
@@ -24,42 +22,36 @@ public abstract class GuiMainMenuMixin extends GuiScreen implements GuiYesNoCall
 
     @Shadow private String splashText;
 
-    private static final ResourceLocation titleTexture = new ResourceLocation("constellar", "textures/gui/title/constellar.png");
+    @Shadow private String openGLWarning1;
+    @Shadow private int field_92022_t;
+    @Shadow private int field_92021_u;
+    @Shadow private int field_92020_v;
+    @Shadow private int field_92019_w;
+    @Shadow private int field_92024_r;
+    @Shadow private String openGLWarning2;
 
-    private String splashTextCache;
+    private static final ResourceLocation ConstellarTitle = new ResourceLocation("constellar", "textures/gui/title/constellar.png");
 
-    @Inject(method = "renderSkybox", at = @At("HEAD"), cancellable = true)
-    public void renderSkybox(int p_73971_1_, int p_73971_2_, float p_73971_3_, CallbackInfo ci) {
-        ci.cancel();
+    /**
+     * @author Tomat
+     */
+    @Overwrite
+    public void drawScreen(int unknown1, int unknown2, float unknown3) {
+        GlStateManager.disableAlpha();
 
         if (BackgroundPanorama.Instance != null)
-            BackgroundPanorama.Instance.render(p_73971_3_);
-    }
+            BackgroundPanorama.Instance.render(unknown3);
 
-    @Inject(method = "drawScreen", at = @At("HEAD"))
-    public void cacheSplashText(int unknown1, int unknown2, float unknown3, CallbackInfo ci) {
-        // Stops splash text from drawing the first time.
-        splashTextCache = splashText;
-        splashText = "";
-    }
+        GlStateManager.enableAlpha();
 
-    @Inject(method = "updateScreen", at = @At("HEAD"))
-    public void updateScreen(CallbackInfo ci) {
-        if (BackgroundPanorama.Instance != null) {
-            BackgroundPanorama.Instance.Height = height;
-            BackgroundPanorama.Instance.Width = width;
-            BackgroundPanorama.Instance.Timer++;
-        }
-    }
-
-    @Inject(method = "drawScreen", at = @At("TAIL"))
-    public void drawScreen(int unknown1, int unknown2, float unknown3, CallbackInfo ci) {
-        splashText = splashTextCache;
+        int i = 274;
+        drawGradientRect(0, 0, width, height, -2130706433, 16777215);
+        drawGradientRect(0, 0, width, height, 0, Integer.MIN_VALUE);
 
         int weirdWidthStuff = width / 2 - 274 / 2;
         int probablyHeight = 30;
 
-        mc.getTextureManager().bindTexture(titleTexture);
+        mc.getTextureManager().bindTexture(ConstellarTitle);
 
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
@@ -77,30 +69,30 @@ public abstract class GuiMainMenuMixin extends GuiScreen implements GuiYesNoCall
         drawCenteredString(fontRendererObj, splashText, 0, 46, ColorUtils.colorToInt(223, 173, 255, 255));
         GlStateManager.popMatrix();
 
+        drawString(fontRendererObj, "Minecraft 1.8.9", 2, height - 10, -1);
+        String s1 = "Copyright Mojang AB. Do not distribute!";
+        drawString(fontRendererObj, s1, width - fontRendererObj.getStringWidth(s1) - 2, height - 10, -1);
         drawString(fontRendererObj, ConstellarMain.ClientNameReadable + " v" + ConstellarMain.ClientVersion, 2, height - 20, -1);
+
+        if (openGLWarning1 != null && openGLWarning1.length() > 0)
+        {
+            drawRect(field_92022_t - 2, field_92021_u - 2, field_92020_v + 2, field_92019_w - 1, 1428160512);
+            drawString(fontRendererObj, openGLWarning1, field_92022_t, field_92021_u, -1);
+            drawString(fontRendererObj, openGLWarning2, (width - field_92024_r) / 2, ((GuiButton)buttonList.get(0)).yPosition - 12, -1);
+        }
+
+        super.drawScreen(unknown1, unknown2, unknown3);
+
+        //if (func_183501_a())
+        //    field_183503_M.drawScreen(unknown1, unknown2, unknown3);
     }
 
-    static {
-        try {
-            Field titleField;
-
-            try {
-                titleField = GuiMainMenu.class.getDeclaredField("minecraftTitleTextures");
-            } catch (NoSuchFieldException e) {
-                titleField = GuiMainMenu.class.getDeclaredField(IHateReflection.GuiMainMenuMinecraftTitleTextures);
-            }
-
-            titleField.setAccessible(true);
-
-            Field modifiersField = Field.class.getDeclaredField("modifiers");
-            modifiersField.setAccessible(true);
-            modifiersField.setInt(titleField, titleField.getModifiers() & ~Modifier.FINAL);
-
-            // Stop vanilla logo from drawing.
-            titleField.set(null, new ResourceLocation("constellar", "textures/gui/title/empty.png"));
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            // sucks to suck
-            e.printStackTrace();
+    @Inject(method = "updateScreen", at = @At("HEAD"))
+    public void updateScreen(CallbackInfo ci) {
+        if (BackgroundPanorama.Instance != null) {
+            BackgroundPanorama.Instance.Height = height;
+            BackgroundPanorama.Instance.Width = width;
+            BackgroundPanorama.Instance.Timer++;
         }
     }
 }

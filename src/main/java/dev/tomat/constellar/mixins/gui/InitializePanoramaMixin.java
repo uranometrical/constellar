@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Minecraft.class)
 public abstract class InitializePanoramaMixin implements IThreadListener, IPlayerUsage {
     @Inject(method = "startGame", at = @At("TAIL"))
-    public void startGame(CallbackInfo ci) {
+    public void initializePanorama(CallbackInfo ci) {
         BackgroundPanorama.Instance = new BackgroundPanorama();
     }
 }

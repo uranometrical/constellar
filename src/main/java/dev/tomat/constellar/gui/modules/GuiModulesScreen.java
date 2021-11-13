@@ -1,133 +1,90 @@
 package dev.tomat.constellar.gui.modules;
 
-import com.google.common.collect.Lists;
-import dev.tomat.constellar.modules.impl.KeystrokesModule;
 import dev.tomat.constellar.modules.IModule;
-import dev.tomat.constellar.modules.ModuleStatus;
-import net.minecraft.client.gui.*;
+import dev.tomat.constellar.modules.impl.KeystrokesModule;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiOptions;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-// todo: module saving
-// todo: module profiles
-// todo: module settings
-// bug: modules double when screen resized
-// todo: description on hover
-// bug: single clicking doesnt enable a module and i have to drag or double click to enable it
-// bug: playing sound on module enable doesnt work
-// todo: remove enabled/disabled from module name
-// todo: info text down bottom explaining hover for desc click to enable/disable
 public class GuiModulesScreen extends GuiScreen {
-    private GuiModulesList list;
-    private GuiTextField SearchBar;
-    private final List<IModule> modules = Lists.newArrayList();
+    public List<GuiModule> ModulesList = new ArrayList<>();
 
-    public void initGui() {
-        this.list = new GuiModulesList();
-        modules.add(new KeystrokesModule());
-
-
-        // todo: remove magic numbers
-        buttonList.add(new GuiButton(Button.BackButton.Id, width / 2 - 100, this.height - 40, I18n.format("gui.done")));
-        this.list.registerScrollButtons(7, 8);
-    }
+    private int xModules;
+    private int yModules;
+    private int idModules;
 
     @Override
-    public void handleMouseInput() throws IOException {
-        super.handleMouseInput();
-        this.list.handleMouseInput();
+    public void initGui() {
+        super.initGui();
+
+        addModule(new KeystrokesModule());
+        addModule(new KeystrokesModule());
+        addModule(new KeystrokesModule());
+        addModule(new KeystrokesModule());
+        addModule(new KeystrokesModule());
+        addModule(new KeystrokesModule());
+        addModule(new KeystrokesModule());
+        addModule(new KeystrokesModule());
+        addModule(new KeystrokesModule());
+        addModule(new KeystrokesModule());
+        addModule(new KeystrokesModule());
+        addModule(new KeystrokesModule());
+        addModule(new KeystrokesModule());
+
+        buttonList.add(new GuiButton(200, width / 2 - 100, height - 40, I18n.format("gui.done")));
+    }
+
+    public void addModule(IModule module) {
+        GuiButton button = new GuiModule(idModules++, width, xModules, yModules, module).Button;
+
+        ModulesList.add(new GuiModule(idModules++, width, xModules, yModules, module));
+
+        xModules++;
+
+        if (xModules > 4)
+        {
+            xModules = 0;
+            yModules++;
+        }
+
+        buttonList.add(button);
     }
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
         super.actionPerformed(button);
 
-        if (button.enabled) {
-            if (button instanceof IModule) {
-                this.list.actionPerformed(button);
-            }
+        if (!button.enabled)
+            return;
 
-            if (button.id == 200) {
-                mc.displayGuiScreen(new GuiOptions(null, mc.gameSettings));
-            }
+        if (button.id == 200){
+            mc.displayGuiScreen(new GuiOptions(null, mc.gameSettings));
         }
     }
 
+    @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         drawDefaultBackground();
-        this.list.drawScreen(mouseX, mouseY, partialTicks);
-        this.drawCenteredString(this.fontRendererObj, I18n.format("modules.title"), this.width / 2, 16, 16777215);
+
+        for (GuiModule module : ModulesList)
+            module.draw();
+
+        drawCenteredString(fontRendererObj, I18n.format("modules.title"), width / 2, 16, 16777215);
+
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
-    public class GuiModulesList extends GuiSlot {
-        public GuiModulesList() {
-            // todo: remove magic numbers
-            super(
-                    GuiModulesScreen.this.mc,
-                    GuiModulesScreen.this.width,
-                    GuiModulesScreen.this.height,
-                    32, GuiModulesScreen.this.height - 65 + 4, 18
-            );
-        }
+    @Override
+    public void setWorldAndResolution(Minecraft mc, int width, int height) {
+        super.setWorldAndResolution(mc, width, height);
 
-        protected int getSize() {
-            return GuiModulesScreen.this.modules.size();
-        }
-
-        @Override
-        protected void elementClicked(int slotIndex, boolean isDoubleClick, int mouseX, int mouseY) {
-            GuiModulesScreen.this.modules.get(slotIndex).setModuleStatus(
-                    GuiModulesScreen.this.modules.get(slotIndex).isDisabled() ?
-                            ModuleStatus.ENABLED :
-                            ModuleStatus.DISABLED);
-
-            //if (isDoubleClick) {
-                // open module settings page
-            //}
-        }
-
-        @Override
-        public void actionPerformed(GuiButton button) {
-            super.actionPerformed(button);
-            if (button.enabled) {
-                button.playPressSound(this.mc.getSoundHandler());
-            }
-        }
-
-        @Override
-        protected boolean isSelected(int slotIndex) {
-            return !GuiModulesScreen.this.modules.get(slotIndex).isDisabled();
-        }
-
-        protected int getContentHeight() {
-            // todo: remove magic number
-            return this.getSize() * 18;
-        }
-
-        protected void drawBackground() {
-            GuiModulesScreen.this.drawDefaultBackground();
-        }
-
-        @Override
-        protected void drawSlot(int entryID, int p_180791_2_, int p_180791_3_, int p_180791_4_, int mouseXIn, int mouseYIn) {
-            // todo: remove magic numbers + localization
-            GuiModulesScreen.this.drawCenteredString(GuiModulesScreen.this.fontRendererObj,
-                    I18n.format(GuiModulesScreen.this.modules.get(entryID).getKey()) + " (" + GuiModulesScreen.this.modules.get(entryID).getModuleStatus() + ")",
-                    this.width / 2, p_180791_3_ + 1, 16777215
-            );
-        }
-    }
-
-    public enum Button {
-        BackButton(200);
-
-        public int Id;
-
-        Button(int id) {
-            Id = id;
-        }
+        for (GuiModule module : ModulesList)
+            module.updatePositions(width);
     }
 }

@@ -56,7 +56,7 @@ minecraft {
 mixin {
     // Specify "notch" or "searge" here
     defaultObfuscationEnv notch
-    add sourceSets.main, "mixin.constellar.refmap.json"
+    add sourceSets.main, "mixins.constellar.refmap.json"
 }
 
 processResources {

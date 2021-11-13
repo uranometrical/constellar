@@ -15,4 +15,6 @@ public interface IModule {
     void setModuleStatus(ModuleStatus status);
 
     boolean isDisabled();
+
+    void toggle();
 }

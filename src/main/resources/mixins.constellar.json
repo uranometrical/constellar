@@ -2,7 +2,7 @@
   "required": true,
   "compatibilityLevel": "JAVA_8",
   "package": "dev.tomat.constellar.mixins",
-  "refmap": "mixin.constellar.refmap.json",
+  "refmap": "mixins.constellar.refmap.json",
   "verbose": true,
   "mixins": [
     "gui.AddConstellarResourcePackMixin",
