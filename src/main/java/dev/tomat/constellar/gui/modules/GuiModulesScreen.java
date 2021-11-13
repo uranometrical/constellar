@@ -2,30 +2,21 @@ package dev.tomat.constellar.gui.modules;
 
 import dev.tomat.constellar.modules.IModule;
 import dev.tomat.constellar.modules.impl.KeystrokesModule;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptions;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GuiModulesScreen extends GuiScreen {
-    public List<GuiModule> ModulesList = new ArrayList<>();
-
-    private int xModules;
-    private int yModules;
-    private int idModules;
+    public GuiModuleContainer ModulesList = new GuiModuleContainer();
 
     @Override
     public void initGui() {
         super.initGui();
 
-        xModules = 0;
-        yModules = 0;
-        idModules = 0;
+        ModulesList.init();
 
         addModule(new KeystrokesModule());
         addModule(new KeystrokesModule());
@@ -45,19 +36,10 @@ public class GuiModulesScreen extends GuiScreen {
     }
 
     public void addModule(IModule module) {
-        // TODO: Paged button lists.
-        GuiModule button = new GuiModule(idModules++, width, xModules, yModules, module);
+        ModulesList.add(this, module, width);
+    }
 
-        ModulesList.add(new GuiModule(idModules++, width, xModules, yModules, module));
-
-        xModules++;
-
-        if (xModules > 4)
-        {
-            xModules = 0;
-            yModules++;
-        }
-
+    public void addButton(GuiButton button) {
         buttonList.add(button);
     }
 
