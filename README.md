@@ -17,4 +17,7 @@ Just PR lol (TO-DO).
 3. Run `gradle setupDecompWorkspace`
 4. Run `gradle genIntellijRuns` if you're on IntelliJ.
 5. Make sure the generated build module for client is `Constellar.main`.
-6. You should be good to go.
+![image](https://user-images.githubusercontent.com/45357714/142085884-95d34046-a7e6-4b09-b7a5-de675eae668c.png)
+
+6. Make sure to reload all Gradle projects.  
+![image](https://user-images.githubusercontent.com/45357714/142085841-dcdc8073-3d2e-4099-b5a1-b53e628f48eb.png)
