@@ -12,8 +12,6 @@
     "gui.buttons.ClassyButtonMixin",
     "gui.buttons.ClassyOptionSlider",
     "main.WindowTitleMixin",
-    "resources.AddConstellarResourcesMixin",
-    "resources.AddOurDefaultPackMixin",
-    "resources.LocaleLanguageOverrideMixin"
+    "resources.AddOurDefaultPackMixin"
   ]
 }
