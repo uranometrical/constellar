@@ -23,7 +23,7 @@ Below are the steps for building. Follow the "Universal" steps, then Standalone/
 
 ### Standalone (Mixin Client)
 1. Change the `constellar_build_target` property in `gradle.properties` to `standalone`.
-2. Ensure Gradle has been refreshed if th ebuild target had to be changed.
+2. Ensure Gradle has been refreshed if the build target had to be changed.
 3. Run `gradle genIntellijRuns` if you're on IntelliJ.
 4. Make sure the generated build module for client is `Constellar.main`.
 ![image](https://user-images.githubusercontent.com/45357714/142085884-95d34046-a7e6-4b09-b7a5-de675eae668c.png)
