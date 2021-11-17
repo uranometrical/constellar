@@ -3,6 +3,8 @@ package dev.tomat.constellar.mixins.gui;
 import dev.tomat.constellar.ConstellarMain;
 import dev.tomat.constellar.gui.BackgroundPanorama;
 import dev.tomat.constellar.utilities.ColorUtils;
+import dev.tomat.constellar.utilities.TextUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
@@ -66,13 +68,13 @@ public abstract class GuiMainMenuMixin extends GuiScreen implements GuiYesNoCall
         //float splashScale = 1.8F - MathHelper.abs(MathHelper.sin((float)(Minecraft.getSystemTime() % 1000L) / 1000.0F * 3.1415927F * 2.0F) * 0.1F);
         //splashScale = splashScale * 100.0F / (float)(fontRendererObj.getStringWidth(splashText) + 32);
         //GlStateManager.scale(splashScale, splashScale, 0F);
-        drawCenteredString(fontRendererObj, splashText, 0, 46, ColorUtils.colorToInt(223, 173, 255, 255));
+        TextUtils.drawCenteredStringWithBorder(mc, splashText, 0, 46, ColorUtils.colorToInt(223, 173, 255, 255));
         GlStateManager.popMatrix();
 
-        drawString(fontRendererObj, "Minecraft 1.8.9", 2, height - 10, -1);
+        TextUtils.drawStringWithBorder(mc, "Minecraft 1.8.9", 2, height - 10, -1);
         String s1 = "Copyright Mojang AB. Do not distribute!";
-        drawString(fontRendererObj, s1, width - fontRendererObj.getStringWidth(s1) - 2, height - 10, -1);
-        drawString(fontRendererObj, ConstellarMain.ClientNameReadable + " v" + ConstellarMain.ClientVersion, 2, height - 20, -1);
+        TextUtils.drawStringWithBorder(mc, s1, width - fontRendererObj.getStringWidth(s1) - 2, height - 10, -1);
+        TextUtils.drawStringWithBorder(mc, ConstellarMain.ClientNameReadable + " v" + ConstellarMain.ClientVersion, 2, height - 20, -1);
 
         if (openGLWarning1 != null && openGLWarning1.length() > 0)
         {
