@@ -20,6 +20,8 @@ public class ConstellarTweaker implements ITweaker {
 
     private final ArrayList<String> Arguments = new ArrayList<>();
 
+    public static LoadContext Context;
+
     public MixinTweaker Mixin;
 
     public ConstellarTweaker() {
@@ -28,9 +30,9 @@ public class ConstellarTweaker implements ITweaker {
 
     @Override
     public void acceptOptions(List<String> args, File gameDir, final File assetsDir, String profile) {
-        LoadContext loadContext = LoadContext.getLoadContext();
+        Context = LoadContext.getLoadContext();
 
-        if (loadContext == LoadContext.Forge || loadContext == LoadContext.ForgeOptiFine)
+        if (!LoadContext.standalone(Context))
         {
             Mixin.acceptOptions(args, gameDir, assetsDir, profile);
             return;
@@ -52,11 +54,11 @@ public class ConstellarTweaker implements ITweaker {
 
     @Override
     public void injectIntoClassLoader(LaunchClassLoader classLoader) {
-        LoadContext context = LoadContext.getLoadContext();
+        Context = LoadContext.getLoadContext();
 
-        LOGGER.info("Load context: " + context);
+        LOGGER.info("Load context: " + Context);
 
-        if (!LoadContext.standalone(context)) {
+        if (!LoadContext.standalone(Context)) {
             Mixin.injectIntoClassLoader(classLoader);
             return;
         }
@@ -68,7 +70,7 @@ public class ConstellarTweaker implements ITweaker {
         MixinEnvironment environment = MixinEnvironment.getDefaultEnvironment();
         Mixins.addConfiguration("mixins.constellar.json");
 
-        if (context == LoadContext.StandaloneOptiFine) {
+        if (Context == LoadContext.StandaloneOptiFine) {
             environment.setObfuscationContext("notch");
         }
 
@@ -81,7 +83,7 @@ public class ConstellarTweaker implements ITweaker {
 
     @Override
     public String[] getLaunchArguments() {
-        if (!LoadContext.standalone()) {
+        if (!LoadContext.standalone(Context)) {
             return Mixin.getLaunchArguments();
         }
 
@@ -122,10 +124,6 @@ public class ConstellarTweaker implements ITweaker {
 
         public static boolean standalone(LoadContext context) {
             return context == Standalone || context == StandaloneOptiFine;
-        }
-
-        public static boolean standalone() {
-            return standalone(getLoadContext());
         }
     }
 }

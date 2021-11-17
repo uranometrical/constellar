@@ -1,5 +1,6 @@
 package dev.tomat.constellar.mixins.gui.buttons;
 
+import dev.tomat.constellar.launch.ConstellarTweaker;
 import dev.tomat.constellar.utilities.ColorUtils;
 import dev.tomat.constellar.utilities.MathUtils;
 import net.minecraft.client.Minecraft;
@@ -10,6 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
+import java.lang.reflect.Field;
 import java.util.Objects;
 
 @Mixin(GuiButton.class)
@@ -77,11 +79,38 @@ public abstract class ClassyButtonMixin extends Gui {
 
         int color = 14737632;
 
-        if (!enabled)
-            color = 10526880;
-        else if (hovered)
-            color = ColorUtils.colorToInt(223, 173, 255, 255);
+        // Re-implementation of patch: https://github.com/MinecraftForge/MinecraftForge/blob/1.8.9/patches/minecraft/net/minecraft/client/gui/GuiButton.java.patch
+        if (!ConstellarTweaker.LoadContext.standalone(ConstellarTweaker.Context)) {
+            if (getPackagedFGColor() != 0)
+                color = getPackagedFGColor();
+            else if (!enabled)
+                color = 10526880;
+            else if (hovered)
+                color = ColorUtils.colorToInt(223, 173, 255, 255);
+        }
+        else {
+            if (!enabled)
+                color = 10526880;
+            else if (hovered)
+                color = ColorUtils.colorToInt(223, 173, 255, 255);
+        }
 
         drawCenteredString(fontrenderer, displayString, xPosition + width / 2, yPosition + (height - 8) / 2, color);
+    }
+
+    private int getPackagedFGColor() {
+        Field pFGC;
+
+        try {
+            pFGC = GuiButton.class.getField("packagedFGColour");
+        } catch (NoSuchFieldException e) {
+            return 0;
+        }
+
+        try {
+            return (int) pFGC.get(this);
+        } catch (IllegalAccessException e) {
+            return 0;
+        }
     }
 }
