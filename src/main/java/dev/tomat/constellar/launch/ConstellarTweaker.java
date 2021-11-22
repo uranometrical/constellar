@@ -1,10 +1,9 @@
 package dev.tomat.constellar.launch;
 
+import dev.tomat.constellar.Constellar;
 import net.minecraft.launchwrapper.ITweaker;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.launchwrapper.LaunchClassLoader;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.launch.MixinBootstrap;
 import org.spongepowered.asm.launch.MixinTweaker;
 import org.spongepowered.asm.mixin.MixinEnvironment;
@@ -16,8 +15,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class ConstellarTweaker implements ITweaker {
-    private static final Logger LOGGER = LogManager.getLogger();
-
     private final ArrayList<String> Arguments = new ArrayList<>();
 
     public static LoadContext Context;
@@ -56,17 +53,17 @@ public class ConstellarTweaker implements ITweaker {
     public void injectIntoClassLoader(LaunchClassLoader classLoader) {
         Context = LoadContext.getLoadContext();
 
-        LOGGER.info("Load context: " + Context);
+        Constellar.LOGGER.info("Tweaker", "Load context: " + Context);
 
         if (!LoadContext.standalone(Context)) {
             Mixin.injectIntoClassLoader(classLoader);
             return;
         }
 
-        LOGGER.info("Initializing Bootstraps...");
+        Constellar.LOGGER.info("Tweaker", "Initializing Bootstraps...");
         MixinBootstrap.init();
 
-        LOGGER.info("Adding mixin configuration...");
+        Constellar.LOGGER.info("Tweaker", "Adding mixin configuration...");
         MixinEnvironment environment = MixinEnvironment.getDefaultEnvironment();
         Mixins.addConfiguration("mixins.constellar.json");
 

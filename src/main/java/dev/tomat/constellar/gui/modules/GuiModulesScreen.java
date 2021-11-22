@@ -1,6 +1,6 @@
 package dev.tomat.constellar.gui.modules;
 
-import dev.tomat.constellar.ConstellarMain;
+import dev.tomat.constellar.Constellar;
 import dev.tomat.constellar.modules.IModule;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptions;
@@ -20,7 +20,7 @@ public class GuiModulesScreen extends GuiScreen {
 
         ModulesList.init();
 
-        for (IModule module : ConstellarMain.Modules.getModules())
+        for (IModule module : Constellar.Modules.getModules())
             addModule(module);
 
         ModulesList.updatePage(this, 0);

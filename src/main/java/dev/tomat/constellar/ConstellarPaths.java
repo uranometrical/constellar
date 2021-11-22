@@ -1,5 +1,8 @@
 package dev.tomat.constellar;
 
-public final class ConstellarPaths {
-    // public static final Path HomeDir =
+import dev.tomat.common.Static;
+
+public final class ConstellarPaths extends Static {
+    public ConstellarPaths() throws Exception {
+    }
 }

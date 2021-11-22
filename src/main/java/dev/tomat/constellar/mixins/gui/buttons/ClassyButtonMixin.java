@@ -1,8 +1,8 @@
 package dev.tomat.constellar.mixins.gui.buttons;
 
 import dev.tomat.constellar.launch.ConstellarTweaker;
-import dev.tomat.constellar.utilities.ColorUtils;
-import dev.tomat.constellar.utilities.MathUtils;
+import dev.tomat.common.utils.ColorUtils;
+import dev.tomat.common.utils.MathUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;

@@ -1,4 +1,4 @@
-package dev.tomat.constellar.utilities;
+package dev.tomat.common.utils;
 
 import net.minecraft.client.Minecraft;
 

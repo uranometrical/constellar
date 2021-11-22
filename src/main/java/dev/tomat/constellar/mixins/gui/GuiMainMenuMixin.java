@@ -1,11 +1,13 @@
 package dev.tomat.constellar.mixins.gui;
 
 import com.google.common.base.Strings;
-import dev.tomat.constellar.ConstellarMain;
+import dev.tomat.common.reflection.FailedInvocationObject;
+import dev.tomat.common.reflection.Reflector;
+import dev.tomat.constellar.Constellar;
 import dev.tomat.constellar.gui.BackgroundPanorama;
 import dev.tomat.constellar.launch.ConstellarTweaker;
-import dev.tomat.constellar.utilities.ColorUtils;
-import dev.tomat.constellar.utilities.TextUtils;
+import dev.tomat.common.utils.ColorUtils;
+import dev.tomat.common.utils.TextUtils;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNoCallback;
@@ -109,7 +111,7 @@ public abstract class GuiMainMenuMixin extends GuiScreen implements GuiYesNoCall
         List<String> brandings = new ArrayList<>();
 
         brandings.add("Minecraft 1.8.9");
-        brandings.add(ConstellarMain.ClientNameReadable + " v" + ConstellarMain.ClientVersion);
+        brandings.add(Constellar.ClientNameReadable + " v" + Constellar.ClientVersion);
 
         if (!ConstellarTweaker.LoadContext.standalone(ConstellarTweaker.Context))
             brandings.addAll(getForgeBrandings());
@@ -119,17 +121,28 @@ public abstract class GuiMainMenuMixin extends GuiScreen implements GuiYesNoCall
 
     @SuppressWarnings("unchecked")
     private List<String> getForgeBrandings() {
-        try {
-            Class<?> clazz = GuiMainMenuMixin.class.getClassLoader().loadClass("net.minecraftforge.fml.common.FMLCommonHandler");
-            Method getInstance = clazz.getDeclaredMethod("instance");
-            Object fmlCommonHandlerInstance = getInstance.invoke(null);
-            Method getBrandings = clazz.getDeclaredMethod("getBrandings", boolean.class);
+        Reflector reflector = Constellar.REFLECTOR;
+        Class<?> clazz = reflector.getClass("net.minecraftforge.fml.common.FMLCommonHandler");
 
-            getBrandings.setAccessible(true);
-
-            return (List<String>) getBrandings.invoke(fmlCommonHandlerInstance, false);
-        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+        if (clazz == null)
             return new ArrayList<>();
-        }
+
+        Method getInstance = reflector.getMethod(clazz, "instance");
+        Method getBrandings = reflector.getMethod(clazz, "getBrandings", boolean.class);
+
+        if (getInstance == null || getBrandings == null)
+            return new ArrayList<>();
+
+        Object fmlCommonHandlerInstance = reflector.invokeMethod(getInstance, null);
+
+        if (fmlCommonHandlerInstance instanceof FailedInvocationObject)
+            return new ArrayList<>();
+
+        Object list = reflector.invokeMethod(getBrandings, fmlCommonHandlerInstance, false);
+
+        if (list instanceof FailedInvocationObject)
+            return new ArrayList<>();
+
+        return (List<String>) list;
     }
 }

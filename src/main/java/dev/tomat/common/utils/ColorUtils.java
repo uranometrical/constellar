@@ -1,4 +1,4 @@
-package dev.tomat.constellar.utilities;
+package dev.tomat.common.utils;
 
 public class ColorUtils {
     public static int colorToInt(int r, int g, int b, int a) {

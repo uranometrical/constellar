@@ -2,7 +2,7 @@ package dev.tomat.constellar.gui.modules;
 
 import dev.tomat.constellar.gui.GuiUtils;
 import dev.tomat.constellar.modules.IModule;
-import dev.tomat.constellar.utilities.ColorUtils;
+import dev.tomat.common.utils.ColorUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;

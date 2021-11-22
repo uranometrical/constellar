@@ -1,6 +1,6 @@
 package dev.tomat.constellar.modules;
 
-import dev.tomat.constellar.utilities.ColorUtils;
+import dev.tomat.common.utils.ColorUtils;
 
 // note: what the fuck is force disabled for
 // note: shut up intellij i can say fuck all i want
