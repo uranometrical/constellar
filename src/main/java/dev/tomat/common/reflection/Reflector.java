@@ -1,25 +1,22 @@
 package dev.tomat.common.reflection;
 
-import com.sun.istack.internal.NotNull;
 import dev.tomat.constellar.Constellar;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Useful class for handling excessive reflection.
  */
 public class Reflector {
-    public List<ClassLoader> ClassLoaders;
-    public HashMap<String, Class<?>> Classes;
-    public HashMap<String, Method> Methods;
+    public List<ClassLoader> ClassLoaders = new ArrayList<>();
+    public HashMap<String, Class<?>> Classes = new HashMap<>();
+    public HashMap<String, Method> Methods = new HashMap<>();
 
-    public Reflector registerClassLoader(@NotNull ClassLoader classLoader) {
+    public Reflector registerClassLoader(@Nonnull ClassLoader classLoader) {
         ClassLoaders.add(classLoader);
 
         Constellar.LOGGER.debug("Reflector", "Registered ClassLoader: " + classLoader.getClass().getName());
@@ -27,7 +24,7 @@ public class Reflector {
         return this;
     }
 
-    public Reflector registerClass(@NotNull Class<?> value) {
+    public Reflector registerClass(@Nonnull Class<?> value) {
         if (Classes.containsKey(value.getName()))
             return this;
 
@@ -38,7 +35,7 @@ public class Reflector {
         return this;
     }
 
-    public Reflector resolveClass(@NotNull String name) {
+    public Reflector resolveClass(@Nonnull String name) {
         Class<?> clazz = getClass(name);
 
         if (clazz == null)
@@ -47,7 +44,7 @@ public class Reflector {
         return registerClass(clazz);
     }
 
-    public Reflector registerMethod(@NotNull Method value) {
+    public Reflector registerMethod(@Nonnull Method value) {
         String key = value.getClass().getName() + '.' + value.getName();
 
         if (Methods.containsKey(key))
@@ -61,7 +58,7 @@ public class Reflector {
         return this;
     }
 
-    public Reflector resolveMethod(@NotNull Class<?> clazz, @NotNull String name, @Nullable Class<?>... args) {
+    public Reflector resolveMethod(@Nonnull Class<?> clazz, @Nonnull String name, @Nullable Class<?>... args) {
         Method method = getMethod(clazz, name, args);
 
         if (method == null)
@@ -75,7 +72,7 @@ public class Reflector {
      * @param name The fully-qualified name of the class.
      * @return The class, if found in any ClassLoaders. Otherwise, null.
      */
-    public @Nullable Class<?> getClass(@NotNull String name) {
+    public @Nullable Class<?> getClass(@Nonnull String name) {
         if (Classes.containsKey(name))
             return Classes.get(name);
 
@@ -101,7 +98,7 @@ public class Reflector {
      * @param args The arguments, if applicable.
      * @return The resolved method. If no arguments are specified and a method with no arguments does not exist, returns the first resolved method with parameters. If no methods are found, returns null. If no methods with the provided arguments are found, returns null.
      */
-    public @Nullable Method getMethod(@NotNull Class<?> clazz, @NotNull String name, @Nullable Class<?>... args) {
+    public @Nullable Method getMethod(@Nonnull Class<?> clazz, @Nonnull String name, @Nullable Class<?>... args) {
         if (Methods.containsKey(clazz.getName() + '.' + name))
             return Methods.get(clazz.getName() + '.' + name);
 
@@ -131,7 +128,7 @@ public class Reflector {
      * @param args The arguments, if applicable.
      * @return The resolved method. If the class could not be resolved, returns null. If no arguments are specified and a method with no arguments does not exist, returns the first resolved method with parameters. If no methods are found, returns null. If no methods with the provided arguments are found, returns null.
      */
-    public @Nullable Method getMethod(@NotNull String clazz, @NotNull String name, @Nullable Class<?>... args) {
+    public @Nullable Method getMethod(@Nonnull String clazz, @Nonnull String name, @Nullable Class<?>... args) {
         Class<?> realClazz = getClass(clazz);
 
         if (realClazz == null)
@@ -140,7 +137,7 @@ public class Reflector {
         return getMethod(realClazz, name, args);
     }
 
-    public Object invokeMethod(@NotNull Method method, @Nullable Object instance, @Nullable Object... args) {
+    public Object invokeMethod(@Nonnull Method method, @Nullable Object instance, @Nullable Object... args) {
         try {
             return method.invoke(instance, args);
         } catch (IllegalAccessException | InvocationTargetException e) {

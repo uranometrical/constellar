@@ -20,5 +20,7 @@ public abstract class WindowTitleMixin implements IThreadListener, IPlayerUsage 
     private void injectWindowTitle(CallbackInfo ci) {
         // Constellar 0.1.0-alpha - 1.8.9
         Display.setTitle(Constellar.ClientNameReadable + " " + Constellar.ClientVersion + " - " + theMinecraft.getVersion());
+
+        Constellar.registerModules();
     }
 }

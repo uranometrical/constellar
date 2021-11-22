@@ -18,9 +18,12 @@ public final class Constellar extends Static {
     static {
         REFLECTOR = new Reflector();
         REFLECTOR.registerClassLoader(Constellar.class.getClassLoader());
-        Modules.addModule(new KeystrokesModule());
     }
 
     public Constellar() throws Exception {
+    }
+
+    public static void registerModules() {
+        Modules.addModule(new KeystrokesModule());
     }
 }
