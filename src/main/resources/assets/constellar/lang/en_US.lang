@@ -3,3 +3,6 @@ modules.open=Module Settings
 
 modules.keystrokes.name=Keystrokes
 modules.keystrokes.description=Displays pressed keys in a nifty little GUI.
+
+commands.version.usage=/version
+commands.version.content=Running %d version %d.

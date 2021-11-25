@@ -3,6 +3,7 @@
   "package": "dev.tomat.constellar.mixins",
   "refmap": "mixins.constellar.refmap.json",
   "mixins": [
+    "command.CommandRegistryMixin",
     "gui.AddConstellarResourcePackMixin",
     "gui.GuiMainMenuMixin",
     "gui.GuiOptionsButtonsAdditionsMixin",
