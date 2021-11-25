@@ -6,3 +6,4 @@ modules.keystrokes.description=Displays pressed keys in a nifty little GUI.
 
 commands.version.usage=/version
 commands.version.content=Running %d version %d.
+commands.namehistory.usage=/namehistory <username>
