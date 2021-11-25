@@ -9,9 +9,12 @@ import java.net.URLConnection;
 public class HttpUtils {
     public static String getJson(String url) {
         try {
-            URLConnection request = new URL(url).openConnection();
-            request.connect();
-            return new InputStreamReader((InputStream) request.getContent()).toString();
+            // json encoding
+            InputStream response = new URL(url).openStream();
+            byte[] bytes = new byte[response.read()];
+            System.out.println(response.read(bytes));
+            response.close();
+            return new String(bytes).trim();
         }
         catch (IOException e) {
             e.printStackTrace();
