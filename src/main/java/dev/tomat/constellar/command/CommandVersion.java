@@ -2,11 +2,10 @@ package dev.tomat.constellar.command;
 
 import dev.tomat.constellar.Constellar;
 import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentTranslation;
 
-public class VersionCommand extends CommandBase
+public class CommandVersion extends CommandBase
 {
     public String getCommandName()
     {

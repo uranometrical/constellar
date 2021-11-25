@@ -1,6 +1,6 @@
 package dev.tomat.constellar.mixins.command;
 
-import dev.tomat.constellar.command.VersionCommand;
+import dev.tomat.constellar.command.CommandVersion;
 import net.minecraft.command.*;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,6 +13,6 @@ public abstract class CommandRegistryMixin extends CommandHandler {
     // injects into the ctor
     @Inject(method = "<init>", at = @At("RETURN"))
     public void constructorHead(CallbackInfo ci) {
-        this.registerCommand(new VersionCommand());
+        this.registerCommand(new CommandVersion());
     }
 }
