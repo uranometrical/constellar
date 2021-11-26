@@ -3,26 +3,21 @@ package dev.tomat.constellar.mixins.renderer;
 import dev.tomat.constellar.Constellar;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 
 @Mixin(RenderGlobal.class)
 public class BlockOutlineMixin {
-
-    @Shadow private World theWorld;
+    @Shadow private WorldClient theWorld;
 
     /**
      * @author Metacinnabar
@@ -34,6 +29,7 @@ public class BlockOutlineMixin {
         {
             return;
         }
+
 
         if (execute == 0 && movingObjectPositionIn.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
         {
