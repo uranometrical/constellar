@@ -1,35 +1,37 @@
 package dev.tomat.constellar.modules.impl;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import dev.tomat.constellar.modules.IModule;
 import dev.tomat.constellar.modules.IModuleRepository;
 import dev.tomat.constellar.modules.ModuleNotFoundException;
+import dev.tomat.constellar.modules.ModuleType;
 import net.minecraft.util.ResourceLocation;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class StandardModuleRepository implements IModuleRepository {
-    private final List<IModule> Modules = new ArrayList<>();
+    private final Map<ModuleType, IModule> Modules = new HashMap<>();
 
     @Override
-    public void addModule(IModule module) {
-        Modules.add(module);
+    public void addModule(ModuleType moduleType, IModule module) {
+        Modules.put(moduleType, module);
     }
 
     @Override
-    public IModule getModule(ResourceLocation identifier) throws ModuleNotFoundException {
-        Optional<IModule> module = Modules.stream().filter(x -> Objects.equals(x.getIdentifier(), identifier)).findFirst();
+    public IModule getModule(ModuleType moduleType) throws ModuleNotFoundException {
+        //Optional<IModule> module = Modules.stream().filter(x -> Objects.equals(x.getIdentifier(), identifier)).findFirst();
 
-        if (module.isPresent())
-            return module.get();
+        for (Map.Entry<ModuleType, IModule> moduleEntry : Modules.entrySet()) {
+            if (moduleEntry.getKey() == moduleType) {
+                return moduleEntry.getValue();
+            }
+        }
 
-        throw new ModuleNotFoundException(identifier.toString());
+        throw new ModuleNotFoundException(moduleType.toString());
     }
 
     @Override
-    public List<IModule> getModules() {
+    public Map<ModuleType, IModule> getModules() {
         return Modules;
     }
 }

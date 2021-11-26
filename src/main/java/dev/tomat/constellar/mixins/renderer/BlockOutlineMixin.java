@@ -1,6 +1,8 @@
 package dev.tomat.constellar.mixins.renderer;
 
 import dev.tomat.constellar.Constellar;
+import dev.tomat.constellar.modules.ModuleNotFoundException;
+import dev.tomat.constellar.modules.ModuleType;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -23,9 +25,8 @@ public class BlockOutlineMixin {
      * @author Metacinnabar
      */
     @Overwrite
-    public void drawSelectionBox(EntityPlayer player, MovingObjectPosition movingObjectPositionIn, int execute, float partialTicks)
-    {
-        if (!Constellar.Modules.getModules().get(1).isDisabled())
+    public void drawSelectionBox(EntityPlayer player, MovingObjectPosition movingObjectPositionIn, int execute, float partialTicks) throws ModuleNotFoundException {
+        if (!Constellar.Modules.getModule(ModuleType.BlockOutline).isDisabled())
         {
             return;
         }

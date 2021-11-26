@@ -20,7 +20,7 @@ public class GuiModulesScreen extends GuiScreen {
 
         ModulesList.init();
 
-        for (IModule module : Constellar.Modules.getModules())
+        for (IModule module : Constellar.Modules.getModules().values())
             addModule(module);
 
         ModulesList.updatePage(this, 0);
