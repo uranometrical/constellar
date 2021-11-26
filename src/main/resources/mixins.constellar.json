@@ -13,6 +13,7 @@
     "gui.buttons.ClassyButtonMixin",
     "gui.buttons.ClassyOptionSlider",
     "main.WindowTitleMixin",
+    "renderer.BlockOutlineMixin",
     "resources.AddOurDefaultPackMixin"
   ]
 }

@@ -195,9 +195,11 @@ public abstract class GuiMainMenuMixin extends GuiScreen implements GuiYesNoCall
             this.splashText = "OOoooOOOoooo! Spooky!";
         }
 
+        // offset
         int i = 24;
         int j = this.height / 4 + (i * 2);
 
+        // single-player, multiplayer, demo
         if (this.mc.isDemo())
         {
             this.addDemoButtons(j, i);
@@ -207,8 +209,10 @@ public abstract class GuiMainMenuMixin extends GuiScreen implements GuiYesNoCall
             this.addSingleplayerMultiplayerButtons(j, i);
         }
 
+        // move height down a button
         j += i;
 
+        // options and quit
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + i, 98, 20, I18n.format("menu.options")));
         this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + i, 98, 20, I18n.format("menu.quit")));
         // this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, j + 72 + 12));

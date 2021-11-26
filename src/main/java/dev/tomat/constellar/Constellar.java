@@ -6,6 +6,7 @@ import dev.tomat.common.reflection.Reflector;
 import dev.tomat.constellar.modules.IModuleRepository;
 import dev.tomat.constellar.modules.impl.StandardModuleRepository;
 import dev.tomat.constellar.modules.impl.ui.KeystrokesModule;
+import dev.tomat.constellar.modules.impl.world.BlockOutlineModule;
 
 public final class Constellar extends Static {
     public static final Reflector REFLECTOR;
@@ -25,5 +26,6 @@ public final class Constellar extends Static {
 
     public static void registerModules() {
         Modules.addModule(new KeystrokesModule());
+        Modules.addModule(new BlockOutlineModule());
     }
 }
