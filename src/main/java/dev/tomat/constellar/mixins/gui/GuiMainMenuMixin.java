@@ -8,15 +8,9 @@ import dev.tomat.constellar.gui.BackgroundPanorama;
 import dev.tomat.constellar.launch.ConstellarTweaker;
 import dev.tomat.common.utils.ColorUtils;
 import dev.tomat.common.utils.TextUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.realms.RealmsBridge;
 import net.minecraft.util.ResourceLocation;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -24,15 +18,13 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @Mixin(GuiMainMenu.class)
 public abstract class GuiMainMenuMixin extends GuiScreen implements GuiYesNoCallback {
+    @Shadow private GuiButton realmsButton;
     private static final ResourceLocation ConstellarTitle = new ResourceLocation("constellar", "textures/gui/title/constellar.png");
 
     @Shadow private float updateCounter;
@@ -46,13 +38,6 @@ public abstract class GuiMainMenuMixin extends GuiScreen implements GuiYesNoCall
     @Shadow private int field_92019_w;
     @Shadow private int field_92024_r;
     @Shadow private String openGLWarning2;
-
-    @Shadow private DynamicTexture viewportTexture;
-    @Shadow private ResourceLocation backgroundTexture;
-    @Final
-    @Shadow private Object threadLock;
-    @Shadow private int field_92023_s;
-
 
     /**
      * @author Tomat
@@ -159,84 +144,8 @@ public abstract class GuiMainMenuMixin extends GuiScreen implements GuiYesNoCall
         return (List<String>) list;
     }
 
-    /**
-     * @author Metacinnabar
-     */
-    @Overwrite
-    private void addSingleplayerMultiplayerButtons(int y, int offset)
-    {
-        this.buttonList.add(new GuiButton(1, this.width / 2 - 100, y, I18n.format("menu.singleplayer")));
-        this.buttonList.add(new GuiButton(2, this.width / 2 - 100, y + offset, I18n.format("menu.multiplayer")));
-        // we don't want the realms button for 1.8.9
-        //this.buttonList.add(this.realmsButton = new GuiButton(14, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, I18n.format("menu.online", new Object[0])));
+    @Inject(method = "addSingleplayerMultiplayerButtons", at = @At("TAIL"))
+    private void removeRealmsButton(int y, int offset, CallbackInfo ci) {
+        this.buttonList.remove(realmsButton); // no more realms button oh noo
     }
-
-    /**
-     * @author Metacinnabar
-     */
-    @Overwrite
-    public void initGui()
-    {
-        this.viewportTexture = new DynamicTexture(256, 256);
-        this.backgroundTexture = this.mc.getTextureManager().getDynamicTextureLocation("background", this.viewportTexture);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-
-        if (calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) == 24)
-        {
-            this.splashText = "Merry X-mas!";
-        }
-        else if (calendar.get(Calendar.MONTH) + 1 == 1 && calendar.get(Calendar.DATE) == 1)
-        {
-            this.splashText = "Happy new year!";
-        }
-        else if (calendar.get(Calendar.MONTH) + 1 == 10 && calendar.get(Calendar.DATE) == 31)
-        {
-            this.splashText = "OOoooOOOoooo! Spooky!";
-        }
-
-        // offset
-        int i = 24;
-        int j = this.height / 4 + (i * 2);
-
-        // single-player, multiplayer, demo
-        if (this.mc.isDemo())
-        {
-            this.addDemoButtons(j, i);
-        }
-        else
-        {
-            this.addSingleplayerMultiplayerButtons(j, i);
-        }
-
-        // move height down a button
-        j += i;
-
-        // options and quit
-        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + i, 98, 20, I18n.format("menu.options")));
-        this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + i, 98, 20, I18n.format("menu.quit")));
-        // this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, j + 72 + 12));
-
-        // huh
-        synchronized (this.threadLock)
-        {
-            this.field_92023_s = this.fontRendererObj.getStringWidth(this.openGLWarning1);
-            this.field_92024_r = this.fontRendererObj.getStringWidth(this.openGLWarning2);
-            int k = Math.max(this.field_92023_s, this.field_92024_r);
-            this.field_92022_t = (this.width - k) / 2;
-            this.field_92021_u = (this.buttonList.get(0)).yPosition - 24;
-            this.field_92020_v = this.field_92022_t + k;
-            this.field_92019_w = this.field_92021_u + 24;
-        }
-
-        if (this.func_183501_a())
-        {
-            this.setGuiSize(this.width, this.height);
-            this.initGui();
-        }
-    }
-
-    @Shadow protected abstract boolean func_183501_a();
-
-    @Shadow protected abstract void addDemoButtons(int j, int i);
 }
