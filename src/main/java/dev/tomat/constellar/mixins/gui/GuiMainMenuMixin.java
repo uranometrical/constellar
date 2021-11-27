@@ -146,6 +146,6 @@ public abstract class GuiMainMenuMixin extends GuiScreen implements GuiYesNoCall
 
     @Inject(method = "addSingleplayerMultiplayerButtons", at = @At("TAIL"))
     private void removeRealmsButton(int y, int offset, CallbackInfo ci) {
-        this.buttonList.remove(realmsButton); // no more realms button oh noo
+        // this.buttonList.remove(realmsButton); // no more realms button oh noo
     }
 }

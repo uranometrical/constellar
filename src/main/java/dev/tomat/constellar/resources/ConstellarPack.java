@@ -39,15 +39,9 @@ public class ConstellarPack implements IResourcePack {
         return Collections.singleton("constellar");
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public <T extends IMetadataSection> T getPackMetadata(IMetadataSerializer iMetadataSerializer, String s) {
-        InputStream input = getResourceStream(new ResourceLocation("constellar", "pack.mcmeta"));
-        try {
-            return (T) AbstractResourcePack.class.getDeclaredMethod("readMetadata", IMetadataSerializer.class, InputStream.class, String.class).invoke(null, iMetadataSerializer, input, s);
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            return null;
-        }
+        return AbstractResourcePack.readMetadata(iMetadataSerializer, getResourceStream(new ResourceLocation("constellar", "pack.mcmeta")), s);
     }
 
     @Override

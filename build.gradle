@@ -40,7 +40,7 @@ configurations {
     compile.extendsFrom(embed)
 }
 
-sourceCompatibility = targetCompatibility = 1.8
+targetCompatibility = sourceCompatibility = 1.8
 compileJava.options.encoding = 'UTF-8'
 
 String buildTarget = properties.constellar_build_target;
@@ -50,7 +50,7 @@ group = "dev.tomat.constellar"
 archivesBaseName = "Constellar"
 
 if (properties.constellar_build_target != "forge" && properties.constellar_build_target != "standalone") {
-    throw new Exception("Unexpected build target!");
+    throw new Exception("Unexpected build target!")
 }
 
 minecraft {
@@ -59,6 +59,7 @@ minecraft {
     mappings = "stable_22"
     runDir = 'run'
     clientJvmArgs = ["-XX:-DisableExplicitGC"] // fast world loading
+    accessTransformer(file('src/main/resources/META-INF/accesstransformer.cfg'))
 }
 
 mixin {
@@ -151,5 +152,3 @@ reobf {
 shadowJar {
     classifier = "dep"
 }
-
-build.dependsOn(shadowJar)
