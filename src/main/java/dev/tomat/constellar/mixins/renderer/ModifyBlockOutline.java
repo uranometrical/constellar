@@ -43,18 +43,18 @@ public class ModifyBlockOutline {
 
                 // todo: module specific settings
                 // chroma boolean button
-                float alpha = 1f; // slider
+                float alpha = 0.5f; // slider
                 float width = 10f; // slider
-                int chromaSpeed = 1; // slider
+                float chromaSpeed = 1f; // slider 0-1 = slower 1-30 = faster
 
                 // I barely know how this works tbh lol
-                long precision = (10000L / chromaSpeed);
+                long precision = (long)(10000L / chromaSpeed);
                 float hue = System.currentTimeMillis() % precision / (float)precision;
 
                 // todo: module specific settings
                 float saturation = 0.8f; // slider
                 float brightness = 0.8f; // slider
-
+    
                 Color color = Color.getHSBColor(hue, saturation, brightness);
                 GL11.glColor4f(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, alpha);
                 GL11.glLineWidth(width);
@@ -75,10 +75,11 @@ public class ModifyBlockOutline {
             if (block.getMaterial() != Material.air && this.theWorld.getWorldBorder().contains(blockpos))
             {
                 block.setBlockBoundsBasedOnState(this.theWorld, blockpos);
-                double d0 = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double)partialTicks;
-                double d1 = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double)partialTicks;
-                double d2 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)partialTicks;
-                RenderGlobal.drawSelectionBoundingBox(block.getSelectedBoundingBox(this.theWorld, blockpos).offset(-d0, -d1, -d2).expand(0020000000949949026D, 0020000000949949026D, 0020000000949949026D));
+                double xOffset = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double)partialTicks;
+                double yOffset = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double)partialTicks;
+                double zOffset = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)partialTicks;
+                float inwardsExpansion = 0.002f;
+                RenderGlobal.drawSelectionBoundingBox(block.getSelectedBoundingBox(this.theWorld, blockpos).expand(inwardsExpansion, inwardsExpansion, inwardsExpansion).offset(-xOffset, -yOffset, -zOffset));
             }
 
             GlStateManager.depthMask(true);
