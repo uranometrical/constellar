@@ -20,7 +20,7 @@ public class ConstellarPackListEntry extends ResourcePackListEntry {
 
     public ConstellarPackListEntry(GuiScreenResourcePacks uiInstance) {
         super(uiInstance);
-        this.resourcePackIcon = this.mc.getTextureManager().getDynamicTextureLocation("texturepackicon", TextureUtil.missingTexture);
+        this.resourcePackIcon = new ResourceLocation("constellar", "pack.png");
     }
 
     protected int func_183019_a() {
@@ -28,16 +28,7 @@ public class ConstellarPackListEntry extends ResourcePackListEntry {
     }
 
     protected String func_148311_a() {
-        try {
-            PackMetadataSection metadata = this.packInstance.getPackMetadata(this.mc.getResourcePackRepository().rprMetadataSerializer, "pack");
-            if (metadata != null) {
-                return metadata.getPackDescription().getFormattedText();
-            }
-        } catch (JsonParseException | IOException var2) {
-            logger.error("Couldn't load metadata info", var2);
-        }
-
-        return EnumChatFormatting.RED + "Missing " + "pack.mcmeta" + " :(";
+        return EnumChatFormatting.DARK_GRAY + "Default resources used by " + EnumChatFormatting.LIGHT_PURPLE + "Constellar" + EnumChatFormatting.DARK_GRAY + ".";
     }
 
     protected boolean func_148309_e() {

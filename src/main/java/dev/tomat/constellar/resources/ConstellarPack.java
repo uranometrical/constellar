@@ -8,6 +8,7 @@ import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.client.resources.data.IMetadataSerializer;
 import net.minecraft.client.resources.data.PackMetadataSection;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ResourceLocation;
 
@@ -47,7 +48,7 @@ public class ConstellarPack implements IResourcePack {
     @Override
     public BufferedImage getPackImage() {
         try {
-            return TextureUtil.readBufferedImage(Objects.requireNonNull(DefaultResourcePack.class.getResourceAsStream("/" + (new ResourceLocation("pack.png")).getResourcePath())));
+            return TextureUtil.readBufferedImage(getResourceStream(new ResourceLocation("constellar", "pack.png")));
         } catch (IOException e) {
             return null;
         }
@@ -55,6 +56,6 @@ public class ConstellarPack implements IResourcePack {
 
     @Override
     public String getPackName() {
-        return "Constellar Default Resources";
+        return EnumChatFormatting.GRAY + "Default " + EnumChatFormatting.LIGHT_PURPLE + "Constellar " + EnumChatFormatting.GRAY + "Resources";
     }
 }
