@@ -5,15 +5,15 @@
   "mixins": [
     "command.CommandRegistryMixin",
     "gui.AddConstellarResourcePackMixin",
-    "gui.GuiMainMenuMixin",
-    "gui.GuiOptionsButtonsAdditionsMixin",
-    "gui.RenderPanoramaBackgroundMixin",
+    "gui.OverhaulMainMenu",
+    "gui.InjectModulesOptionsButton",
+    "gui.RenderBackgroundPanorama",
     "gui.buttons.ClassLanguageMixin",
     "gui.buttons.ClassLockMixin",
     "gui.buttons.ClassyButtonMixin",
     "gui.buttons.ClassyOptionSlider",
-    "main.WindowTitleMixin",
-    "renderer.BlockOutlineMixin",
-    "resources.AddOurDefaultPackMixin"
+    "main.ModifyWindowTitle",
+    "renderer.ModifyBlockOutline",
+    "resources.RegisterConstellarPack"
   ]
 }
