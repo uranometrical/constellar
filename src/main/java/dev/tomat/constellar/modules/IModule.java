@@ -3,8 +3,9 @@ package dev.tomat.constellar.modules;
 import net.minecraft.util.ResourceLocation;
 
 public interface IModule {
-    // Replace with Identifiers in modern versions
     ResourceLocation getIdentifier();
+
+    ResourceLocation getImageLocation();
 
     String getKey();
 

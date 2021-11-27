@@ -11,4 +11,9 @@ public class BlockOutlineModule extends StandardModule {
                 new ResourceLocation("constellar", "blockoutline")
         );
     }
+
+    @Override
+    public ResourceLocation getImageLocation() {
+        return new ResourceLocation("constellar", "textures/gui/modules/blockoutline_icon.png");
+    }
 }

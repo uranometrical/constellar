@@ -8,6 +8,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 public class GuiModule extends GuiButton {
     public static final ResourceLocation Buttons = new ResourceLocation("textures/gui/extra_buttons.png");
@@ -24,7 +25,6 @@ public class GuiModule extends GuiButton {
 
     public GuiModule(int buttonId, int windowWidth, int countX, int countY, IModule module) {
         super(buttonId, getX(windowWidth, countX), getY(countY), "");
-        System.out.println("Got X: " + xPosition);
         Module = module;
         CountX = countX;
         CountY = countY;
@@ -36,6 +36,14 @@ public class GuiModule extends GuiButton {
             return;
 
         GuiUtils.drawRectNormal(xPosition, yPosition, WIDTH, HEIGHT, ColorUtils.colorToInt(50, 50, 50, 100), GuiUtils.PosMode.CENTER);
+
+        int standardImageSide = 116;
+        int imageXPos = xPosition - 116 / 2;
+        int imageYPos = yPosition - 116 / 2 - (84 / 7);
+
+        GlStateManager.color(1f, 1f, 1f);
+        mc.getTextureManager().bindTexture(Module.getImageLocation());
+        drawTexturedModalRect(imageXPos, imageYPos, 0, 0, standardImageSide, standardImageSide);
 
         int buttonWidth = WIDTH - 8;
         int buttonXPos = xPosition - (buttonWidth / 2);

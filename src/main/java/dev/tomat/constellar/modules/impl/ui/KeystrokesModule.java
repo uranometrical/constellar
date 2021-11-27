@@ -11,4 +11,9 @@ public class KeystrokesModule extends StandardModule {
                 new ResourceLocation("constellar", "keystrokes")
         );
     }
+
+    @Override
+    public ResourceLocation getImageLocation() {
+        return new ResourceLocation("constellar", "textures/gui/modules/keystrokes_icon.png");
+    }
 }
