@@ -1,13 +1,16 @@
 package dev.tomat.constellar.content.gui.modules;
 
 import dev.tomat.constellar.content.gui.GuiUtils;
+import dev.tomat.constellar.content.gui.classy.ClassyGuiButton;
 import dev.tomat.constellar.core.modules.IModule;
 import dev.tomat.common.utils.ColorUtils;
+import dev.tomat.constellar.mixins.gui.buttons.ClassyButtonMixin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
+import org.spongepowered.asm.mixin.Shadow;
 
 public class GuiModule extends GuiButton {
     public static final ResourceLocation Buttons = new ResourceLocation("textures/gui/extra_buttons.png");
