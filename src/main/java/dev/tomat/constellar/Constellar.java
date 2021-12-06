@@ -6,6 +6,7 @@ import dev.tomat.common.reflection.Reflector;
 import dev.tomat.constellar.core.modules.IModuleRepository;
 import dev.tomat.constellar.core.modules.ModuleType;
 import dev.tomat.constellar.core.modules.impl.StandardModuleRepository;
+import dev.tomat.constellar.core.modules.impl.player.ToggleSprintModule;
 import dev.tomat.constellar.core.modules.impl.ui.KeystrokesModule;
 import dev.tomat.constellar.core.modules.impl.world.BlockOutlineModule;
 
@@ -28,5 +29,6 @@ public final class Constellar extends Static {
     public static void registerModules() {
         Modules.addModule(ModuleType.Keystrokes, new KeystrokesModule());
         Modules.addModule(ModuleType.BlockOutline, new BlockOutlineModule());
+        Modules.addModule(ModuleType.ToggleSprint, new ToggleSprintModule());
     }
 }

@@ -54,7 +54,7 @@ public class ModifyBlockOutline {
                 // todo: module specific settings
                 float saturation = 0.8f; // slider
                 float brightness = 0.8f; // slider
-    
+
                 Color color = Color.getHSBColor(hue, saturation, brightness);
                 GL11.glColor4f(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, alpha);
                 GL11.glLineWidth(width);

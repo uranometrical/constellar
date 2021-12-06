@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiModule extends GuiButton {
     public static final ResourceLocation Buttons = new ResourceLocation("textures/gui/extra_buttons.png");
-    public static final int PADDING = 5;
+    public static final int PADDING = 4;
     public static final int PADDING_Y = 90;
     public static final int PADDING_X = 160; // for max X, not used in rendering
     public static final int WIDTH = 100;
@@ -36,13 +36,14 @@ public class GuiModule extends GuiButton {
 
         GuiUtils.drawRectNormal(xPosition, yPosition, WIDTH, HEIGHT, ColorUtils.colorToInt(50, 50, 50, 100), GuiUtils.PosMode.CENTER);
 
-        int standardImageSide = 116;
-        int imageXPos = xPosition - 116 / 2;
-        int imageYPos = yPosition - 116 / 2 - (84 / 7);
+        //int standardImageSide = 116;
+        int imageXPos = xPosition - WIDTH / 2;
+        int imageYPos = yPosition - HEIGHT / 2; // - (84 / 7)
 
         GlStateManager.color(1f, 1f, 1f);
         mc.getTextureManager().bindTexture(Module.getImageLocation());
-        drawTexturedModalRect(imageXPos, imageYPos, 0, 0, standardImageSide, standardImageSide);
+        int someWeirdPaddingIssueThatICantBeBotheredWorkingOut = 10;
+        drawTexturedModalRect(imageXPos, imageYPos, 0, 0, WIDTH, HEIGHT - someWeirdPaddingIssueThatICantBeBotheredWorkingOut);
 
         int buttonWidth = WIDTH - 8;
         int buttonXPos = xPosition - (buttonWidth / 2);
@@ -58,6 +59,7 @@ public class GuiModule extends GuiButton {
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.blendFunc(770, 771);
 
+        // todo: yukcy magic numbers
         drawTexturedModalRect(buttonXPos, buttonYPos, 0, 46 + hover * 20, buttonWidth / 2, height);
         drawTexturedModalRect(buttonXPos + buttonWidth / 2, buttonYPos, 200 - buttonWidth / 2, 46 + hover * 20, buttonWidth / 2, height);
         mouseDragged(mc, mouseX, mouseY);
