@@ -5,15 +5,21 @@ import dev.tomat.constellar.core.modules.ModuleStatus;
 import net.minecraft.util.ResourceLocation;
 
 public abstract class StandardModule implements IModule {
-    private final String Key;
-    private final String Description;
-    private ModuleStatus Status = ModuleStatus.DISABLED;
-    private final ResourceLocation Identifier;
+    protected final String Key;
+    protected final String Description;
+    protected ModuleStatus Status = ModuleStatus.DISABLED;
+    protected final ResourceLocation Identifier;
 
     public StandardModule(String key, String description, ResourceLocation identifier) {
         Key = key;
         Description = description;
         Identifier = identifier;
+    }
+
+    @Override
+    public ResourceLocation getImageLocation() {
+        // by default load the placeholder icon
+        return new ResourceLocation("constellar", "textures/gui/modules/placeholder_icon.png");
     }
 
     @Override

@@ -11,9 +11,4 @@ public class ToggleSprintModule extends StandardModule {
                 new ResourceLocation("constellar", "togglesprint")
         );
     }
-
-    @Override
-    public ResourceLocation getImageLocation() {
-        return new ResourceLocation("constellar", "textures/gui/modules/placeholder_icon.png");
-    }
 }

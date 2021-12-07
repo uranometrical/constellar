@@ -3,6 +3,7 @@ package dev.tomat.constellar;
 import dev.tomat.common.Static;
 import dev.tomat.common.logging.ExtendedLogger;
 import dev.tomat.common.reflection.Reflector;
+import dev.tomat.constellar.content.modules.world.FullBrightModule;
 import dev.tomat.constellar.core.keybinds.Keybinds;
 import dev.tomat.constellar.core.modules.IModuleRepository;
 import dev.tomat.constellar.core.modules.ModuleType;
@@ -35,5 +36,6 @@ public final class Constellar extends Static {
         Modules.addModule(ModuleType.Keystrokes, new KeystrokesModule());
         Modules.addModule(ModuleType.BlockOutline, new BlockOutlineModule());
         Modules.addModule(ModuleType.ToggleSprint, new ToggleSprintModule());
+        Modules.addModule(ModuleType.FullBright, new FullBrightModule());
     }
 }
