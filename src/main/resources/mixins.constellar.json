@@ -12,6 +12,7 @@
     "gui.buttons.ClassLockMixin",
     "gui.buttons.ClassyButtonMixin",
     "gui.buttons.ClassyOptionSlider",
+    "keybinds.KeyPressMixin",
     "keybinds.LoadKeybindsMixin",
     "main.ModifyWindowTitle",
     "renderer.ModifyBlockOutline",
