@@ -1,6 +1,6 @@
-package dev.tomat.constellar.core.modules.impl.world;
+package dev.tomat.constellar.content.modules.world;
 
-import dev.tomat.constellar.core.modules.impl.StandardModule;
+import dev.tomat.constellar.content.modules.StandardModule;
 import net.minecraft.util.ResourceLocation;
 
 public class BlockOutlineModule extends StandardModule {

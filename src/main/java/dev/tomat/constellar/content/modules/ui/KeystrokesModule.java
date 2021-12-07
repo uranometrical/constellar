@@ -1,6 +1,6 @@
-package dev.tomat.constellar.core.modules.impl.ui;
+package dev.tomat.constellar.content.modules.ui;
 
-import dev.tomat.constellar.core.modules.impl.StandardModule;
+import dev.tomat.constellar.content.modules.StandardModule;
 import net.minecraft.util.ResourceLocation;
 
 public class KeystrokesModule extends StandardModule {

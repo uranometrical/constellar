@@ -1,4 +1,4 @@
-package dev.tomat.constellar.core.modules.impl;
+package dev.tomat.constellar.content.modules;
 
 import dev.tomat.constellar.core.modules.IModule;
 import dev.tomat.constellar.core.modules.IModuleRepository;

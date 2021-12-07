@@ -1,6 +1,6 @@
-package dev.tomat.constellar.core.modules.impl.player;
+package dev.tomat.constellar.content.modules.player;
 
-import dev.tomat.constellar.core.modules.impl.StandardModule;
+import dev.tomat.constellar.content.modules.StandardModule;
 import net.minecraft.util.ResourceLocation;
 
 public class ToggleSprintModule extends StandardModule {

@@ -5,10 +5,10 @@ import dev.tomat.common.logging.ExtendedLogger;
 import dev.tomat.common.reflection.Reflector;
 import dev.tomat.constellar.core.modules.IModuleRepository;
 import dev.tomat.constellar.core.modules.ModuleType;
-import dev.tomat.constellar.core.modules.impl.StandardModuleRepository;
-import dev.tomat.constellar.core.modules.impl.player.ToggleSprintModule;
-import dev.tomat.constellar.core.modules.impl.ui.KeystrokesModule;
-import dev.tomat.constellar.core.modules.impl.world.BlockOutlineModule;
+import dev.tomat.constellar.content.modules.StandardModuleRepository;
+import dev.tomat.constellar.content.modules.player.ToggleSprintModule;
+import dev.tomat.constellar.content.modules.ui.KeystrokesModule;
+import dev.tomat.constellar.content.modules.world.BlockOutlineModule;
 
 public final class Constellar extends Static {
     public static final Reflector REFLECTOR;
