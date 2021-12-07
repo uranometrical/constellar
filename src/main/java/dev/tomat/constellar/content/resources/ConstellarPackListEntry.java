@@ -22,6 +22,7 @@ public class ConstellarPackListEntry extends ResourcePackListEntry {
         return 1;
     }
 
+
     protected String func_148311_a() {
         return EnumChatFormatting.DARK_GRAY + "Default resources used by " + EnumChatFormatting.LIGHT_PURPLE + "Constellar" + EnumChatFormatting.DARK_GRAY + ".";
     }

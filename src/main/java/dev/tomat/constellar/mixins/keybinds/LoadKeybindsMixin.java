@@ -18,14 +18,11 @@ public class LoadKeybindsMixin {
     @Shadow
     public KeyBinding[] keyBindings;
 
-    // GameSettings ctor
+    // both GameSettings ctor
     @Inject(method = "<init>*", at = @At("RETURN"))
     public void constructorHead(CallbackInfo ci) {
-        System.out.println(Arrays.toString(keyBindings));
         ArrayList<KeyBinding> keyBindingsList = new ArrayList<>(Arrays.asList(keyBindings));
-
         keyBindingsList.addAll(Constellar.Keybindings.keybinds);
-
         keyBindings = keyBindingsList.toArray(new KeyBinding[0]);
     }
 }
