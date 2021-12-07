@@ -8,6 +8,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiUtils {
     public static final int DefaultButtonHeight = 20;
+    public static final int DefaultButtonWidth = 200;
+
     // GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
     public static final int SourceFactor = 770;
     public static final int SourceFactorAlpha = 1;

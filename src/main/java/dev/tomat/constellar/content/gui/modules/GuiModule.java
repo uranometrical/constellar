@@ -18,7 +18,7 @@ import java.util.Objects;
 
 public class GuiModule extends GuiButton {
     public static final ResourceLocation NewButtonsTexture = new ResourceLocation("textures/gui/extra_buttons.png");
-    public static final int PADDING = 4;
+    public static final int PADDING = 4; // between modules
     public static final int PADDING_Y = 90;
     public static final int PADDING_X = 160; // for max X, not used in rendering
     public static final int WIDTH = 100;
@@ -54,7 +54,7 @@ public class GuiModule extends GuiButton {
         int buttonBottomPadding = 4;
         int moduleStatusButtonTopPadding = 6;
         int textTopPadding = 4;
-        
+
         // draw base rectangle
         GuiUtils.drawRectNormal(xPosition, yPosition, WIDTH, HEIGHT, rectangleColor, GuiUtils.PosMode.CENTER);
 
