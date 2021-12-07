@@ -3,6 +3,7 @@ package dev.tomat.constellar;
 import dev.tomat.common.Static;
 import dev.tomat.common.logging.ExtendedLogger;
 import dev.tomat.common.reflection.Reflector;
+import dev.tomat.constellar.core.keybinds.Keybinds;
 import dev.tomat.constellar.core.modules.IModuleRepository;
 import dev.tomat.constellar.core.modules.ModuleType;
 import dev.tomat.constellar.content.modules.StandardModuleRepository;
@@ -17,6 +18,8 @@ public final class Constellar extends Static {
     public static final String ClientNameTechnical = "constellar";
     public static final String ClientVersion = "0.1.0-alpha";
     public static IModuleRepository Modules = new StandardModuleRepository();
+
+    public static Keybinds Keybindings = new Keybinds();
 
     static {
         REFLECTOR = new Reflector();
