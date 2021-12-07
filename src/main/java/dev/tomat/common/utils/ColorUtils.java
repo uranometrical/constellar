@@ -1,6 +1,8 @@
 package dev.tomat.common.utils;
 
 public class ColorUtils {
+    public static final int White = colorToInt(255, 255, 255, 255);
+
     public static int colorToInt(int r, int g, int b, int a) {
         // Thanks Ozzatron
 

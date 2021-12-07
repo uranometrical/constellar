@@ -1,5 +1,6 @@
 package dev.tomat.constellar.content.gui.modules;
 
+import dev.tomat.common.utils.MathUtils;
 import dev.tomat.constellar.content.gui.GuiUtils;
 import dev.tomat.constellar.content.gui.classy.ClassyGuiButton;
 import dev.tomat.constellar.core.modules.IModule;
@@ -7,13 +8,16 @@ import dev.tomat.common.utils.ColorUtils;
 import dev.tomat.constellar.mixins.gui.buttons.ClassyButtonMixin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiOptionSlider;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import org.spongepowered.asm.mixin.Shadow;
 
+import java.util.Objects;
+
 public class GuiModule extends GuiButton {
-    public static final ResourceLocation Buttons = new ResourceLocation("textures/gui/extra_buttons.png");
+    public static final ResourceLocation NewButtonsTexture = new ResourceLocation("textures/gui/extra_buttons.png");
     public static final int PADDING = 4;
     public static final int PADDING_Y = 90;
     public static final int PADDING_X = 160; // for max X, not used in rendering
@@ -24,6 +28,7 @@ public class GuiModule extends GuiButton {
     public int CountX;
     public int CountY;
     public boolean ToggleButtonHovered;
+    public float ButtonWidthScale = 1f;
 
     public GuiModule(int buttonId, int windowWidth, int countX, int countY, IModule module) {
         super(buttonId, getX(windowWidth, countX), getY(countY), "");
@@ -34,57 +39,98 @@ public class GuiModule extends GuiButton {
 
     @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+        // don't draw anything if the module gui isnt visible
         if (!visible)
             return;
 
-        GuiUtils.drawRectNormal(xPosition, yPosition, WIDTH, HEIGHT, ColorUtils.colorToInt(50, 50, 50, 100), GuiUtils.PosMode.CENTER);
+        // xPosition and yPosition are the center of the module I think
+        // adding to Y positions make them go DOWN... what the fuck???
+        // for some reason the rect draws with the dimensions of 100, 110 when the provided dimensions are 100, 120.
 
-        //int standardImageSide = 116;
-        int imageXPos = xPosition - WIDTH / 2;
-        int imageYPos = yPosition - HEIGHT / 2; // - (84 / 7)
+        // magic number variables
+        int someWeirdIssueThatICantBeBotheredWorkingOut = 10;
+        int rectangleColor = ColorUtils.colorToInt(50, 50, 50, 100);
+        int buttonSidePadding = 4;
+        int buttonBottomPadding = 4;
+        int moduleStatusButtonTopPadding = 6;
+        int textTopPadding = 4;
+        
+        // draw base rectangle
+        GuiUtils.drawRectNormal(xPosition, yPosition, WIDTH, HEIGHT, rectangleColor, GuiUtils.PosMode.CENTER);
 
+        // set the icon color
         GlStateManager.color(1f, 1f, 1f);
+        // bind the icon texture
         mc.getTextureManager().bindTexture(Module.getImageLocation());
-        int someWeirdPaddingIssueThatICantBeBotheredWorkingOut = 10;
-        drawTexturedModalRect(imageXPos, imageYPos, 0, 0, WIDTH, HEIGHT - someWeirdPaddingIssueThatICantBeBotheredWorkingOut);
+        // draw the module icon
+        drawTexturedModalRect(xPosition - WIDTH / 2, yPosition - HEIGHT / 2, 0, 0, WIDTH, HEIGHT - someWeirdIssueThatICantBeBotheredWorkingOut);
 
-        int buttonWidth = WIDTH - 8;
-        int buttonXPos = xPosition - (buttonWidth / 2);
-        int buttonYPos = yPosition + (HEIGHT / 2) - 34;
+        // width of the button is the size of the rectangle minus 4 pixels of padding on each side
+        int buttonWidth = WIDTH - (buttonSidePadding * 2);
+        // default button height (20)
+        int buttonHeight = GuiUtils.DefaultButtonHeight;
+        // center the x position of the button
+        int buttonXPos = xPosition - (WIDTH / 2);
+        // middle of module, go down half module (the bottom), go up by the height of the button, go up by 8 pixels (the padding)
+        int buttonYPos = (yPosition - someWeirdIssueThatICantBeBotheredWorkingOut) + (HEIGHT / 2) - buttonHeight - buttonBottomPadding;
 
-        ToggleButtonHovered = mouseX >= buttonXPos && mouseY >= buttonYPos && mouseX < buttonXPos + buttonWidth && mouseY < buttonYPos + height;
+        // set the bool if the mouse is hovering over the button
+        // make sure this uses original button size and not the scaled button size
+        ToggleButtonHovered = mouseX >= buttonXPos + buttonSidePadding &&
+                mouseY >= buttonYPos &&
+                mouseX < buttonXPos + buttonWidth + buttonSidePadding &&
+                mouseY < buttonYPos + buttonHeight;
 
-        mc.getTextureManager().bindTexture(Buttons);
+        // check if the mouse is hovered and if so
+        // expand the button outwards on both horizontal directions
+        // with lerp, so it looks like a smooth animation
+        if (ToggleButtonHovered) {
+            ButtonWidthScale = MathUtils.lerp(ButtonWidthScale, 1.05f, 0.25f);
+        } else {
+            ButtonWidthScale = MathUtils.lerp(ButtonWidthScale, 1f, 0.25f);
+        }
+        
+        // button width scaling
+        int buttonScaledWidth = (int)(buttonWidth * ButtonWidthScale);
+        // button x position, go right by half of the scaled width minus the module width
+        float buttonScaledX = buttonXPos + ((WIDTH - buttonScaledWidth) / 2f);
 
+        // bind the new buttons texture to the texture manager
+        mc.getTextureManager().bindTexture(NewButtonsTexture);
+        // still don't know what blend does
+        GuiUtils.blend();
+
+        // get the state of mouse hover
         int hover = getHoverState(ToggleButtonHovered);
 
-        GlStateManager.enableBlend();
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-        GlStateManager.blendFunc(770, 771);
-
-        // todo: yukcy magic numbers
-        drawTexturedModalRect(buttonXPos, buttonYPos, 0, 46 + hover * 20, buttonWidth / 2, height);
-        drawTexturedModalRect(buttonXPos + buttonWidth / 2, buttonYPos, 200 - buttonWidth / 2, 46 + hover * 20, buttonWidth / 2, height);
+        // draw the button texture, scaled with hover
+        // todo: un-magic 46, not that important tho. I think this is just the position on the spritesheet
+        drawTexturedModalRect(buttonScaledX, (float)buttonYPos, 0, 46 + hover * buttonHeight, buttonScaledWidth, buttonHeight);
+        // no idea what this does
         mouseDragged(mc, mouseX, mouseY);
 
+        // draw the module status, ENABLED or DISABLED
         drawCenteredString(
                 mc.fontRendererObj,
                 Module.getModuleStatus().toString(),
-                buttonXPos + buttonWidth / 2,
-                buttonYPos + (height - 8) / 2,
+                xPosition,
+                // y pos of button, down 6 pixels to aim to center the text, due to afaik no way to get the size of the text
+                buttonYPos + moduleStatusButtonTopPadding,
+                // green or red
                 Module.getModuleStatus().getColor()
         );
 
-        int textYPos = yPosition - (HEIGHT / 2);
+        // center of module, go up by 55, go down by 8
+        int textYPos = yPosition - ((HEIGHT - someWeirdIssueThatICantBeBotheredWorkingOut) / 2) + textTopPadding;
 
+        // draw the module name just below the top of the module
         drawCenteredString(
                 mc.fontRendererObj,
                 I18n.format(Module.getKey()),
-                buttonXPos + buttonWidth / 2,
-                textYPos + (height - 8) / 2,
-                ColorUtils.colorToInt(255, 255, 255, 255)
+                xPosition,
+                textYPos,
+                ColorUtils.White
         );
-
     }
 
     @Override
@@ -95,6 +141,8 @@ public class GuiModule extends GuiButton {
         Module.toggle();
 
         displayString = Module.getModuleStatus().toString();
+
+        GuiUtils.playButtonPressSound(mc.getSoundHandler());
 
         return super.mousePressed(mc, mouseX, mouseY);
     }

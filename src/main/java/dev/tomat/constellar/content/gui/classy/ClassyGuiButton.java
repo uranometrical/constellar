@@ -136,9 +136,13 @@ public abstract class ClassyGuiButton extends Gui {
         }
     }
 
-    protected void mouseDragged(Minecraft mc, int mouseX, int mouseY) {}
+    protected void mouseDragged(Minecraft mc, int mouseX, int mouseY) {
 
-    public void mouseReleased(int mouseX, int mouseY) {}
+    }
+
+    public void mouseReleased(int mouseX, int mouseY) {
+
+    }
 
     public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
         return this.enabled && this.visible && mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
