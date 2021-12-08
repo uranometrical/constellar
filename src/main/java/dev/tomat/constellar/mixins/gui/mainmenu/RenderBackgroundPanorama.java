@@ -1,4 +1,4 @@
-package dev.tomat.constellar.mixins.gui;
+package dev.tomat.constellar.mixins.gui.mainmenu;
 
 import dev.tomat.constellar.content.gui.BackgroundPanorama;
 import net.minecraft.client.Minecraft;

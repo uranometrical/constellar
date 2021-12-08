@@ -1,4 +1,4 @@
-package dev.tomat.constellar.mixins.gui;
+package dev.tomat.constellar.mixins.resources;
 
 import dev.tomat.constellar.content.resources.ConstellarPackListEntry;
 import net.minecraft.client.gui.GuiScreen;

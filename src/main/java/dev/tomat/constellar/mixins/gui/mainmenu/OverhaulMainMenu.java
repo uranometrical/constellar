@@ -1,4 +1,4 @@
-package dev.tomat.constellar.mixins.gui;
+package dev.tomat.constellar.mixins.gui.mainmenu;
 
 import com.google.common.base.Strings;
 import dev.tomat.common.reflection.FailedInvocationObject;
