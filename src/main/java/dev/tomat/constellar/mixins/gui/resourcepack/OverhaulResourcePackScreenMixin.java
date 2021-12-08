@@ -17,9 +17,7 @@ public class OverhaulResourcePackScreenMixin extends GuiScreen {
     private static final int DoneButtonId = 1;
     private static final int OpenFolderButtonId = 2;
 
-    /** List component that contains the available resource packs */
     @Shadow private GuiResourcePackAvailable availableResourcePacksList;
-    /** List component that contains the selected resource packs */
     @Shadow private GuiResourcePackSelected selectedResourcePacksList;
 
     @Inject(method = "initGui", at = @At("TAIL"))
