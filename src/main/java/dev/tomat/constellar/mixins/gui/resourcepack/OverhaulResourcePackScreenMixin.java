@@ -1,16 +1,18 @@
 package dev.tomat.constellar.mixins.gui.resourcepack;
 
-import net.minecraft.client.gui.*;
+import dev.tomat.common.utils.ColorUtils;
+import dev.tomat.constellar.content.gui.GuiUtils;
+import net.minecraft.client.gui.GuiResourcePackAvailable;
+import net.minecraft.client.gui.GuiResourcePackSelected;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiScreenResourcePacks;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.client.resources.ResourcePackListEntry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.List;
 
 @Mixin(GuiScreenResourcePacks.class)
 public class OverhaulResourcePackScreenMixin extends GuiScreen {
@@ -34,11 +36,36 @@ public class OverhaulResourcePackScreenMixin extends GuiScreen {
      */
     @Overwrite
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        this.drawBackground(0);
+        // draw pano in main menu and normal bg in-game
+        drawDefaultBackground();
+
+        // draw the resource pack lists
         availableResourcePacksList.drawScreen(mouseX, mouseY, partialTicks);
         selectedResourcePacksList.drawScreen(mouseX, mouseY, partialTicks);
-        //this.drawCenteredString(this.fontRendererObj, I18n.format("resourcePack.title", new Object[0]), this.width / 2, 16, 16777215);
-        //this.drawCenteredString(this.fontRendererObj, I18n.format("resourcePack.folderInfo", new Object[0]), this.width / 2 - 77, this.height - 26, 8421504);
+
+        // draw the title
+        drawCenteredString(
+                fontRendererObj,
+                I18n.format("resourcePack.title"),
+                width / 2,
+                GuiUtils.DefaultTitleTopPadding,
+                ColorUtils.White
+        );
+
+        int headerPadding = 104;
+        drawListHeader(I18n.format("resourcePack.available.title"), this.width / 2 - headerPadding);
+        drawListHeader(I18n.format("resourcePack.selected.title"), this.width / 2 + headerPadding);
+        // draw GuiButtons
         super.drawScreen(mouseX, mouseY, partialTicks);
+    }
+
+    protected void drawListHeader(String header, int xPosition) {
+        int padding = 18;
+        mc.fontRendererObj.drawString(
+                header,
+                xPosition - mc.fontRendererObj.getStringWidth(header) / 2,
+                GuiUtils.DefaultTitleTopPadding + padding,
+                ColorUtils.White
+        );
     }
 }

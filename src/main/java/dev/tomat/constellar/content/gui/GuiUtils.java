@@ -10,6 +10,8 @@ public class GuiUtils {
     public static final int DefaultButtonHeight = 20;
     public static final int DefaultButtonWidth = 200;
 
+    public static final int DefaultTitleTopPadding = 16;
+
     // GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
     public static final int SourceFactor = 770;
     public static final int SourceFactorAlpha = 1;

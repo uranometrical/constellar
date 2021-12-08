@@ -13,6 +13,7 @@
     "gui.options.InjectModulesOptionsButton",
     "gui.resourcepack.OverhaulResourcePackListMixin",
     "gui.resourcepack.OverhaulResourcePackScreenMixin",
+    "gui.resourcepack.ResourcePackEntryMixin",
     "keybinds.KeyPressMixin",
     "keybinds.LoadKeybindsMixin",
     "main.ModifyWindowTitle",
