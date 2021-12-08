@@ -1,4 +1,4 @@
-package dev.tomat.constellar.mixins.gui;
+package dev.tomat.constellar.mixins.gui.options;
 
 import dev.tomat.constellar.content.gui.modules.GuiModulesScreen;
 import net.minecraft.client.gui.GuiButton;
