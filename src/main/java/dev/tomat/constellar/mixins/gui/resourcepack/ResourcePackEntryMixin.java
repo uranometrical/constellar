@@ -16,5 +16,5 @@ public abstract class ResourcePackEntryMixin implements GuiListExtended.IGuiList
         if (isSelected) {
             GuiUtils.drawRectNormal(x + (listWidth / 2), y, listWidth, 32, ColorUtils.colorToInt(80, 80, 80, 100), GuiUtils.PosMode.CENTER);
         }
-    }
+    } 
 }
