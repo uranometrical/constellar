@@ -24,8 +24,7 @@ public abstract class OverhaulResourcePackListMixin extends GuiListExtended {
         super(mcIn, widthIn, heightIn, topIn, bottomIn, slotHeightIn);
     }
 
-    @Shadow
-    protected abstract String getListHeader();
+    @Shadow protected abstract String getListHeader();
 
     /**
      * @author Metacinnabar
