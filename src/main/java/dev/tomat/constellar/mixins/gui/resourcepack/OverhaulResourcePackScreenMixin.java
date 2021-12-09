@@ -1,5 +1,6 @@
-package dev.tomat.constellar.mixins.gui.resourcepack;
+/*package dev.tomat.constellar.mixins.gui.resourcepack;
 
+import com.google.common.collect.Lists;
 import dev.tomat.common.utils.ColorUtils;
 import dev.tomat.constellar.content.gui.GuiUtils;
 import net.minecraft.client.gui.GuiResourcePackAvailable;
@@ -7,6 +8,7 @@ import net.minecraft.client.gui.GuiResourcePackSelected;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiScreenResourcePacks;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.ResourcePackListEntry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -22,18 +24,22 @@ public class OverhaulResourcePackScreenMixin extends GuiScreen {
     @Shadow private GuiResourcePackAvailable availableResourcePacksList;
     @Shadow private GuiResourcePackSelected selectedResourcePacksList;
 
+    private GuiResourcePackAvailable visibleAvailableResourcePacks;
+    private GuiResourcePackSelected visibleSelectedResourcePacks;
+
     @Inject(method = "initGui", at = @At("TAIL"))
     public void postInitGui(CallbackInfo ci) {
         // remove open folder button and done button
         this.buttonList.removeIf(button -> button.id == DoneButtonId || button.id == OpenFolderButtonId);
 
+        visibleAvailableResourcePacksList = Lists.newArrayList();
+        visibleSelectedResourcePacksList = Lists.newArrayList();
+
+
         // todo: add image button like language button in main menu
         // todo: with the small folder icon that runs as button 2
     }
 
-    /**
-     * @author Metacinnabar
-     */
     @Overwrite
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         // draw pano in main menu and normal bg in-game
@@ -43,12 +49,13 @@ public class OverhaulResourcePackScreenMixin extends GuiScreen {
         availableResourcePacksList.drawScreen(mouseX, mouseY, partialTicks);
         selectedResourcePacksList.drawScreen(mouseX, mouseY, partialTicks);
 
+        int titleTopPadding = 8;
         // draw the title
         drawCenteredString(
                 fontRendererObj,
                 I18n.format("resourcePack.title"),
                 width / 2,
-                GuiUtils.DefaultTitleTopPadding,
+                titleTopPadding,
                 ColorUtils.White
         );
 
@@ -61,11 +68,13 @@ public class OverhaulResourcePackScreenMixin extends GuiScreen {
 
     protected void drawListHeader(String header, int xPosition) {
         int padding = 18;
-        mc.fontRendererObj.drawString(
+        drawCenteredString(
+                fontRendererObj,
                 header,
-                xPosition - mc.fontRendererObj.getStringWidth(header) / 2,
+                xPosition,
                 GuiUtils.DefaultTitleTopPadding + padding,
                 ColorUtils.White
         );
     }
 }
+*/

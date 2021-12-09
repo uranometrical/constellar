@@ -11,12 +11,15 @@ public class GuiUtils {
     public static final int DefaultButtonWidth = 200;
 
     public static final int DefaultTitleTopPadding = 16;
+    public static final int DefaultTextureSize = 256;
 
     // GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
     public static final int SourceFactor = 770;
     public static final int SourceFactorAlpha = 1;
     public static final int DestFactor = 771;
     public static final int DestFactorAlpha = 0;
+
+    public static final int TextHeight = 10;
 
     public static void drawRectNormal(int x, int y, int width, int height, int color, PosMode mode) {
         switch (mode) {
@@ -38,6 +41,10 @@ public class GuiUtils {
 
     public static void playButtonPressSound(SoundHandler soundHandlerIn) {
         soundHandlerIn.playSound(PositionedSoundRecord.create(new ResourceLocation("gui.button.press"), 1F));
+    }
+
+    public static void resetColor() {
+        GlStateManager.color(1f, 1f, 1f, 1f);
     }
 
     public enum PosMode {

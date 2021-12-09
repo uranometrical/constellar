@@ -14,9 +14,7 @@ import java.util.List;
 
 @Mixin(Minecraft.class)
 public abstract class RegisterConstellarPack {
-    @Shadow
-    @Final
-    private List<IResourcePack> defaultResourcePacks;
+    @Shadow @Final private List<IResourcePack> defaultResourcePacks;
 
     @Inject(method = "startGame", at = @At("HEAD"))
     public void startGame(CallbackInfo ci) {

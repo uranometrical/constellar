@@ -14,6 +14,11 @@ public class FullBrightModule extends StandardModule {
         );
     }
 
+    @Override
+    public ResourceLocation getImageLocation() {
+        return new ResourceLocation("constellar", "textures/gui/modules/fullbright_icon.png");
+    }
+
     private float previousGammaValue = 1f;
 
     @Override

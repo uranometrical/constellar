@@ -1,6 +1,5 @@
-package dev.tomat.constellar.mixins.resources;
+/*package dev.tomat.constellar.mixins.resources;
 
-import dev.tomat.constellar.content.resources.ConstellarPackListEntry;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiScreenResourcePacks;
 import net.minecraft.client.resources.ResourcePackListEntry;
@@ -26,3 +25,4 @@ public class AddConstellarResourcePackMixin extends GuiScreen {
             selectedResourcePacks.add(new ConstellarPackListEntry((GuiScreenResourcePacks) (Object) this));
     }
 }
+*/

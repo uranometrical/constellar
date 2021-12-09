@@ -14,6 +14,7 @@
     "gui.resourcepack.OverhaulResourcePackListMixin",
     "gui.resourcepack.OverhaulResourcePackScreenMixin",
     "gui.resourcepack.ResourcePackEntryMixin",
+    "gui.resourcepack.SwapResourcePackScreen",
     "keybinds.KeyPressMixin",
     "keybinds.LoadKeybindsMixin",
     "main.ModifyWindowTitle",

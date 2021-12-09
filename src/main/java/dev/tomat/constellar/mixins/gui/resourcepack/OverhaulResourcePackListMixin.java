@@ -1,17 +1,26 @@
-package dev.tomat.constellar.mixins.gui.resourcepack;
+/*package dev.tomat.constellar.mixins.gui.resourcepack;
 
+import com.google.common.collect.Lists;
+import dev.tomat.common.utils.ColorUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.gui.GuiResourcePackList;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.ResourcePackListEntry;
 import org.lwjgl.input.Mouse;
 import org.spongepowered.asm.mixin.Mixin;
 
+import java.util.List;
+
 @Mixin(GuiResourcePackList.class)
 public abstract class OverhaulResourcePackListMixin extends GuiListExtended {
+    protected List<ResourcePackListEntry> visibleElements;
+
     public OverhaulResourcePackListMixin(Minecraft mcIn, int widthIn, int heightIn, int topIn, int bottomIn, int slotHeightIn) {
         super(mcIn, widthIn, heightIn, topIn, bottomIn, slotHeightIn);
+        visibleElements = Lists.newArrayList();
     }
 
     @Override
@@ -21,14 +30,29 @@ public abstract class OverhaulResourcePackListMixin extends GuiListExtended {
         {
             mouseX = mouseXIn;
             mouseY = mouseYIn;
-
             bindAmountScrolled();
-            GlStateManager.disableLighting();
 
+            GlStateManager.disableLighting();
             GlStateManager.color(1f, 1f, 1f, 1f);
 
-            int k = left + width / 2 - getListWidth() / 2 + 2;
-            int l = top + 4 - (int)amountScrolled;
+            // background underneath everything
+            int outerPadding = 4;
+            int margin = 9;
+            int backgroundX = left - outerPadding;
+            int backgroundY = top - outerPadding;
+            Gui.drawRect(
+                    backgroundX,
+                    backgroundY,
+                    // list width, minus margin (9),
+                    // list width - 5 + 8
+                    backgroundX + getListWidth() - margin + (outerPadding * 2),
+                    backgroundY + height + (outerPadding * 2),
+                    ColorUtils.colorToInt(40, 40, 40, 100)
+            );
+
+            // x center of list, I think
+            int k = left + (width / 2) - (getListWidth() / 2);
+            int l = top + (4) - (int)amountScrolled;
 
             drawSelectionBox(k, l, mouseXIn, mouseYIn);
             GlStateManager.disableDepth();
@@ -45,7 +69,9 @@ public abstract class OverhaulResourcePackListMixin extends GuiListExtended {
             // headerPadding is 13
             int height = slotHeight - 4; // todo: unhardcode/unmagic
 
-            drawSlot(packIterator, xPosition, ySlotPosition, height, mouseX, mouseY);
+            //int top = yPosition + headerPadding;
+            //if (ySlotPosition > top && ySlotPosition < top + (5 * slotHeight))
+                drawSlot(packIterator, xPosition, ySlotPosition, height, mouseX, mouseY);
         }
     }
 
@@ -99,3 +125,4 @@ public abstract class OverhaulResourcePackListMixin extends GuiListExtended {
         }
     }
 }
+*/
