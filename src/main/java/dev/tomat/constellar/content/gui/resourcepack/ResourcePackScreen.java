@@ -2,7 +2,6 @@ package dev.tomat.constellar.content.gui.resourcepack;
 
 import com.google.common.collect.Lists;
 import dev.tomat.common.utils.ColorUtils;
-import dev.tomat.constellar.content.gui.GuiUtils;
 import dev.tomat.constellar.content.gui.resourcepack.entries.ResourcePackEntryConstellar;
 import dev.tomat.constellar.content.gui.resourcepack.entries.ResourcePackEntryDefault;
 import dev.tomat.constellar.content.gui.resourcepack.entries.ResourcePackEntryFound;
@@ -66,17 +65,33 @@ public class ResourcePackScreen extends GuiScreen {
                 selectedResourcePacks.add(new ResourcePackEntryFound(this, resourcePack));
             }
 
-            selectedResourcePacks.add(new ResourcePackEntryDefault(this));
             selectedResourcePacks.add(new ResourcePackEntryConstellar(this));
+            selectedResourcePacks.add(new ResourcePackEntryDefault(this));
         }
 
-        this.availableResourcePackPanel = new AvailableResourcePackPanel(mc, ResourcePackUtils.ResourcePackEntryWidth, height, availableResourcePacks);
-        this.availableResourcePackPanel.setSlotXBoundsFromLeft(width / 2 - (ResourcePackUtils.ResourcePackPanelPadding / 2) - ResourcePackUtils.ResourcePackEntryWidth);
-        this.availableResourcePackPanel.registerScrollButtons(7, 8);
+        // pack coords based on top left of panel, without width padding
+        availableResourcePackPanel = new AvailableResourcePackPanel(mc,
+                ResourcePackUtils.ResourcePackEntryWidth,
+                // screen height minus top and bottom padding = panel height
+                height - ResourcePackUtils.ResourcePackPanelBottomPadding - ResourcePackUtils.ResourcePackPanelTopPadding,
+                // same xPos as the xPos of the icon. left. todo: MAKE SURE TO ACCOUNT FOR THE 4 PIXEL PADDING ON EACH SIDE IN THE DRAWCODE
+                (width / 2) - (ResourcePackUtils.PaddingBetweenResourcePackPanels / 2) - (ResourcePackUtils.ResourcePackPanelPadding / 2) - ResourcePackUtils.ResourcePackEntryWidth,
+                availableResourcePacks
+        );
+        // basically x with padding
+        availableResourcePackPanel.setSlotXBoundsFromLeft((width / 2) - (ResourcePackUtils.PaddingBetweenResourcePackPanels / 2) - (ResourcePackUtils.ResourcePackPanelPadding) - ResourcePackUtils.ResourcePackEntryWidth);
 
-        this.selectedResourcePackPanel = new SelectedResourcePackPanel(mc, ResourcePackUtils.ResourcePackEntryWidth, height, selectedResourcePacks);
-        this.selectedResourcePackPanel.setSlotXBoundsFromLeft(width / 2 + (ResourcePackUtils.ResourcePackPanelPadding / 2));
-        this.selectedResourcePackPanel.registerScrollButtons(7, 8);
+        selectedResourcePackPanel = new SelectedResourcePackPanel(mc,
+                ResourcePackUtils.ResourcePackEntryWidth,
+                // screen height minus top and bottom padding = panel height
+                height - ResourcePackUtils.ResourcePackPanelBottomPadding - ResourcePackUtils.ResourcePackPanelTopPadding,
+                // same xPos as the xPos of the icon. left. todo: MAKE SURE TO ACCOUNT FOR THE 4 PIXEL PADDING ON EACH SIDE IN THE DRAWCODE
+                // whole screen, half screen, then add half the padding between the sides, then add the panel padding (4) to get the icon's X
+                (width / 2) + (ResourcePackUtils.PaddingBetweenResourcePackPanels / 2) + (ResourcePackUtils.ResourcePackPanelPadding / 2),
+                selectedResourcePacks
+        );
+        // basically just x with padding lol
+        selectedResourcePackPanel.setSlotXBoundsFromLeft((width / 2) + (ResourcePackUtils.PaddingBetweenResourcePackPanels / 2));
     }
 
     public void handleMouseInput() throws IOException
@@ -98,12 +113,12 @@ public class ResourcePackScreen extends GuiScreen {
 
     public List<ResourcePackEntry> getAvailableResourcePackPanel()
     {
-        return this.availableResourcePacks;
+        return availableResourcePacks;
     }
 
     public List<ResourcePackEntry> getSelectedResourcePackPanel()
     {
-        return this.selectedResourcePacks;
+        return selectedResourcePacks;
     }
 
     protected void actionPerformed(GuiButton button) {
@@ -208,17 +223,18 @@ public class ResourcePackScreen extends GuiScreen {
         selectedResourcePackPanel.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
+    /*
     protected void mouseReleased(int mouseX, int mouseY, int state)
     {
         super.mouseReleased(mouseX, mouseY, state);
-    }
+    }*/
 
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         drawBackground(0);
         availableResourcePackPanel.drawScreen(mouseX, mouseY, partialTicks);
         selectedResourcePackPanel.drawScreen(mouseX, mouseY, partialTicks);
-        drawCenteredString(fontRendererObj, I18n.format("resourcePack.title"), width / 2, GuiUtils.DefaultTitleTopPadding, ColorUtils.White);
+        drawCenteredString(fontRendererObj, I18n.format("resourcePack.title"), width / 2, ResourcePackUtils.ResourcePacksScreenTitleTopPadding, ColorUtils.White);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 

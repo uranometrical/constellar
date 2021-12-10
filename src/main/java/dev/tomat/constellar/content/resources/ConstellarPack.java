@@ -50,6 +50,6 @@ public class ConstellarPack implements IResourcePack {
 
     @Override
     public String getPackName() {
-        return EnumChatFormatting.GRAY + "Default " + EnumChatFormatting.LIGHT_PURPLE + "Constellar " + EnumChatFormatting.GRAY + "Resources";
+        return EnumChatFormatting.WHITE + "Default " + EnumChatFormatting.LIGHT_PURPLE + "Constellar " + EnumChatFormatting.WHITE + "Resources";
     }
 }

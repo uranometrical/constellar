@@ -19,6 +19,7 @@ public abstract class ResourcePackEntry implements GuiListExtended.IGuiListEntry
 
     protected final Minecraft mc;
     protected final ResourcePackScreen resourcePackScreen;
+    public int ySlotPosition;
 
     public boolean visible = true;
 
@@ -29,8 +30,6 @@ public abstract class ResourcePackEntry implements GuiListExtended.IGuiListEntry
     }
 
     public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
-        // todo: MAKE SURE YOU'VE FIXED THE SCROLLBAR SHIT FROM LISTWIDTH
-
         if (!visible)
             return;
 
@@ -158,7 +157,7 @@ public abstract class ResourcePackEntry implements GuiListExtended.IGuiListEntry
             mc.fontRendererObj.drawStringWithShadow(
                     packDescriptionLines.get(line),
                     (float)(x + ResourcePackUtils.PackIconSize + (ResourcePackUtils.ResourcePackEntryPadding / 2)),
-                    (float)(y + (ResourcePackUtils.PackTitleTopPadding * 3) + (GuiUtils.TextHeight * line)),
+                    (float)(y + (ResourcePackUtils.PackTitleTopPadding * 3) + (GuiUtils.TextHeight * (line + 1))),
                     ColorUtils.colorToInt(128, 128, 128, 255)
             );
         }

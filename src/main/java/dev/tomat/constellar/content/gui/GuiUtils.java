@@ -33,6 +33,10 @@ public class GuiUtils {
         }
     }
 
+    public static void drawRectNormal(int x, int y, int width, int height, int color) {
+        Gui.drawRect(x, y, x + width, y + height, color);
+    }
+
     public static void blend() {
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(GuiUtils.SourceFactor, GuiUtils.DestFactor, GuiUtils.SourceFactorAlpha, GuiUtils.DestFactorAlpha);

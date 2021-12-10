@@ -1,6 +1,7 @@
 package dev.tomat.constellar.content.gui.resourcepack;
 
 import com.google.gson.JsonParseException;
+import dev.tomat.constellar.content.gui.GuiUtils;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.resources.ResourcePackRepository;
 import net.minecraft.client.resources.data.PackMetadataSection;
@@ -17,15 +18,17 @@ public class ResourcePackUtils {
     public static final int ResourcePackEntryPadding = 4;
     public static final int ResourcePackPanelPadding = 8;
     public static final int ResourcePackEntryHeight = PackIconSize + ResourcePackEntryPadding;
-    public static final int ResourcePackPanelHeaderPadding = 18;
+    public static final int ResourcePackPanelHeaderPadding = 16;
     public static final int DefaultTextureSize = 256;
     public static final int EntryMaxTextWidth = 157;
     public static final String TooLongDisplay = "...";
     public static final int PackTitleTopPadding = 1;
     public static final int PackDescriptionLineCount = 2;
-    public static final int ResourcePackEntryWidth = 210;
-    public static final int ResourcePackPanelBottomPadding = 54;
-    public static final int ResourcePackPanelHeaderTopPadding = 26;
+    public static final int ResourcePackEntryWidth = 190;
+    public static final int ResourcePackPanelBottomPadding = 34;
+    public static final int ResourcePackPanelTopPadding = 16 + GuiUtils.TextHeight;
+    public static final int PaddingBetweenResourcePackPanels = 16;
+    public static final int ResourcePacksScreenTitleTopPadding = 8;
 
     public static PackCompatibility intToCompatibility(int i) {
         if (i < 1) {

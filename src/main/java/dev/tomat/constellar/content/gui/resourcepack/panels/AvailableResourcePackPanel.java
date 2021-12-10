@@ -8,12 +8,12 @@ import net.minecraft.client.resources.I18n;
 import java.util.List;
 
 public class AvailableResourcePackPanel extends ResourcePackPanel {
-    public AvailableResourcePackPanel(Minecraft mcIn, int widthIn, int heightIn, List<ResourcePackEntry> resourcePacks)
+    public AvailableResourcePackPanel(Minecraft mcIn, int widthIn, int heightIn, int xPosIn, List<ResourcePackEntry> resourcePacks)
     {
-        super(mcIn, widthIn, heightIn, resourcePacks);
+        super(mcIn, widthIn, heightIn, xPosIn, resourcePacks);
     }
 
-    protected String getListHeader()
+    public String getPanelHeader()
     {
         return I18n.format("resourcePack.available.title");
     }
