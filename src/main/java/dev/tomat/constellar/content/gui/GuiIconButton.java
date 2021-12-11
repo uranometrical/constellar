@@ -45,6 +45,16 @@ public abstract class GuiIconButton extends GuiButton {
         );
     }
 
+    public abstract ResourceLocation getIconTexture();
+
+    protected abstract int getSpreadsheetX();
+
+    protected abstract int getSpreadsheetY();
+
+    public int getIconSize() {
+        return DefaultButtonIconSize;
+    }
+
     public boolean isHovering(int mouseX, int mouseY) {
         return mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
     }
@@ -56,14 +66,4 @@ public abstract class GuiIconButton extends GuiButton {
     public void drawButton(boolean hovering) {
         drawTexturedModalRect(xPosition, yPosition, 0, GuiUtils.ButtonSpreadsheetY + (getHoverState(hovering) * height), width, height);
     }
-
-    public abstract ResourceLocation getIconTexture();
-
-    public int getIconSize() {
-        return DefaultButtonIconSize;
-    }
-
-    protected abstract int getSpreadsheetX();
-
-    protected abstract int getSpreadsheetY();
 }
