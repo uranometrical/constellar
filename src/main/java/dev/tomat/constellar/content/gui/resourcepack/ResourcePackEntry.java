@@ -21,18 +21,13 @@ public abstract class ResourcePackEntry implements GuiListExtended.IGuiListEntry
     protected final ResourcePackScreen resourcePackScreen;
     public int ySlotPosition;
 
-    public boolean visible = true;
-
     public ResourcePackEntry(ResourcePackScreen resourcePackScreenIn)
     {
         mc = Minecraft.getMinecraft();
         resourcePackScreen = resourcePackScreenIn;
     }
 
-    public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
-        if (!visible)
-            return;
-
+    public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean hovering) {
         PackCompatibility compatibility = getCompatibility();
 
         int overlayX = x - (ResourcePackUtils.ResourcePackEntryPadding / 2);
@@ -50,7 +45,7 @@ public abstract class ResourcePackEntry implements GuiListExtended.IGuiListEntry
         }
 
         // hover gray rectangle overlay
-        if (isSelected) {
+        if (hovering) {
             Gui.drawRect(overlayX, overlayY,
                     overlayX + listWidth + ResourcePackUtils.ResourcePackEntryPadding,
                     overlayY + slotHeight + ResourcePackUtils.ResourcePackEntryPadding,
@@ -69,13 +64,7 @@ public abstract class ResourcePackEntry implements GuiListExtended.IGuiListEntry
         String packTitle = getPackTitle();
         String packDescription = getPackDescription();
 
-        if ((mc.gameSettings.touchscreen || isSelected) && isPackMovable()) {
-            // bind the new texture and reset the color
-            mc.getTextureManager().bindTexture(ResourcePackUtils.ResourcePackTextures);
-            GuiUtils.resetColor();
-
-            int entryX = mouseX - x;
-
+        if ((mc.gameSettings.touchscreen || hovering) && isPackMovable()) {
             if (compatibility == PackCompatibility.IncompatibleOld) {
                 packTitle = IncompatibleTranslation.getFormattedText();
                 packDescription = IncompatibleOldTranslation.getFormattedText();
@@ -84,6 +73,12 @@ public abstract class ResourcePackEntry implements GuiListExtended.IGuiListEntry
                 packTitle = IncompatibleTranslation.getFormattedText();
                 packDescription = IncompatibleNewTranslation.getFormattedText();
             }
+
+            // bind the new texture and reset the color
+            mc.getTextureManager().bindTexture(ResourcePackUtils.ResourcePackTextures);
+            GuiUtils.resetColor();
+
+            int entryX = mouseX - x;
 
             // if on selected pack side
             if (isSelected()) {

@@ -11,19 +11,12 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.resources.ResourcePackRepository;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Resource pack screen overhaul.
- *
- */
 public class ResourcePackScreen extends GuiScreen {
 
-    protected static final Logger logger = LogManager.getLogger();
     protected final GuiScreen parentScreen;
 
     protected List<ResourcePackEntry> availableResourcePacks;
@@ -223,17 +216,17 @@ public class ResourcePackScreen extends GuiScreen {
         selectedResourcePackPanel.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
-    /*
-    protected void mouseReleased(int mouseX, int mouseY, int state)
-    {
-        super.mouseReleased(mouseX, mouseY, state);
-    }*/
 
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-        drawBackground(0);
+        // draw pano in main menu and normal bg in-game
+        drawDefaultBackground();
+
+        // draw both panels
         availableResourcePackPanel.drawScreen(mouseX, mouseY, partialTicks);
         selectedResourcePackPanel.drawScreen(mouseX, mouseY, partialTicks);
+
+        // draw title
         drawCenteredString(fontRendererObj, I18n.format("resourcePack.title"), width / 2, ResourcePackUtils.ResourcePacksScreenTitleTopPadding, ColorUtils.White);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }

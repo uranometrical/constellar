@@ -87,47 +87,15 @@ public abstract class ResourcePackPanel extends GuiListExtended {
 
         for (int packIterator = 0; packIterator < packCount; ++packIterator)
         {
-            //System.out.println("pack iterator: " + packIterator);
             int ySlotPosition = yPosition + (packIterator * slotHeight) - (slotHeight * scrollIndex) + ResourcePackUtils.ResourcePackPanelHeaderPadding;
-            int height = slotHeight - ResourcePackUtils.ResourcePackEntryPadding;
-
-            //System.out.println(ySlotPosition);
+            int rawHeight = slotHeight - ResourcePackUtils.ResourcePackEntryPadding;
 
             getListEntry(packIterator).ySlotPosition = ySlotPosition;
 
-            //System.out.println("ypos: " + yPosition);
-            if (ySlotPosition > ResourcePackUtils.ResourcePackPanelHeaderPadding && ySlotPosition < this.height + ResourcePackUtils.ResourcePackPanelTopPadding)
-                drawSlot(packIterator, xPosition, ySlotPosition, height, mouseX, mouseY);
-            //int top = yPosition + headerPadding;
-            //if (ySlotPosition > top && ySlotPosition < top + (5 * slotHeight))
-            //drawSlot(packIterator, xPosition, ySlotPosition, height, mouseX, mouseY);
+            if (ySlotPosition > ResourcePackUtils.ResourcePackPanelHeaderPadding && ySlotPosition < height + ResourcePackUtils.ResourcePackPanelTopPadding)
+                drawSlot(packIterator, xPosition, ySlotPosition, rawHeight, mouseX, mouseY);
         }
     }
-/*
-    // used for scrollbar
-    @Override
-    public void actionPerformed(GuiButton button) {
-        int scrollUpId = 7;
-        int scrollDownId = 8;
-
-        if (button.enabled)
-        {
-            if (button.id == scrollUpId)
-            {
-                //this.amountScrolled -= (float)(this.slotHeight * 2 / 3);
-                this.amountScrolled -= (float)(this.slotHeight);
-                this.initialClickY = -2;
-                this.bindAmountScrolled();
-            }
-            else if (button.id == scrollDownId)
-            {
-                //this.amountScrolled += (float)(this.slotHeight * 2 / 3);
-                this.amountScrolled += (float)(this.slotHeight * 3);
-                this.initialClickY = -2;
-                this.bindAmountScrolled();
-            }
-        }
-    }*/
 
     public abstract String getPanelHeader();
 
@@ -155,9 +123,6 @@ public abstract class ResourcePackPanel extends GuiListExtended {
     private void scroll(boolean down) {
         int lastIndex = (getSize() - 1);
 
-        //System.out.println(getListEntry(lastIndex).ySlotPosition);
-        //System.out.println(getListEntry(0).ySlotPosition);
-
         if (down) {
             if (getListEntry(lastIndex).ySlotPosition > (ResourcePackUtils.ResourcePackPanelTopPadding + height - ResourcePackUtils.PackIconSize)) {
                 scrollIndex += 1;
@@ -169,5 +134,34 @@ public abstract class ResourcePackPanel extends GuiListExtended {
                     scrollIndex -= 1;
             }
         }
+    }
+
+    public int getSlotIndexFromScreenCoords(int mouseX, int mouseY)
+    {
+        // if in the panel rectangle
+        if (mouseX >= panelXPosition && mouseX < panelXPosition + ResourcePackUtils.ResourcePackEntryWidth)
+        {
+            // this seems to always be off by 1 pixel somewhere.. wtf?
+            // todo: look into this please (tomat because i am DONE with resource packs)
+            int index = ((mouseY - getTopEntryYPos() - 1) / slotHeight) + scrollIndex;
+
+            // check if in bounds
+            if (index >= 0 && index < getSize() && mouseY >= getTopEntryYPos() - 1)
+                return index;
+        }
+
+        return -1;
+    }
+
+    protected void drawSlot(int entryIndex, int xPosition, int yPosition, int height, int mouseX, int mouseY)
+    {
+        getListEntry(entryIndex).drawEntry(entryIndex, xPosition, yPosition, getListWidth(), height, mouseX, mouseY,
+                getSlotIndexFromScreenCoords(mouseX, mouseY) == entryIndex);
+    }
+
+    public static int getTopEntryYPos() {
+        return ResourcePackUtils.ResourcePackPanelTopPadding +
+                ResourcePackUtils.ResourcePackPanelHeaderPadding +
+                (ResourcePackUtils.ResourcePackPanelPadding / 2);
     }
 }
