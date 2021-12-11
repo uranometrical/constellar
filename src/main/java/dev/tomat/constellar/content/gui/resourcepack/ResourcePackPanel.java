@@ -20,7 +20,7 @@ public abstract class ResourcePackPanel extends GuiListExtended {
         super(
                 mcIn, widthIn, heightIn,
                 ResourcePackUtils.PackIconSize,
-                heightIn - ResourcePackUtils.ResourcePackPanelBottomPadding + ResourcePackUtils.ResourcePackEntryPadding,
+                heightIn - 10 + ResourcePackUtils.ResourcePackEntryHeight, // todo: we love minecraft dont we? dont we? we love minecraft so much. i am so close to breaking the window of my 2 story house and diving head first outside of it. i have spent over 30 hours on this dumb fucking gui i cant anymore. i hope this last fix works. im
                 ResourcePackUtils.ResourcePackEntryHeight
         );
 
@@ -51,48 +51,51 @@ public abstract class ResourcePackPanel extends GuiListExtended {
     }
 
     public void drawScreen(int mouseXIn, int mouseYIn, float partialTicks) {
-            mouseX = mouseXIn;
-            mouseY = mouseYIn;
-            bindAmountScrolled();
+        mouseX = mouseXIn;
+        mouseY = mouseYIn;
+        bindAmountScrolled();
 
-            GlStateManager.disableLighting();
-            GuiUtils.resetColor();
+        GlStateManager.disableLighting();
+        GuiUtils.resetColor();
 
-            // panel background
-            int backgroundX = panelXPosition - (ResourcePackUtils.ResourcePackPanelPadding / 2);
-            int backgroundY = ResourcePackUtils.ResourcePackPanelTopPadding;
-            GuiUtils.drawRectNormal(backgroundX, backgroundY,
-                    ResourcePackUtils.ResourcePackEntryWidth + ResourcePackUtils.ResourcePackPanelPadding,
-                    height,
-                    ColorUtils.colorToInt(40, 40, 40, 100)
-            );
+        // panel background
+        int backgroundX = panelXPosition - (ResourcePackUtils.ResourcePackPanelPadding / 2);
+        int backgroundY = ResourcePackUtils.ResourcePackPanelTopPadding;
+        GuiUtils.drawRectNormal(backgroundX, backgroundY,
+            ResourcePackUtils.ResourcePackEntryWidth + ResourcePackUtils.ResourcePackPanelPadding,
+            height - 10, // todo: why is minecraft like this?
+            ColorUtils.colorToInt(40, 40, 40, 100)
+        );
 
-            // the y of the first icon in the list, virtually
-            int firstIconY = ResourcePackUtils.ResourcePackPanelTopPadding + (ResourcePackUtils.ResourcePackPanelPadding / 2);
+        // the y of the first icon in the list, virtually
+        int firstIconY = ResourcePackUtils.ResourcePackPanelTopPadding + (ResourcePackUtils.ResourcePackPanelPadding / 2);
 
-            drawHeader(getPanelHeader(), panelXPosition + (ResourcePackUtils.ResourcePackEntryWidth / 2));
-            drawSelectionBox(panelXPosition, firstIconY, mouseXIn, mouseYIn);
-            GlStateManager.disableDepth();
+        drawHeader(getPanelHeader(), panelXPosition + (ResourcePackUtils.ResourcePackEntryWidth / 2));
+        drawSelectionBox(panelXPosition, firstIconY, mouseXIn, mouseYIn);
+        GlStateManager.disableDepth();
     }
 
     protected void drawSelectionBox(int xPosition, int yPosition, int mouseX, int mouseY) {
         int packCount = getSize();
+        int shownPackCount = ResourcePackUtils.getResourcePackEntryCountFromPanelHeight(height);
 
         if (scrollIndex < 0)
             scrollIndex = 0;
 
-        // todo: 11 is the amount of packs shown on screen. unhardcode this in the morning. fuck me.
-        if (scrollIndex > packCount - 12 && packCount > 12)
-            scrollIndex = packCount - 12;
+        if (scrollIndex > packCount - shownPackCount && packCount > shownPackCount)
+            scrollIndex = packCount - shownPackCount;
 
         for (int packIterator = 0; packIterator < packCount; ++packIterator)
         {
-            int ySlotPosition = yPosition + (packIterator * slotHeight) - (slotHeight * scrollIndex) + ResourcePackUtils.ResourcePackPanelHeaderPadding;
+            // top of the panel, plus the padding between the top of the top entry and the top of the panel,
+            // plus the pack iterator multiplied by the height of a slot, minus the number of packs that have been
+            // scrolled down by multiplied by the slot height
+            int ySlotPosition = yPosition + ResourcePackUtils.ResourcePackPanelHeaderPadding + (packIterator * slotHeight) - (scrollIndex * slotHeight);
             int rawHeight = slotHeight - ResourcePackUtils.ResourcePackEntryPadding;
 
             getListEntry(packIterator).ySlotPosition = ySlotPosition;
 
-            if (ySlotPosition > ResourcePackUtils.ResourcePackPanelHeaderPadding && ySlotPosition < height + ResourcePackUtils.ResourcePackPanelTopPadding)
+            if (ySlotPosition > (ResourcePackUtils.ResourcePackPanelHeaderPadding + ResourcePackUtils.ResourcePackPanelTopPadding) && ySlotPosition < height)
                 drawSlot(packIterator, xPosition, ySlotPosition, rawHeight, mouseX, mouseY);
         }
     }
@@ -124,7 +127,7 @@ public abstract class ResourcePackPanel extends GuiListExtended {
         int lastIndex = (getSize() - 1);
 
         if (down) {
-            if (getListEntry(lastIndex).ySlotPosition > (ResourcePackUtils.ResourcePackPanelTopPadding + height - ResourcePackUtils.PackIconSize)) {
+            if (getListEntry(lastIndex).ySlotPosition > (ResourcePackUtils.ResourcePackPanelTopPadding + height)) {
                 scrollIndex += 1;
             }
         }
@@ -143,10 +146,10 @@ public abstract class ResourcePackPanel extends GuiListExtended {
         {
             // this seems to always be off by 1 pixel somewhere.. wtf?
             // todo: look into this please (tomat because i am DONE with resource packs)
-            int index = ((mouseY - getTopEntryYPos() - 1) / slotHeight) + scrollIndex;
+            int index = ((mouseY - getTopEntryYPos()) / slotHeight) + scrollIndex;
 
             // check if in bounds
-            if (index >= 0 && index < getSize() && mouseY >= getTopEntryYPos() - 1)
+            if (index >= 0 && index < getSize() && mouseY >= getTopEntryYPos())
                 return index;
         }
 
@@ -162,6 +165,15 @@ public abstract class ResourcePackPanel extends GuiListExtended {
     public static int getTopEntryYPos() {
         return ResourcePackUtils.ResourcePackPanelTopPadding +
                 ResourcePackUtils.ResourcePackPanelHeaderPadding +
-                (ResourcePackUtils.ResourcePackPanelPadding / 2);
+                (ResourcePackUtils.ResourcePackEntryPadding / 2); // killing myself
+    }
+
+    public boolean isMouseYWithinSlotBounds(int mouseY)
+    {
+        return
+                mouseY >= top &&
+                mouseY <= bottom &&
+                mouseX >= left &&
+                mouseX <= right;
     }
 }

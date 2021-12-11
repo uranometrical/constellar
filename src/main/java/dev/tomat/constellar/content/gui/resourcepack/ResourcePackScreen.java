@@ -65,9 +65,9 @@ public class ResourcePackScreen extends GuiScreen {
         // pack coords based on top left of panel, without width padding
         availableResourcePackPanel = new AvailableResourcePackPanel(mc,
                 ResourcePackUtils.ResourcePackEntryWidth,
-                // screen height minus top and bottom padding = panel height
-                height - ResourcePackUtils.ResourcePackPanelBottomPadding - ResourcePackUtils.ResourcePackPanelTopPadding,
-                // same xPos as the xPos of the icon. left. todo: MAKE SURE TO ACCOUNT FOR THE 4 PIXEL PADDING ON EACH SIDE IN THE DRAWCODE
+                // use epic helper method
+                ResourcePackUtils.getResourcePackPanelHeight(height),
+                // same xPos as the xPos of the icon. left.
                 (width / 2) - (ResourcePackUtils.PaddingBetweenResourcePackPanels / 2) - (ResourcePackUtils.ResourcePackPanelPadding / 2) - ResourcePackUtils.ResourcePackEntryWidth,
                 availableResourcePacks
         );
@@ -76,9 +76,9 @@ public class ResourcePackScreen extends GuiScreen {
 
         selectedResourcePackPanel = new SelectedResourcePackPanel(mc,
                 ResourcePackUtils.ResourcePackEntryWidth,
-                // screen height minus top and bottom padding = panel height
-                height - ResourcePackUtils.ResourcePackPanelBottomPadding - ResourcePackUtils.ResourcePackPanelTopPadding,
-                // same xPos as the xPos of the icon. left. todo: MAKE SURE TO ACCOUNT FOR THE 4 PIXEL PADDING ON EACH SIDE IN THE DRAWCODE
+                // use epic helper method
+                ResourcePackUtils.getResourcePackPanelHeight(height),
+                // same xPos as the xPos of the icon. left.
                 // whole screen, half screen, then add half the padding between the sides, then add the panel padding (4) to get the icon's X
                 (width / 2) + (ResourcePackUtils.PaddingBetweenResourcePackPanels / 2) + (ResourcePackUtils.ResourcePackPanelPadding / 2),
                 selectedResourcePacks
