@@ -9,6 +9,7 @@ import net.minecraft.util.ResourceLocation;
 public class GuiUtils {
     public static final int DefaultButtonHeight = 20;
     public static final int DefaultButtonWidth = 200;
+    public static final int DefaultGuiOptionsButtonWidth = 150;
 
     public static final int DefaultTitleTopPadding = 16;
     public static final int DefaultTextureSize = 256;

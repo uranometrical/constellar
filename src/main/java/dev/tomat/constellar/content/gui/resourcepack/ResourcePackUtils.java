@@ -31,11 +31,17 @@ public class ResourcePackUtils {
     public static final int PackDescriptionLineCount = 2;
     public static final int ResourcePackEntryWidth = 190;
 
+    public static final int RefreshIconSize = 16;
+    public static final int OpenFolderIconSize = 16;
+
+    public static final int ResourcePackButtonsBottomPadding = 12;
+    public static final int ResourcePackDoneButtonSidePadding = 8;
+
     /**
      * Padding between the bottom of the panel and the bottom of the screen. Usually 44.
      * Space for the button at its default height (20), with 12 pixel padding on the top and bottom of it.
      */
-    public static final int ResourcePackPanelBottomPadding = (12 * 2) + GuiUtils.DefaultButtonHeight;
+    public static final int ResourcePackPanelBottomPadding = (ResourcePackButtonsBottomPadding * 2) + GuiUtils.DefaultButtonHeight;
 
     /**
      * Padding between the top of the screen and top of the panel. Usually 26.

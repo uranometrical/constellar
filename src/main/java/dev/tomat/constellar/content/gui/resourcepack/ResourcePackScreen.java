@@ -2,17 +2,23 @@ package dev.tomat.constellar.content.gui.resourcepack;
 
 import com.google.common.collect.Lists;
 import dev.tomat.common.utils.ColorUtils;
+import dev.tomat.constellar.content.gui.GuiUtils;
+import dev.tomat.constellar.content.gui.resourcepack.buttons.OpenFolderButton;
+import dev.tomat.constellar.content.gui.resourcepack.buttons.RefreshButton;
+import dev.tomat.constellar.content.gui.resourcepack.buttons.ResourcePackButtonId;
 import dev.tomat.constellar.content.gui.resourcepack.entries.ResourcePackEntryConstellar;
 import dev.tomat.constellar.content.gui.resourcepack.entries.ResourcePackEntryDefault;
 import dev.tomat.constellar.content.gui.resourcepack.entries.ResourcePackEntryFound;
 import dev.tomat.constellar.content.gui.resourcepack.panels.AvailableResourcePackPanel;
 import dev.tomat.constellar.content.gui.resourcepack.panels.SelectedResourcePackPanel;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiOptionButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.resources.ResourcePackRepository;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 public class ResourcePackScreen extends GuiScreen {
@@ -34,8 +40,24 @@ public class ResourcePackScreen extends GuiScreen {
 
     public void initGui()
     {
-        //this.buttonList.add(new GuiOptionButton(2, this.width / 2 - 154, this.height - 48, I18n.format("resourcePack.openFolder", new Object[0])));
-        //this.buttonList.add(new GuiOptionButton(1, this.width / 2 + 4, this.height - 48, I18n.format("gui.done", new Object[0])));
+        int buttonYPos = height - ResourcePackUtils.ResourcePackButtonsBottomPadding - GuiUtils.DefaultButtonHeight;
+
+        // button id, x, y, text
+        buttonList.add(new GuiOptionButton(ResourcePackButtonId.Done,
+                (width / 2) - (GuiUtils.DefaultGuiOptionsButtonWidth / 2),
+                buttonYPos,
+                I18n.format("gui.done")
+        ));
+
+        buttonList.add(new OpenFolderButton(ResourcePackButtonId.OpenFolder,
+                (width / 2) - (GuiUtils.DefaultGuiOptionsButtonWidth / 2) - ResourcePackUtils.ResourcePackDoneButtonSidePadding,
+                buttonYPos
+        ));
+
+        buttonList.add(new RefreshButton(ResourcePackButtonId.OpenFolder,
+                (width / 2) + (GuiUtils.DefaultGuiOptionsButtonWidth / 2) + ResourcePackUtils.ResourcePackDoneButtonSidePadding,
+                buttonYPos
+        ));
 
         if (!changed)
         {
@@ -115,8 +137,42 @@ public class ResourcePackScreen extends GuiScreen {
     }
 
     protected void actionPerformed(GuiButton button) {
-        if (button.enabled)
-        {
+        if (!button.enabled)
+            return;
+
+        if (button.id == ResourcePackButtonId.Done) {
+            if (changed) {
+                List<ResourcePackRepository.Entry> packs = Lists.newArrayList();
+
+                for (ResourcePackEntry selectedPack : selectedResourcePacks) {
+                    if (selectedPack instanceof ResourcePackEntryFound) {
+                        packs.add(((ResourcePackEntryFound)selectedPack).getResourcePack());
+                    }
+                }
+
+                Collections.reverse(packs);
+
+                mc.getResourcePackRepository().setRepositories(packs);
+                mc.gameSettings.resourcePacks.clear();
+                mc.gameSettings.incompatibleResourcePacks.clear();
+
+                for (ResourcePackRepository.Entry pack : packs)
+                {
+                    mc.gameSettings.resourcePacks.add(pack.getResourcePackName());
+
+                    // compatibility
+                    if (pack.func_183027_f() != 1)
+                    {
+                        mc.gameSettings.incompatibleResourcePacks.add(pack.getResourcePackName());
+                    }
+                }
+
+                mc.gameSettings.saveOptions();
+                mc.refreshResources();
+            }
+
+            // return to screen beforehand todo: make sure to make this configurable
+            mc.displayGuiScreen(parentScreen);
             /*
             if (button.id == 2)
             {

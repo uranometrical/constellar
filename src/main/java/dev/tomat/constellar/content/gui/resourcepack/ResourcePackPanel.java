@@ -20,7 +20,7 @@ public abstract class ResourcePackPanel extends GuiListExtended {
         super(
                 mcIn, widthIn, heightIn,
                 ResourcePackUtils.PackIconSize,
-                heightIn - 10 + ResourcePackUtils.ResourcePackEntryHeight, // todo: we love minecraft dont we? dont we? we love minecraft so much. i am so close to breaking the window of my 2 story house and diving head first outside of it. i have spent over 30 hours on this dumb fucking gui i cant anymore. i hope this last fix works. im
+                heightIn - 10 + ResourcePackUtils.ResourcePackEntryHeight, // todo: why is minecraft like this?
                 ResourcePackUtils.ResourcePackEntryHeight
         );
 
@@ -165,7 +165,7 @@ public abstract class ResourcePackPanel extends GuiListExtended {
     public static int getTopEntryYPos() {
         return ResourcePackUtils.ResourcePackPanelTopPadding +
                 ResourcePackUtils.ResourcePackPanelHeaderPadding +
-                (ResourcePackUtils.ResourcePackEntryPadding / 2); // killing myself
+                (ResourcePackUtils.ResourcePackEntryPadding / 2);
     }
 
     public boolean isMouseYWithinSlotBounds(int mouseY)
