@@ -2,6 +2,7 @@ package dev.tomat.constellar.content.gui.resourcepack;
 
 import com.google.common.collect.Lists;
 import dev.tomat.common.utils.ColorUtils;
+import dev.tomat.common.utils.FileUtils;
 import dev.tomat.constellar.content.gui.GuiUtils;
 import dev.tomat.constellar.content.gui.resourcepack.buttons.OpenFolderButton;
 import dev.tomat.constellar.content.gui.resourcepack.buttons.RefreshButton;
@@ -16,12 +17,16 @@ import net.minecraft.client.gui.GuiOptionButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.resources.ResourcePackRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
 public class ResourcePackScreen extends GuiScreen {
+
+    private static final Logger logger = LogManager.getLogger();
 
     protected final GuiScreen parentScreen;
 
@@ -50,40 +55,48 @@ public class ResourcePackScreen extends GuiScreen {
         ));
 
         buttonList.add(new OpenFolderButton(ResourcePackButtonId.OpenFolder,
-                (width / 2) - (GuiUtils.DefaultGuiOptionsButtonWidth / 2) - ResourcePackUtils.ResourcePackDoneButtonSidePadding,
+                (width / 2) - (GuiUtils.DefaultGuiOptionsButtonWidth / 2) - ResourcePackUtils.ResourcePackDoneButtonSidePadding - GuiUtils.DefaultButtonHeight,
                 buttonYPos
         ));
 
-        buttonList.add(new RefreshButton(ResourcePackButtonId.OpenFolder,
+        buttonList.add(new RefreshButton(ResourcePackButtonId.Refresh,
                 (width / 2) + (GuiUtils.DefaultGuiOptionsButtonWidth / 2) + ResourcePackUtils.ResourcePackDoneButtonSidePadding,
                 buttonYPos
         ));
 
         if (!changed)
         {
-            availableResourcePacks = Lists.newArrayList();
-            selectedResourcePacks = Lists.newArrayList();
-
-            ResourcePackRepository resourcePackRepository = mc.getResourcePackRepository();
-            resourcePackRepository.updateRepositoryEntriesAll();
-
-            List<ResourcePackRepository.Entry> resourcePacks = Lists.newArrayList(resourcePackRepository.getRepositoryEntriesAll());
-            resourcePacks.removeAll(resourcePackRepository.getRepositoryEntries());
-
-            for (ResourcePackRepository.Entry resourcePack : resourcePacks)
-            {
-                availableResourcePacks.add(new ResourcePackEntryFound(this, resourcePack));
-            }
-
-            for (ResourcePackRepository.Entry resourcePack : Lists.reverse(resourcePackRepository.getRepositoryEntries()))
-            {
-                selectedResourcePacks.add(new ResourcePackEntryFound(this, resourcePack));
-            }
-
-            selectedResourcePacks.add(new ResourcePackEntryConstellar(this));
-            selectedResourcePacks.add(new ResourcePackEntryDefault(this));
+            initPacks();
         }
 
+        initPanels();
+    }
+
+    private void initPacks() {
+        availableResourcePacks = Lists.newArrayList();
+        selectedResourcePacks = Lists.newArrayList();
+
+        ResourcePackRepository resourcePackRepository = mc.getResourcePackRepository();
+        resourcePackRepository.updateRepositoryEntriesAll();
+
+        List<ResourcePackRepository.Entry> resourcePacks = Lists.newArrayList(resourcePackRepository.getRepositoryEntriesAll());
+        resourcePacks.removeAll(resourcePackRepository.getRepositoryEntries());
+
+        for (ResourcePackRepository.Entry resourcePack : resourcePacks)
+        {
+            availableResourcePacks.add(new ResourcePackEntryFound(this, resourcePack));
+        }
+
+        for (ResourcePackRepository.Entry resourcePack : Lists.reverse(resourcePackRepository.getRepositoryEntries()))
+        {
+            selectedResourcePacks.add(new ResourcePackEntryFound(this, resourcePack));
+        }
+
+        selectedResourcePacks.add(new ResourcePackEntryConstellar(this));
+        selectedResourcePacks.add(new ResourcePackEntryDefault(this));
+    }
+
+    private void initPanels() {
         // pack coords based on top left of panel, without width padding
         availableResourcePackPanel = new AvailableResourcePackPanel(mc,
                 ResourcePackUtils.ResourcePackEntryWidth,
@@ -146,7 +159,7 @@ public class ResourcePackScreen extends GuiScreen {
 
                 for (ResourcePackEntry selectedPack : selectedResourcePacks) {
                     if (selectedPack instanceof ResourcePackEntryFound) {
-                        packs.add(((ResourcePackEntryFound)selectedPack).getResourcePack());
+                        packs.add(((ResourcePackEntryFound) selectedPack).getResourcePack());
                     }
                 }
 
@@ -156,13 +169,11 @@ public class ResourcePackScreen extends GuiScreen {
                 mc.gameSettings.resourcePacks.clear();
                 mc.gameSettings.incompatibleResourcePacks.clear();
 
-                for (ResourcePackRepository.Entry pack : packs)
-                {
+                for (ResourcePackRepository.Entry pack : packs) {
                     mc.gameSettings.resourcePacks.add(pack.getResourcePackName());
 
                     // compatibility
-                    if (pack.func_183027_f() != 1)
-                    {
+                    if (pack.func_183027_f() != ResourcePackUtils.compatibilityToInt(PackCompatibility.Compatible)) {
                         mc.gameSettings.incompatibleResourcePacks.add(pack.getResourcePackName());
                     }
                 }
@@ -173,95 +184,13 @@ public class ResourcePackScreen extends GuiScreen {
 
             // return to screen beforehand todo: make sure to make this configurable
             mc.displayGuiScreen(parentScreen);
-            /*
-            if (button.id == 2)
-            {
-                File file1 = this.mc.getResourcePackRepository().getDirResourcepacks();
-                String s = file1.getAbsolutePath();
-
-                if (Util.getOSType() == Util.EnumOS.OSX)
-                {
-                    try
-                    {
-                        logger.info(s);
-                        Runtime.getRuntime().exec(new String[] {"/usr/bin/open", s});
-                        return;
-                    }
-                    catch (IOException ioexception1)
-                    {
-                        logger.error("Couldn't open file", ioexception1);
-                    }
-                }
-                else if (Util.getOSType() == Util.EnumOS.WINDOWS)
-                {
-                    String s1 = String.format("cmd.exe /C start \"Open file\" \"%s\"", s);
-
-                    try
-                    {
-                        Runtime.getRuntime().exec(s1);
-                        return;
-                    }
-                    catch (IOException ioexception)
-                    {
-                        logger.error("Couldn't open file", ioexception);
-                    }
-                }
-
-                boolean flag = false;
-
-                try
-                {
-                    Class<?> oclass = Class.forName("java.awt.Desktop");
-                    Object object = oclass.getMethod("getDesktop", new Class[0]).invoke(null);
-                    oclass.getMethod("browse", new Class[] {URI.class}).invoke(object, file1.toURI());
-                }
-                catch (Throwable throwable)
-                {
-                    logger.error("Couldn't open link", throwable);
-                    flag = true;
-                }
-
-                if (flag)
-                {
-                    logger.info("Opening via system class!");
-                    Sys.openURL("file://" + s);
-                }
-            }
-            else if (button.id == 1)
-            {
-                if (this.changed)
-                {
-                    List<ResourcePackRepository.Entry> list = Lists.newArrayList();
-
-                    for (ResourcePackEntry resourcepacklistentry : this.selectedResourcePackPanel)
-                    {
-                        if (resourcepacklistentry instanceof ResourcePackEntryFound)
-                        {
-                            list.add(((ResourcePackEntryFound)resourcepacklistentry).getResourcePack());
-                        }
-                    }
-
-                    Collections.reverse(list);
-                    this.mc.getResourcePackRepository().setRepositories(list);
-                    this.mc.gameSettings.resourcePacks.clear();
-                    this.mc.gameSettings.incompatibleResourcePacks.clear();
-
-                    for (ResourcePackRepository.Entry resourcepackrepository$entry : list)
-                    {
-                        this.mc.gameSettings.resourcePacks.add(resourcepackrepository$entry.getResourcePackName());
-
-                        if (resourcepackrepository$entry.func_183027_f() != 1)
-                        {
-                            this.mc.gameSettings.incompatibleResourcePacks.add(resourcepackrepository$entry.getResourcePackName());
-                        }
-                    }
-
-                    this.mc.gameSettings.saveOptions();
-                    this.mc.refreshResources();
-                }
-
-                this.mc.displayGuiScreen(this.parentScreen);
-            }*/
+        }
+        else if (button.id == ResourcePackButtonId.OpenFolder)  {
+            FileUtils.OpenFile(mc.getResourcePackRepository().getDirResourcepacks(), logger);
+        }
+        else if (button.id == ResourcePackButtonId.Refresh) {
+            initPacks();
+            initPanels();
         }
     }
 

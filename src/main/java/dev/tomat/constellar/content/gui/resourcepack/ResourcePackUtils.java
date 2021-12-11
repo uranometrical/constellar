@@ -63,6 +63,17 @@ public class ResourcePackUtils {
         return PackCompatibility.Compatible;
     }
 
+    public static int compatibilityToInt(PackCompatibility compat) {
+        if (compat == PackCompatibility.Compatible)
+            return 1;
+        else if (compat == PackCompatibility.IncompatibleNew)
+            return 2;
+        else if (compat == PackCompatibility.IncompatibleOld)
+            return 0;
+
+        return -1;
+    }
+
     public static String getMetadataDescription(IResourcePack packInstance, ResourcePackRepository resourcePackRepository, Logger logger) {
         try
         {

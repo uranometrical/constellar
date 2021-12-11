@@ -1,30 +1,25 @@
 package dev.tomat.constellar.content.gui.resourcepack.buttons;
 
-import dev.tomat.constellar.content.gui.GuiUtils;
+import dev.tomat.constellar.content.gui.GuiIconButton;
 import dev.tomat.constellar.content.gui.resourcepack.ResourcePackUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
+import net.minecraft.util.ResourceLocation;
 
-public class OpenFolderButton extends GuiButton {
-    public OpenFolderButton(int buttonID, int xPos, int yPos)
+public class OpenFolderButton extends GuiIconButton {
+    public OpenFolderButton(int buttonId, int xPos, int yPos)
     {
-        super(buttonID, xPos, yPos, GuiUtils.DefaultButtonHeight, GuiUtils.DefaultButtonHeight, "");
+        super(buttonId, xPos, yPos);
     }
 
-    public void drawButton(Minecraft mc, int mouseX, int mouseY)
-    {
-        if (visible) {
-            mc.getTextureManager().bindTexture(ResourcePackUtils.ResourcePackTextures);
-            GuiUtils.resetColor();
+    public ResourceLocation getIconTexture() {
+        return ResourcePackUtils.ResourcePackTextures;
+    }
 
+    public int getSpreadsheetX() {
+        int spritesheetColumn = 6;
+        return ResourcePackUtils.RefreshIconSize * spritesheetColumn;
+    }
 
-            int spritesheetColumn = 4;
-            boolean hovering = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
-
-            if (hovering)
-                spritesheetColumn++;
-
-            drawTexturedModalRect(xPosition, yPosition, ResourcePackUtils.RefreshIconSize, ResourcePackUtils.RefreshIconSize * spritesheetColumn, ResourcePackUtils.RefreshIconSize, ResourcePackUtils.RefreshIconSize);
-        }
+    public int getSpreadsheetY() {
+        return 0;
     }
 }

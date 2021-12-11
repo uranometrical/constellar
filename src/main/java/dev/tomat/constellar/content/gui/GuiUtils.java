@@ -7,9 +7,14 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiUtils {
+    public static final ResourceLocation ButtonsTexture = new ResourceLocation("textures/gui/buttons.png");
+
     public static final int DefaultButtonHeight = 20;
     public static final int DefaultButtonWidth = 200;
     public static final int DefaultGuiOptionsButtonWidth = 150;
+    public static final int DefaultButtonIconSize = 16;
+
+    public static final int ButtonSpreadsheetY = 46;
 
     public static final int DefaultTitleTopPadding = 16;
     public static final int DefaultTextureSize = 256;
