@@ -11,15 +11,11 @@
     "gui.mainmenu.OverhaulMainMenu",
     "gui.mainmenu.RenderBackgroundPanorama",
     "gui.options.InjectModulesOptionsButton",
-    "gui.resourcepack.OverhaulResourcePackListMixin",
-    "gui.resourcepack.OverhaulResourcePackScreenMixin",
-    "gui.resourcepack.ResourcePackEntryMixin",
     "gui.resourcepack.SwapResourcePackScreen",
     "keybinds.KeyPressMixin",
     "keybinds.LoadKeybindsMixin",
     "main.ModifyWindowTitle",
     "renderer.ModifyBlockOutline",
-    "resources.AddConstellarResourcePackMixin",
     "resources.RegisterConstellarPack"
   ]
 }
