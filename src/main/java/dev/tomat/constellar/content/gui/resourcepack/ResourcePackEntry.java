@@ -37,18 +37,18 @@ public abstract class ResourcePackEntry implements GuiListExtended.IGuiListEntry
         if (compatibility != PackCompatibility.Compatible) {
             GuiUtils.resetColor();
             // draw red rectangle around pack
-            Gui.drawRect(overlayX, overlayY,
-                    overlayX + listWidth + ResourcePackUtils.ResourcePackEntryPadding,
-                    overlayY + slotHeight + ResourcePackUtils.ResourcePackEntryPadding,
+            GuiUtils.drawRectNormal(overlayX, overlayY,
+                    listWidth + ResourcePackUtils.ResourcePackEntryPadding,
+                    slotHeight + ResourcePackUtils.ResourcePackEntryPadding,
                     ColorUtils.colorToInt(120, 0, 0, 100)
             );
         }
 
         // hover gray rectangle overlay
         if (hovering) {
-            Gui.drawRect(overlayX, overlayY,
-                    overlayX + listWidth + ResourcePackUtils.ResourcePackEntryPadding,
-                    overlayY + slotHeight + ResourcePackUtils.ResourcePackEntryPadding,
+            GuiUtils.drawRectNormal(overlayX, overlayY,
+                    listWidth + ResourcePackUtils.ResourcePackEntryPadding,
+                    slotHeight + ResourcePackUtils.ResourcePackEntryPadding,
                     ColorUtils.colorToInt(40, 40, 40, 100)
             );
         }

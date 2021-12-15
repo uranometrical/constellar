@@ -8,6 +8,7 @@
     "gui.buttons.ClassLockMixin",
     "gui.buttons.ClassyButtonMixin",
     "gui.buttons.ClassyOptionSlider",
+    "gui.ingame.RenderUiModules",
     "gui.mainmenu.OverhaulMainMenu",
     "gui.mainmenu.RenderBackgroundPanorama",
     "gui.options.InjectModulesOptionsButton",
