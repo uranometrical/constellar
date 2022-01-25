@@ -38,4 +38,4 @@ jobs:
       with:
         name: Artifacts
         path: |
-          ./sources/1.8/build/libs/
+          ./build/libs/
