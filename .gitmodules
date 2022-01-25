@@ -1,3 +1,0 @@
-[submodule "src/main/java/dev/tomat/bridge"]
-	path = src/main/java/dev/tomat/bridge
-	url = https://github.com/uranometrical/bridge.git
