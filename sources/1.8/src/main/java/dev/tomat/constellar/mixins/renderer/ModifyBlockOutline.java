@@ -21,7 +21,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import java.awt.*;
 import java.time.Instant;
 
-
 @Mixin(RenderGlobal.class)
 public class ModifyBlockOutline {
     @Shadow private WorldClient theWorld;
