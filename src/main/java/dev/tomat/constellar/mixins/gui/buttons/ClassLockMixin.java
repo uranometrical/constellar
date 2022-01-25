@@ -1,6 +1,6 @@
 package dev.tomat.constellar.mixins.gui.buttons;
 
-import dev.tomat.constellar.gui.LockIcon;
+import dev.tomat.constellar.content.gui.LockIcon;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiLockIconButton;

@@ -3,11 +3,11 @@ package dev.tomat.constellar;
 import dev.tomat.common.Static;
 import dev.tomat.common.logging.ExtendedLogger;
 import dev.tomat.common.reflection.Reflector;
-import dev.tomat.constellar.modules.IModuleRepository;
-import dev.tomat.constellar.modules.ModuleType;
-import dev.tomat.constellar.modules.impl.StandardModuleRepository;
-import dev.tomat.constellar.modules.impl.ui.KeystrokesModule;
-import dev.tomat.constellar.modules.impl.world.BlockOutlineModule;
+import dev.tomat.constellar.core.modules.IModuleRepository;
+import dev.tomat.constellar.core.modules.ModuleType;
+import dev.tomat.constellar.core.modules.impl.StandardModuleRepository;
+import dev.tomat.constellar.core.modules.impl.ui.KeystrokesModule;
+import dev.tomat.constellar.core.modules.impl.world.BlockOutlineModule;
 
 public final class Constellar extends Static {
     public static final Reflector REFLECTOR;
