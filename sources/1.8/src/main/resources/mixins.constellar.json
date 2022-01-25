@@ -1,0 +1,21 @@
+{
+  "compatibilityLevel": "JAVA_8",
+  "package": "dev.tomat.constellar.mixins",
+  "refmap": "mixins.constellar.refmap.json",
+  "mixins": [
+    "command.CommandRegistryMixin",
+    "gui.buttons.ClassLanguageMixin",
+    "gui.buttons.ClassLockMixin",
+    "gui.buttons.ClassyButtonMixin",
+    "gui.buttons.ClassyOptionSlider",
+    "gui.mainmenu.OverhaulMainMenu",
+    "gui.mainmenu.RenderBackgroundPanorama",
+    "gui.options.InjectModulesOptionsButton",
+    "gui.resourcepack.SwapResourcePackScreen",
+    "keybinds.KeyPressMixin",
+    "keybinds.LoadKeybindsMixin",
+    "main.ModifyWindowTitle",
+    "renderer.ModifyBlockOutline",
+    "resources.RegisterConstellarPack"
+  ]
+}

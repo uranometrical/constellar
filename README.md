@@ -9,7 +9,7 @@
 Experimental MC 1.8.9 PvP client that isn't necessarily focused only on Hypixel (unheard of).
 
 # Contributing
-Just PR lol (TO-DO).
+Just PR (TO-DO).
 
 # Building
 Below are the steps for building. Follow the "Universal" steps, then Standalone/Forge.

@@ -1,0 +1,3 @@
+[submodule "sources/bridge"]
+	path = sources/bridge
+	url = https://github.com/uranometrical/bridge.git
