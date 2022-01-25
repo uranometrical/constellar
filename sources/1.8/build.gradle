@@ -4,7 +4,7 @@ buildscript {
 
         maven {
             name = "forge"
-            url = "https://files.minecraftforge.net/maven"
+            url = "https://maven.minecraftforge.net/"
         }
 
         maven {
@@ -22,8 +22,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
-        classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
+        classpath "com.github.asbyth:ForgeGradle:6f53277"
+        classpath 'com.github.xcfrg:MixinGradle:0.6-SNAPSHOT'
         classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
         classpath 'com.google.code.gson:gson:2.8.9'
     }
@@ -99,9 +99,9 @@ jar {
     )
 }
 
-task wrapper(type: Wrapper) {
+/*task wrapper(type: Wrapper) {
     gradleVersion = '4.10.3'
-}
+}*/
 
 configurations {
     mods
