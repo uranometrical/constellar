@@ -27,10 +27,10 @@ jobs:
     - name: Build with Gradle
       run:   |
           if [ "$RUNNER_OS" == "Linux" ] || [ "$RUNNER_OS" == "macOS" ]; then
-              chmod +x ./gradlew
-              ./gradlew build
+              chmod +x ./sources/1.8/gradlew
+              ./sources/1.8/gradlew build
           elif [ "$RUNNER_OS" == "Windows" ]; then
-              ./gradlew.bat build
+              ./sources/1.8/gradlew.bat build
           fi
       shell: bash
     - name: Upload Release Build Artifact
@@ -38,4 +38,4 @@ jobs:
       with:
         name: Artifacts
         path: |
-          build/libs/
+          ./sources/1.8/build/libs/
