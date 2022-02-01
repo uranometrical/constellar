@@ -8,6 +8,9 @@
 
 Experimental MC 1.8.9 PvP client that isn't necessarily focused only on Hypixel (unheard of).
 
+# Security
+Please see [`SECURITY.md`](https://github.com/uranometrical/constellar/blob/master/SECURITY.md) for our security policy.
+
 # Contributing
 Just PR (TO-DO).
 
