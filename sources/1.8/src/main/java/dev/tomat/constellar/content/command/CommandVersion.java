@@ -1,4 +1,4 @@
-package dev.tomat.constellar.content.command;
+/*package dev.tomat.constellar.content.command;
 
 import dev.tomat.constellar.Constellar;
 import net.minecraft.command.CommandBase;
@@ -24,6 +24,7 @@ public class CommandVersion extends CommandBase
 
     public void processCommand(ICommandSender sender, String[] args)
     {
-        sender.addChatMessage(new ChatComponentTranslation("commands.version.content", Constellar.ClientNameReadable, Constellar.ClientVersion));
+        sender.addChatMessage(new ChatComponentTranslation("commands.version.content", Constellar.CLIENT_NAME, Constellar.CLIENT_VERSION));
     }
 }
+*/

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.URI;
 
 public class FileUtils {
+    // TODO: Use an access transformer to access this ourselves.
     public static void OpenFile(File file, Logger logger) {
         String filePath = file.getAbsolutePath();
 

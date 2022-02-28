@@ -1,24 +1,10 @@
 buildscript {
     repositories {
         mavenCentral()
-
-        maven {
-            name = "forge"
-            url = "https://maven.minecraftforge.net/"
-        }
-
-        maven {
-            name = 'sponge'
-            url = 'https://repo.spongepowered.org/maven'
-        }
-
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-
-        maven {
-            url 'https://jitpack.io'
-        }
+        maven {url = "https://maven.minecraftforge.net/"}
+        maven {url = 'https://repo.spongepowered.org/maven'}
+        maven {url "https://plugins.gradle.org/m2/"}
+        maven {url 'https://jitpack.io'}
     }
 
     dependencies {
@@ -58,7 +44,7 @@ minecraft {
     tweakClass = "dev.tomat.constellar.launch.ConstellarTweaker"
     mappings = "stable_22"
     runDir = 'run'
-    clientJvmArgs = ["-XX:-DisableExplicitGC"] // fast world loading
+    clientJvmArgs = ["-XX:-DisableExplicitGC"]
     accessTransformer(file('src/main/resources/META-INF/accesstransformer.cfg'))
 }
 
@@ -73,36 +59,6 @@ mixin {
     add sourceSets.main, "mixins.constellar.refmap.json"
 }
 
-processResources {
-    inputs.files "src/main/resources"
-    outputs.dir "build/classes/main"
-    copy {
-        from("src/main/resources")
-        into("build/classes/main")
-    }
-}
-
-jar {
-    dependsOn configurations.compile
-    from {
-        configurations.embed.collect {
-            it.isDirectory() ? it : zipTree(it)
-        }
-    }
-    exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
-    
-     manifest.attributes(
-            "MixinConfigs": 'mixins.constellar.json',
-            "TweakClass": 'dev.tomat.constellar.launch.ConstellarTweaker',
-            "TweakOrder": 0,
-            "Manifest-Version": 1.0
-    )
-}
-
-/*task wrapper(type: Wrapper) {
-    gradleVersion = '4.10.3'
-}*/
-
 configurations {
     mods
     addLib
@@ -110,13 +66,9 @@ configurations {
     compile.extendsFrom(embed)
 }
 
-idea {
-    module {
-        inheritOutputDirs = true
-    }
-}
-
 dependencies {
+    compile project(":bridge")
+
     embed fileTree(dir: "libs", include: "*.jar")
 
     embed('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
@@ -138,6 +90,41 @@ repositories {
     mavenCentral()
 }
 
+idea {
+    module {
+        inheritOutputDirs = true
+    }
+}
+
+processResources {
+    inputs.files "src/main/resources"
+    outputs.dir "build/classes/main"
+
+    copy {
+        from("src/main/resources")
+        into("build/classes/main")
+    }
+}
+
+jar {
+    dependsOn configurations.compile
+
+    from {
+        configurations.embed.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+
+    manifest.attributes(
+            "MixinConfigs": 'mixins.constellar.json',
+            "TweakClass": 'dev.tomat.constellar.launch.ConstellarTweaker',
+            "TweakOrder": 0,
+            "Manifest-Version": 1.0
+    )
+}
+
 reobf {
     shadowJar {
         if (buildTarget == "forge") {
@@ -150,5 +137,5 @@ reobf {
 }
 
 shadowJar {
-    classifier = "dep"
+    classifier("dep")
 }

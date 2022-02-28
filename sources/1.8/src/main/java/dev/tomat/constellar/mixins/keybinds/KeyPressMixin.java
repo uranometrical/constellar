@@ -4,7 +4,6 @@ import dev.tomat.constellar.Constellar;
 import dev.tomat.constellar.core.modules.ModuleNotFoundException;
 import dev.tomat.constellar.core.modules.ModuleType;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,7 +18,7 @@ public class KeyPressMixin {
         // check if the W key is being pressed, and if so set the sprint key to be pressed
         // worked first try somehow?
         // togglesprint!
-        if (!Constellar.Modules.getModule(ModuleType.ToggleSprint).isDisabled() && keyCode == mc.gameSettings.keyBindForward.getKeyCode()) {
+        if (!Constellar.MODULES.getModule(ModuleType.ToggleSprint).isDisabled() && keyCode == mc.gameSettings.keyBindForward.getKeyCode()) {
             KeyBinding.setKeyBindState(mc.gameSettings.keyBindSprint.getKeyCode(), true);
         }
     }

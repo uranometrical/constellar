@@ -19,7 +19,7 @@ public abstract class ModifyWindowTitle implements IThreadListener, IPlayerUsage
     @Inject(method = "createDisplay", at = @At("RETURN"))
     private void injectWindowTitle(CallbackInfo ci) {
         // Constellar 0.1.0-alpha - 1.8.9
-        Display.setTitle(Constellar.ClientNameReadable + " " + Constellar.ClientVersion + " - " + theMinecraft.getVersion());
+        Display.setTitle(Constellar.CLIENT_NAME + " " + Constellar.CLIENT_VERSION + " - " + theMinecraft.getVersion());
         Constellar.registerModules();
     }
 }

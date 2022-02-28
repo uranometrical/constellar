@@ -109,7 +109,7 @@ public abstract class OverhaulMainMenu extends GuiScreen implements GuiYesNoCall
         List<String> brandings = new ArrayList<>();
 
         brandings.add("Minecraft 1.8.9");
-        brandings.add(Constellar.ClientNameReadable + " v" + Constellar.ClientVersion);
+        brandings.add(Constellar.CLIENT_NAME + " v" + Constellar.CLIENT_VERSION);
 
         if (!ConstellarTweaker.LoadContext.standalone(ConstellarTweaker.Context))
             brandings.addAll(getForgeBrandings());

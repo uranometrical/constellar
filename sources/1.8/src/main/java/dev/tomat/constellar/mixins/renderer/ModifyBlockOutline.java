@@ -6,7 +6,6 @@ import dev.tomat.constellar.core.modules.ModuleNotFoundException;
 import dev.tomat.constellar.core.modules.ModuleType;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
@@ -19,7 +18,6 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
 import java.awt.*;
-import java.time.Instant;
 
 @Mixin(RenderGlobal.class)
 public class ModifyBlockOutline {
@@ -30,7 +28,7 @@ public class ModifyBlockOutline {
      */
     @Overwrite
     public void drawSelectionBox(EntityPlayer player, MovingObjectPosition movingObjectPositionIn, int execute, float partialTicks) throws ModuleNotFoundException {
-        IModule blockOutlineModule = Constellar.Modules.getModule(ModuleType.BlockOutline);
+        IModule blockOutlineModule = Constellar.MODULES.getModule(ModuleType.BlockOutline);
 
         if (execute == 0 && movingObjectPositionIn.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
         {

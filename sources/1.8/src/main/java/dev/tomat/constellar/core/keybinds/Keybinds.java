@@ -12,7 +12,7 @@ public class Keybinds {
 
     public Keybinds() {
         keybinds = Lists.newArrayList();
-        keybinds.add(new KeyBinding("key.modulesettings", Keyboard.KEY_RSHIFT, Constellar.ClientNameReadable));
+        keybinds.add(new KeyBinding("key.modulesettings", Keyboard.KEY_RSHIFT, Constellar.CLIENT_NAME));
     }
 
     public void addKeybind(KeyBinding keybind) {

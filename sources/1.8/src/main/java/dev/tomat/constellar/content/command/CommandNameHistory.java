@@ -1,4 +1,4 @@
-package dev.tomat.constellar.content.command;
+/*package dev.tomat.constellar.content.command;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -87,3 +87,4 @@ public class CommandNameHistory extends CommandBase {
     }
 }
 
+*/
