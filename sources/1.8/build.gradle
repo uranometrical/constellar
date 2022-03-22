@@ -67,7 +67,7 @@ configurations {
 }
 
 dependencies {
-    compile project(":bridge")
+    // compile project(":bridge")
 
     embed fileTree(dir: "libs", include: "*.jar")
 
